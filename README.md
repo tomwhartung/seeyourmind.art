@@ -76,9 +76,9 @@ It turns out that somehow the `main` instead of the `master` branch got set up t
 
 I did the following to hopefully fix this:
 
-- 1. Created a new repo
-- 2. On github.com, changed the default branch from `main` to `master`
-- 3. Cloned the repo using the SSH link:
+1. Created a new repo
+2. On github.com, changed the default branch from `main` to `master`
+3. Cloned the repo using the SSH link:
   - `git clone git@github.com:tomwhartung/seeyourmind.art.git`
 
 ## 1.6. Still Not Sure
