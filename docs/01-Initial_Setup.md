@@ -29,35 +29,72 @@ $ npm -v
 $
 ```
 
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-We Are Here
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
 ## 1.2. Create New Project Using Vite, React, TypeScript, and MDB
 
+Following are the commands run to create the project, along with their output:
+
+[x] 1. When it asks for the `Project name`, type "Site"
+[x] 2. Then accept the suggested "site" for the `Package name`
+
 ```
-pwd                                          # /var/www/always_learning/always_learning_javascript/whole_shebang/projects
-npm init vite@latest -- --template react-ts  # Use '6-wsw_navbar_graphics_sliders' for the [project_name]
-cd 6-wsw_navbar_graphics_sliders
-npm i mdb-react-ui-kit
-npm i react-router-dom --save                # New - used for menus we will add later
-npm run lint
-npm run dev
+$ pwd
+/var/www/seeyourmind.art
+$ npm init vite@latest -- --template react-ts
+✔ Project name: … Site
+✔ Package name: … site
+
+Scaffolding project in /var/www/seeyourmind.art/Site...
+
+Done. Now run:
+
+  cd Site
+  npm install
+  npm run dev
+
+$ cd Site
+$ npm i mdb-react-ui-kit
+
+added 209 packages, and audited 210 packages in 31s
+
+41 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+$ npm i react-router-dom --save
+
+added 3 packages, and audited 213 packages in 3s
+
+41 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+$ npm run lint
+
+> site@0.0.0 lint
+> eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0
+
+$ npm run dev
+
+  VITE v4.4.9  ready in 1117 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h to show help
 ```
 
-## 1.3. Load Into VSCode
+**Note:** We use `react-router-dom` for menus.
+
+## 1.3. Load Demo Site in Browser
+
+Open a browser window to [http://localhost:5173/](http://localhost:5173/).
+
+## 1.4. Load Into VSCode
 
 Load the new project directory into VSCode and use Shift-Ctrl-M to ensure there are no problems.
 
-## 1.4. Commit to Github
+## 1.5. Commit to Github
 
-```
-pwd          # /var/www/always_learning/always_learning_javascript/
-git add whole_shebang/projects/6-wsw_navbar_graphics_sliders/
-git commit -m 'Adding whole_shebang/projects/6-wsw_navbar_graphics_sliders/ , which contains the latest npm versions of the packages needed for this project.'
-```
-
-# 2. Add MDB Navbars and Hello-world-esque Components
 
 We start by copying the Navbars and trivial components used in `whole_shebang/projects/4-wsw_navbar/`.
 
