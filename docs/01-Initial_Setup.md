@@ -95,8 +95,70 @@ Load the new project directory into VSCode and use Shift-Ctrl-M to ensure there 
 
 ## 1.5. Commit to Github
 
+```
+$ pwd
+/var/www/seeyourmind.art
+$ git add Site
+$ git commit -m  'Added initial coding framework in the Site/ directory.  For details, see docs/01-Initial_Setup.md .'
+[master e7a59bc] Added initial coding framework in the Site/ directory.  For details, see docs/01-Initial_Setup.md .
+ 16 files changed, 3308 insertions(+)
+ create mode 100644 Site/.eslintrc.cjs
+ create mode 100644 Site/.gitignore
+ create mode 100644 Site/README.md
+ create mode 100644 Site/index.html
+ create mode 100644 Site/package-lock.json
+ create mode 100644 Site/package.json
+ create mode 100644 Site/public/vite.svg
+ create mode 100644 Site/src/App.css
+ create mode 100644 Site/src/App.tsx
+ create mode 100644 Site/src/assets/react.svg
+ create mode 100644 Site/src/index.css
+ create mode 100644 Site/src/main.tsx
+ create mode 100644 Site/src/vite-env.d.ts
+ create mode 100644 Site/tsconfig.json
+ create mode 100644 Site/tsconfig.node.json
+ create mode 100644 Site/vite.config.ts
+$ git add docs/01-Initial_Setup.md
+$ git commit -m 'Updated docs/01-Initial_Setup.md with steps taken to install the initial coding framework for this Site.'
+[master 37d5957] Updated docs/01-Initial_Setup.md with steps taken to install the initial coding framework for this Site.
+ 1 file changed, 57 insertions(+), 20 deletions(-)
+$
+```
 
-We start by copying the Navbars and trivial components used in `whole_shebang/projects/4-wsw_navbar/`.
+## 1.6. Add a Custom `.gitignore` File
+
+Add a custom `.gitignore` file to ignore all docs/.*.swp* files and check into github:
+
+```
+$ pwd
+/var/www/seeyourmind.art
+$ cat .gitignore
+#
+# .gitignore - cusTOMizations
+# ---------------------------
+# The main .gitignore file is Site/.gitignore
+# This file is for ignoring files outside of the Site heirarchy
+#   For example, we want to ignore all docs/.*.swp* files
+#
+# Editor directories and files
+## .vscode/*
+## !.vscode/extensions.json
+## .idea
+## .DS_Store
+## *.suo
+## *.ntvs*
+## *.njsproj
+## *.sln
+*.sw?
+ $ git add .gitignore
+tomh@jane: /var/www/seeyourmind.art
+ $ git commit -m 'Adding a custom .gitignore in the top-level directory of this repo to ignore all docs/.*.swp* files.'
+[master 232aa8f] Adding a custom .gitignore in the top-level directory of this repo to ignore all docs/.*.swp* files.
+ 1 file changed, 17 insertions(+)
+ create mode 100644 .gitignore
+ $
+```
+
 
 ## 2.1. Copy the `index*.html` Files
 
