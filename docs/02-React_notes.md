@@ -1,7 +1,13 @@
 
-# README-React_notes.md
+# docs/02-React_notes.md
 
 This `README` file contains notes about the React code in this project.
+
+This file is a copy of the `README-React_notes.md` file from:
+
+- The `whole_shebang/projects/6-wsw_navbar_graphics_sliders` project
+
+This project is in the `always_learning_javascript` repo.
 
 # 1. General Notes
 
