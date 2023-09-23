@@ -1,10 +1,12 @@
 #
 # .gitignore - cusTOMizations
-# ---------------------------
+# ===========================
 # The main .gitignore file is Site/.gitignore
 # This file is for ignoring files outside of the Site heirarchy
 #   For example, we want to ignore all docs/.*.swp* files
 #
+# Some leftovers from the main .gitignore file, Site/.gitignore:
+# --------------------------------------------------------------
 # Editor directories and files
 ## .vscode/*
 ## !.vscode/extensions.json
@@ -15,3 +17,7 @@
 ## *.njsproj
 ## *.sln
 *.sw?
+
+# More "cusTOM-er" cusTOMizations:
+# --------------------------------
+delete_me_you_wuss
