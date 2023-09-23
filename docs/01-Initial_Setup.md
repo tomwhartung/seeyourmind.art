@@ -159,6 +159,132 @@ tomh@jane: /var/www/seeyourmind.art
  $
 ```
 
+## 1.7. Cleanup Logo Cruft
+
+Run these commands to remove an unneeded logo file:
+
+```
+$ git rm  public/vite.svg
+$ git commit -m 'Removed crufty logo file public/vite.svg .'
+[master d324ac9] Removed crufty logo file public/vite.svg .
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 Site/public/vite.svg
+$
+```
+
+# 2. Add Files From the `always_learning_javascript` Repo
+
+## 2.1. Copy Code From the `whole_shebang/projects/6-wsw_navbar_graphics_sliders` Project
+
+Run the following commands to add code from the `whole_shebang/projects/6-wsw_navbar_graphics_sliders`
+project in the `always_learning_javascript` repo:
+
+```
+$ pwd
+/var/www/seeyourmind.art
+$ cd Site
+$ pwd
+/var/www/seeyourmind.art/Site
+$ cp /var/www/always_learning/always_learning_javascript/whole_shebang/projects/6-wsw_navbar_graphics_sliders/index* .
+$ mkdir ../delete_me_you_wuss/
+$ mv src ../delete_me_you_wuss/
+$ cp -r /var/www/always_learning/always_learning_javascript/whole_shebang/projects/6-wsw_navbar_graphics_sliders/src .
+$ npm run dev
+$
+```
+
+## 2.2. Sanity Checks
+
+### 2.2.1. Check in VSCode
+
+Load the `Site` directory into VSCode and ensure there are no problems.
+
+- Use Ctrl+Shift-M to open the Problems pane
+- Open several files just to make sure it's scanning them:
+  - `Site/index-jungian.html`
+  - `Site/jungian/*.tsx`
+  - `Site/lib/jungian/ImageLib.ts`
+  - `Site/lib/jungian/LocalStorageLib.ts`
+
+### 2.2.2. Check in Browser
+
+Test the code in the browser to ensure that it works ok.
+
+- Note that the only that does anything is the Jungian option:
+  - http://localhost:5173/index-jungian.html
+
+## 2.3. Check Into Github
+
+Assuming there are no problems in VSCode or the Browser, commit the changes:
+
+```
+$ pwd
+/var/www/seeyourmind.art
+$ git add Site
+$ git commit -m 'Copied files from the whole_shebang/projects/6-wsw_navbar_graphics_sliders project in the always_learning_javascript repo into the Site site directory, removing a few in the process.'
+[master 32161a5] Copied files from the whole_shebang/projects/6-wsw_navbar_graphics_sliders project in the always_learning_javascript repo into the Site site directory, removing a few in the process.
+ 41 files changed, 2446 insertions(+), 81 deletions(-)
+ create mode 100644 Site/index-big_five.html
+ create mode 100644 Site/index-enneagram.html
+ create mode 100644 Site/index-jungian.html
+ create mode 100644 Site/index-sun_signs.html
+ rewrite Site/src/App.css (91%)
+ rewrite Site/src/App.tsx (91%)
+ create mode 100644 Site/src/AppBigFive.tsx
+ create mode 100644 Site/src/AppEnneagram.tsx
+ create mode 100644 Site/src/AppJungian.tsx
+ create mode 100644 Site/src/AppSunSigns.tsx
+ create mode 100644 Site/src/JungianMenuAndPages.tsx
+ delete mode 100644 Site/src/assets/react.svg
+ create mode 100644 Site/src/big_five/Create.tsx
+ create mode 100644 Site/src/big_five/Help.tsx
+ create mode 100644 Site/src/big_five/Refine.tsx
+ create mode 100644 Site/src/big_five/View.tsx
+ create mode 100644 Site/src/customizations.css
+ create mode 100644 Site/src/enneagram/Create.tsx
+ create mode 100644 Site/src/enneagram/Help.tsx
+ create mode 100644 Site/src/enneagram/Refine.tsx
+ create mode 100644 Site/src/enneagram/View.tsx
+ create mode 100644 Site/src/favicon.ico
+ create mode 100644 Site/src/jungian/Create.tsx
+ create mode 100644 Site/src/jungian/Help.tsx
+ create mode 100644 Site/src/jungian/Refine.tsx
+ create mode 100644 Site/src/jungian/View.tsx
+ create mode 100644 Site/src/lib/CanvasLib.tsx
+ create mode 100644 Site/src/lib/jungian/ImageLib.ts
+ create mode 100644 Site/src/lib/jungian/LocalStorageLib.ts
+ create mode 100644 Site/src/lib/jungian/ScoreSliderLib.tsx
+ create mode 100644 Site/src/lib/jungian/SquareSizeSliderLib.tsx
+ create mode 100644 Site/src/main-big_five.tsx
+ create mode 100644 Site/src/main-enneagram.tsx
+ create mode 100644 Site/src/main-jungian.tsx
+ create mode 100644 Site/src/main-sun_signs.tsx
+ create mode 100644 Site/src/sun_signs/Create.tsx
+ create mode 100644 Site/src/sun_signs/Help.tsx
+ create mode 100644 Site/src/sun_signs/Refine.tsx
+ create mode 100644 Site/src/sun_signs/View.tsx
+$
+```
+
+## 2.4. Copy Documentation From the `whole_shebang/projects/6-wsw_navbar_graphics_sliders` Project
+
+Run the following command to add a key bit of documentation from the `whole_shebang/projects/6-wsw_navbar_graphics_sliders`
+project in the `always_learning_javascript` repo, and commit it to github:
+
+```
+$ pwd
+/var/www/seeyourmind.art
+$ cd docs
+$ pwd
+/var/www/seeyourmind.art/docs
+$ cp  /var/www/always_learning/always_learning_javascript/whole_shebang/projects/6-wsw_navbar_graphics_sliders/README-React_notes.md ./02-React_notes.md
+$ git add 02-React_notes.md
+$ git commit -m 'Adding docs/02-React_notes.md , a file containing important documentation copied from the `whole_shebang/projects/6-wsw_navbar_graphics_sliders` project.'
+$
+```
+
+
+We start by copying the Navbars and trivial components used in `whole_shebang/projects/4-wsw_navbar/`.
 
 ## 2.1. Copy the `index*.html` Files
 
