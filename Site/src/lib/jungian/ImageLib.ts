@@ -6,8 +6,8 @@
 // --------------------------------------------------------------
 //   NOTE: Setting logLogicFlow to true for one page in effect sets it for all pages
 //     Or so it seems like it does, sometimes...
-// export let logLogicFlow = false;
-export let logLogicFlow = true;
+export let logLogicFlow = false;
+// export let logLogicFlow = true;
 export function setLogLogicFlow( value: boolean ): void {
   logLogicFlow = value;
 }
@@ -158,48 +158,11 @@ export function getCanvasHeight(): number {
   return ( squareSize * gridSize ) + ( 2 * gridTopY );
 }
 
+export let fourLetterTypeStr = 'XXXX';
 
 // Functions:
 // ==========
 //
-// createFreshImageStr: Create a new random "groja-esque" grid of blue, green, red, and yellow squares
-//   Starts with an empty imageCharArr and adds color letters one-by-one
-//   Returns the imageCharArr as a string
-export function createFreshImageStr(): string {
-  if ( logLogicFlow ) {
-    console.log( "Top of createFreshImageStr() in ImageLib.ts" );
-  }
-
-  const randomImageStr = createRandomImageStr();
-
-  if ( gridSize <= maxTrivialGridSize ) {
-    return randomImageStr;
-  }
-
-  computeGoal();
-
-  // let colorLetter = "B";
-  // const imageCharArr: string[] = [];
-  // for ( let row=0; row < gridSize; row++ ) {
-  //   for ( let col=0; col < gridSize; col++ ){
-  //     colorLetter = getRandomPrimaryColor();
-  //     imageCharArr.push( colorLetter );
-  //   }
-  //   // if ( logLogicFlow ) {
-  //   //   console.log( "createFreshImageStr() in ImageLib.ts: imageCharArr.length = " + imageCharArr.length );
-  //   // }
-  // }
-  // const freshImageStr = imageCharArr.join('');
-
-  const freshImageStr = randomImageStr;
-
-  if ( logLogicFlow ) {
-    console.log( "createFreshImageStr(): Fresh Image's freshImageStr.length = " + freshImageStr.length );
-    console.log( "createFreshImageStr() in ImageLib.ts: Return()ing the freshImageStr" );
-  }
-  return freshImageStr;
-}
-
 // drawImageStr: Draw a "groja-esque" grid of blue, green, red, and yellow squares
 //   Splits imageStr into an imageCharArr, and draws the squares one-by-one
 export function drawImageStr( context: CanvasRenderingContext2D ): void {
@@ -255,11 +218,86 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
   }
 }
 
+// createFreshImageStr: Create a new random "groja-esque" grid of blue, green, red, and yellow squares
+//   Starts with an empty imageCharArr and adds color letters one-by-one
+//   Returns the imageCharArr as a string
+export function createFreshImageStr(): string {
+  if ( logLogicFlow ) {
+    console.log( "Top of createFreshImageStr() in ImageLib.ts" );
+  }
+
+  computePcts();
+  const randomImageStr = createRandomImageStr();
+
+  if ( gridSize <= maxTrivialGridSize ) {
+    return randomImageStr;                 // Just for now....
+  }
+
+  setFourLetterType();
+  computeGoal();
+
+  // if ( logLogicFlow ) {
+    console.log( "---------------------------------------------------------------" );
+    console.log( "createFreshImageStr(): fourLetterTypeStr = " + fourLetterTypeStr );
+    console.log( "---------------------------------------------------------------" );
+  // }
+
+  // let colorLetter = "B";
+  // const imageCharArr: string[] = [];
+  // for ( let row=0; row < gridSize; row++ ) {
+  //   for ( let col=0; col < gridSize; col++ ){
+  //     colorLetter = getRandomColor();
+  //     imageCharArr.push( colorLetter );
+  //   }
+  //   // if ( logLogicFlow ) {
+  //   //   console.log( "createFreshImageStr() in ImageLib.ts: imageCharArr.length = " + imageCharArr.length );
+  //   // }
+  // }
+  // const freshImageStr = imageCharArr.join('');
+
+  const freshImageStr = randomImageStr;
+
+  if ( logLogicFlow ) {
+    console.log( "createFreshImageStr(): Fresh Image's freshImageStr.length = " + freshImageStr.length );
+    console.log( "createFreshImageStr() in ImageLib.ts: Return()ing the freshImageStr" );
+  }
+  return freshImageStr;
+}
+
 
 // "Private" Variables and Functions:
 // ==================================
 // These variables and functions are *not* exported so are available for internal use *only*
 //
+interface ScoreIFace {
+  eVsI: number;   // Might be an integer or a percentage
+  nVsS: number;   // Might be an integer or a percentage
+  fVsT: number;   // Might be an integer or a percentage
+  jVsP: number;   // Might be an integer or a percentage
+}
+const defaultPct = .5;
+const pcts : ScoreIFace = {
+  eVsI: defaultPct,
+  nVsS: defaultPct,
+  fVsT: defaultPct,
+  jVsP: defaultPct,
+};
+
+interface ColorsIFace {
+  blue: number;
+  green: number;
+  red: number;
+  yellow: number;
+}
+const defaultNum = 0;
+const numSquares : ColorsIFace = {
+  blue: defaultNum,
+  green: defaultNum,
+  red: defaultNum,
+  yellow: defaultNum,
+};
+
+
 // createRandomImageStr: Create a new random "groja-esque" grid of blue, green, red, and yellow squares
 //   Starts with an empty imageCharArr and adds color letters one-by-one
 //   Returns the imageCharArr as a string
@@ -273,7 +311,7 @@ function createRandomImageStr(): string {
 
   for ( let row=0; row < gridSize; row++ ) {
     for ( let col=0; col < gridSize; col++ ){
-      colorLetter = getRandomPrimaryColor();
+      colorLetter = getRandomColor();
       imageCharArr.push( colorLetter );
     }
     // if ( logLogicFlow ) {
@@ -294,36 +332,108 @@ function computeGoal() {
   if ( logLogicFlow ) {
     console.log( "Top of computeGoal() in ImageLib.ts" );
   }
+
+  const totSquares = gridSize * gridSize;
+  let numBlueAndYellowSquares = 0;
+  let numGreenAndRedSquares = 0;
+
+  if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
+    numBlueAndYellowSquares = Math.round( totSquares / 2 );
+  } else {
+    numBlueAndYellowSquares = Math.round( totSquares * pcts.jVsP );
+  }
+  numGreenAndRedSquares = totSquares - numBlueAndYellowSquares;
+
+  if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
+    numSquares.blue = Math.round( numBlueAndYellowSquares / 2 );
+  } else {
+    numSquares.blue = Math.round( numBlueAndYellowSquares * pcts.nVsS );
+  }
+  numSquares.yellow = numBlueAndYellowSquares - numSquares.blue;
+
+  if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
+    numSquares.green = Math.round( totSquares / 2 );
+  } else {
+    numSquares.green = Math.round( numGreenAndRedSquares * pcts.fVsT );
+  }
+  numSquares.red = numGreenAndRedSquares - numSquares.green;
 }
 
+// setFourLetterType: use the score to set the four-letter Jungian/MBTI(r) type
+function setFourLetterType() {
+  const fourLetterTypeArr : string[] = [ 'X', 'X', 'X', 'X' ];
+
+  if ( ScoreValueObj.eVsIValue == initialScoreValue ) {
+    fourLetterTypeArr[0] = 'X';
+  } else if ( ScoreValueObj.eVsIValue < initialScoreValue ) {
+    fourLetterTypeArr[0] = 'I';
+  } else {
+    fourLetterTypeArr[0] = 'E';
+  }
+  console.log( "setFourLetterType: ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLetterTypeArr[0] = " + fourLetterTypeArr[0] );
+
+  if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
+    fourLetterTypeArr[1] = 'X';
+  } else if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
+    fourLetterTypeArr[1] = 'S';
+  } else {
+    fourLetterTypeArr[1] = 'N';
+  }
+  console.log( "setFourLetterType: ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLetterTypeArr[1] = " + fourLetterTypeArr[1] );
+
+  if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
+    fourLetterTypeArr[2] = 'X';
+  } else if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
+    fourLetterTypeArr[2] = 'T';
+  } else {
+    fourLetterTypeArr[2] = 'F';
+  }
+  console.log( "setFourLetterType: ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLetterTypeArr[2] = " + fourLetterTypeArr[2] );
+
+  if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
+    fourLetterTypeArr[3] = 'X';
+  } else if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
+    fourLetterTypeArr[3] = 'P';
+  } else {
+    fourLetterTypeArr[3] = 'J';
+  }
+  console.log( "setFourLetterType: ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLetterTypeArr[3] = " + fourLetterTypeArr[3] );
+
+  fourLetterTypeStr = fourLetterTypeArr.join('');
+}
+
+// computePcts: Convert the score values to percentages
+function computePcts() {
+  pcts.eVsI = valueToPct( ScoreValueObj.eVsIValue );
+  pcts.nVsS = valueToPct( ScoreValueObj.nVsSValue );
+  pcts.fVsT = valueToPct( ScoreValueObj.fVsTValue );
+  pcts.jVsP = valueToPct( ScoreValueObj.jVsPValue );
+}
 // valueToPct: convert a slider value [0 - 100] to a percentage of opacity [0.0 - 1.00]
 function valueToPct( value: number ): number {
   const percent = value / 100;
   return ( percent );
 }
 
-// getRandomPrimaryColor: return a random single character, either "B", "G", "R", or "Y"
-function getRandomPrimaryColor(): string {
+// getRandomColor: return a random single character, either "B", "G", "R", or "Y"
+function getRandomColor(): string {
   // if ( logLogicFlow ) {
-  //   console.log( "getRandomPrimaryColor() in ImageLib.ts: Top of getRandomPrimaryColor" );
+  //   console.log( "getRandomColor() in ImageLib.ts: Top of getRandomColor" );
   // }
-  const nVsSPercent = valueToPct( ScoreValueObj.nVsSValue );
-  const fVsTPercent = valueToPct( ScoreValueObj.fVsTValue );
-  const jVsPPercent = valueToPct( ScoreValueObj.jVsPValue );
 
   let randomFloat = Math.random();
   let randomColorLetter = colorLetters[4];  // default is INVALID!
 
-  if ( randomFloat <= jVsPPercent ) {
+  if ( randomFloat <= pcts.jVsP ) {
     randomFloat = Math.random();
-    if ( randomFloat <= nVsSPercent ) {
+    if ( randomFloat <= pcts.nVsS ) {
       randomColorLetter = colorLetters[0];
     } else {
       randomColorLetter = colorLetters[3];
     }
   } else {
     randomFloat = Math.random();
-    if ( randomFloat <= fVsTPercent ) {
+    if ( randomFloat <= pcts.fVsT ) {
       randomColorLetter = colorLetters[1];
     } else {
       randomColorLetter = colorLetters[2];
@@ -331,7 +441,7 @@ function getRandomPrimaryColor(): string {
   }
 
   // if ( logLogicFlow ) {
-  //   console.log( "getRandomPrimaryColor(): Return()ing randomColorLetter = " + randomColorLetter );
+  //   console.log( "getRandomColor(): Return()ing randomColorLetter = " + randomColorLetter );
   // }
   return randomColorLetter;
 }
