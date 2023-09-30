@@ -1,14 +1,14 @@
 
 # docs/README-initial_setup.md
 
-These are the commands run to set up the project in this directory.
+This file lists the commands I ran to set up the project in this directory,
+and it contains the following sections:
 
-# 0. About This File
-
-This file contains the following sections:
-
+- 0. "Cloning the Repo and Running the App"
+     -  Because this project has already been set up, this is the only part of this file that is still relevant
 - 1. "Commands to Create *"The Whole Shebang"*"
-     - Commands run in `1-whole_shebang` to initialize a minimal "Hello world"-type project using:
+     - I figured all this out over several months by creating projects in the `always_learning_javascript` repo
+     - Lists the commands originally run in `1-whole_shebang` to initialize a minimal "Hello world"-type project using:
        - Vite with Reactjs
        - MDB
        - TypeScript
@@ -16,7 +16,43 @@ This file contains the following sections:
 - 2. "Add Code From the `whole_shebang/projects/6-wsw_navbar_graphics_sliders` Project"
      - This code is in the `always_learning_javascript` repo
 
+
+# 0. Cloning the Repo and Running the App
+
+**Note:** I've already gone through this process, so the list of steps following this section
+is for possible future reference only.
+
+# 0.1. Cloning the Repo
+
+Now that this work has been done, you can get a copy of the code by running the following command:
+
+```
+cd /var/www   # or whatever other dir you want to put the code in
+git clone git@github.com:tomwhartung/seeyourmind.art.git
+```
+
+# 0.2. Running the App
+
+**Note:** Running the app requires installing the latest version of `npm`.
+
+- These instructions assume you already have installed `npm`
+
+```
+cd /var/www   # or whatever other dir you put the code in above
+cd seeyourmind.art
+npm install
+npm run dev
+```
+
+Now open a browser window to the url output by the command.
+
+- Usually the `npm run dev` command displays a url that looks like this:
+  - [http://localhost:5173/](http://localhost:5173/)
+
+
 # 1. Commands to Create *"The Whole Shebang"*
+
+**The notes in the rest of this file are for historical purposes only!**
 
 ## 1.1. Optional: Upgrade `npm`
 
