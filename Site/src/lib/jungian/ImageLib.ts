@@ -102,12 +102,13 @@ export function setSquareSize( newSquareSize: number ): void {
 // Set this value using a slider on the Create page
 export const initialGridSize = 19;        // Default number of squares in each row and column
 export const invalidGridSize = 0;         // Used as "default" value for state variable
-export const minGridSize = 2;             // Minimum number of squares on each side
+export const minGridSize = 1;             // Minimum number of squares on each side
 export const maxGridSize = 49;            // Maximum number of squares on each side
 export let gridSize = initialGridSize;    // Changed by a slider on the Create page
 export function setGridSize( newGridSize: number ): void {
   gridSize = newGridSize;
 }
+const maxTrivialGridSize = 5;    // Compositions are trivial for trivial grid sizes
 
 
 // Constant Arrays:
@@ -169,20 +170,28 @@ export function createFreshImageStr(): string {
     console.log( "Top of createFreshImageStr() in ImageLib.ts" );
   }
 
-  let colorLetter = "B";
-  const imageCharArr: string[] = [];
+  const randomImageStr = createRandomImageStr();
 
-  for ( let row=0; row < gridSize; row++ ) {
-    for ( let col=0; col < gridSize; col++ ){
-      colorLetter = getRandomPrimaryColor();
-      imageCharArr.push( colorLetter );
-    }
-    // if ( logLogicFlow ) {
-    //   console.log( "createFreshImageStr() in ImageLib.ts: imageCharArr.length = " + imageCharArr.length );
-    // }
+  if ( gridSize <= maxTrivialGridSize ) {
+    return randomImageStr;
   }
 
-  const freshImageStr = imageCharArr.join('');
+  computeGoal();
+
+  // let colorLetter = "B";
+  // const imageCharArr: string[] = [];
+  // for ( let row=0; row < gridSize; row++ ) {
+  //   for ( let col=0; col < gridSize; col++ ){
+  //     colorLetter = getRandomPrimaryColor();
+  //     imageCharArr.push( colorLetter );
+  //   }
+  //   // if ( logLogicFlow ) {
+  //   //   console.log( "createFreshImageStr() in ImageLib.ts: imageCharArr.length = " + imageCharArr.length );
+  //   // }
+  // }
+  // const freshImageStr = imageCharArr.join('');
+
+  const freshImageStr = randomImageStr;
 
   if ( logLogicFlow ) {
     console.log( "createFreshImageStr(): Fresh Image's freshImageStr.length = " + freshImageStr.length );
@@ -247,10 +256,46 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
 }
 
 
-// "Private" Functions:
-// ====================
-// These functions are *not* exported so are available for internal use *only*
+// "Private" Variables and Functions:
+// ==================================
+// These variables and functions are *not* exported so are available for internal use *only*
 //
+// createRandomImageStr: Create a new random "groja-esque" grid of blue, green, red, and yellow squares
+//   Starts with an empty imageCharArr and adds color letters one-by-one
+//   Returns the imageCharArr as a string
+function createRandomImageStr(): string {
+  if ( logLogicFlow ) {
+    console.log( "Top of createRandomImageStr() in ImageLib.ts" );
+  }
+
+  let colorLetter = "B";
+  const imageCharArr: string[] = [];
+
+  for ( let row=0; row < gridSize; row++ ) {
+    for ( let col=0; col < gridSize; col++ ){
+      colorLetter = getRandomPrimaryColor();
+      imageCharArr.push( colorLetter );
+    }
+    // if ( logLogicFlow ) {
+    //   console.log( "createRandomImageStr() in ImageLib.ts: imageCharArr.length = " + imageCharArr.length );
+    // }
+  }
+
+  const randomImageStr = imageCharArr.join('');
+
+  if ( logLogicFlow ) {
+    console.log( "createRandomImageStr(): Fresh Image's randomImageStr.length = " + randomImageStr.length );
+    console.log( "createRandomImageStr() in ImageLib.ts: Return()ing the randomImageStr" );
+  }
+  return randomImageStr;
+}
+// computeGoal: calc number of squares needed of each color
+function computeGoal() {
+  if ( logLogicFlow ) {
+    console.log( "Top of computeGoal() in ImageLib.ts" );
+  }
+}
+
 // valueToPct: convert a slider value [0 - 100] to a percentage of opacity [0.0 - 1.00]
 function valueToPct( value: number ): number {
   const percent = value / 100;
