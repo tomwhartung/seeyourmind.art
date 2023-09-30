@@ -78,16 +78,16 @@ function FixedSizeImageAndCards( props: ImageLib.ScoreValueIFace ) {
       </div>
       <div className="row mt-4 justify-content-center">
         <div className="col-md-3 card align-items-center">
-          {ImageLib.scoreValueNames[0]}: {props.opacityValue}
+          {ImageLib.scoreValueNames[0]}: {props.eVsIValue}
         </div>
         <div className="col-md-3 card align-items-center">
-          {ImageLib.scoreValueNames[1]}: {props.blueVsYellowValue}
+          {ImageLib.scoreValueNames[1]}: {props.nVsSValue}
         </div>
         <div className="col-md-3 card align-items-center">
-          {ImageLib.scoreValueNames[2]}: {props.greenVsRedValue}
+          {ImageLib.scoreValueNames[2]}: {props.fVsTValue}
         </div>
         <div className="col-md-3 card align-items-center">
-          {ImageLib.scoreValueNames[3]}: {props.bAndYVsGandRValue}
+          {ImageLib.scoreValueNames[3]}: {props.jVsPValue}
         </div>
       </div>
     </>
@@ -324,10 +324,10 @@ function FixedContainer() {
       </div>
       <div className="row mt-4">
         <FixedSizeImageAndCards
-          opacityValue={currentScoreValueArr[0] ?? ImageLib.initialScoreValue}
-          blueVsYellowValue={currentScoreValueArr[1] ?? ImageLib.initialScoreValue}
-          greenVsRedValue={currentScoreValueArr[2] ?? ImageLib.initialScoreValue}
-          bAndYVsGandRValue={currentScoreValueArr[3] ?? ImageLib.initialScoreValue} />
+          eVsIValue={currentScoreValueArr[0] ?? ImageLib.initialScoreValue}
+          nVsSValue={currentScoreValueArr[1] ?? ImageLib.initialScoreValue}
+          fVsTValue={currentScoreValueArr[2] ?? ImageLib.initialScoreValue}
+          jVsPValue={currentScoreValueArr[3] ?? ImageLib.initialScoreValue} />
       </div>
     </div>
   )
