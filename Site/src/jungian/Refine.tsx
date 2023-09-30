@@ -146,16 +146,16 @@ function FixedSizeImageAndCards( props: RefinePropsIFace ) {
       </div>
       <div className="row d-flex mt-1">
         <div className="col-sm-3 card align-items-center">
-          {ImageLib.scoreValueNames[0]}: {ImageLib.ScoreValueObj.opacityValue}
+          {ImageLib.scoreValueNames[0]}: {ImageLib.ScoreValueObj.eVsIValue}
         </div>
         <div className="col-sm-3 card align-items-center">
-          {ImageLib.scoreValueNames[1]}: {ImageLib.ScoreValueObj.blueVsYellowValue}
+          {ImageLib.scoreValueNames[1]}: {ImageLib.ScoreValueObj.nVsSValue}
         </div>
         <div className="col-sm-3 card align-items-center">
-          {ImageLib.scoreValueNames[2]}: {ImageLib.ScoreValueObj.greenVsRedValue}
+          {ImageLib.scoreValueNames[2]}: {ImageLib.ScoreValueObj.fVsTValue}
         </div>
         <div className="col-sm-3 card align-items-center">
-          {ImageLib.scoreValueNames[3]}: {ImageLib.ScoreValueObj.bAndYVsGandRValue}
+          {ImageLib.scoreValueNames[3]}: {ImageLib.ScoreValueObj.jVsPValue}
         </div>
       </div>
       <div className="row d-flex mt-1">
