@@ -15,10 +15,10 @@ export function setLogLogicFlow( value: boolean ): void {
 
 // ScoreValueIFace: giving names to the values that come from the Jungian sliders
 export interface ScoreValueIFace {
-  opacityValue: number;           // [0 .. 100]
-  blueVsYellowValue: number;      // [0 .. 100]
-  greenVsRedValue: number;        // [0 .. 100]
-  bAndYVsGandRValue: number;      // [0 .. 100]
+  eVsIValue: number;    // [0 .. 100]
+  nVsSValue: number;    // [0 .. 100]
+  fVsTValue: number;    // [0 .. 100]
+  jVsPValue: number;    // [0 .. 100]
 }
 
 // Image Parameters: These control how the App creates the image
@@ -49,24 +49,24 @@ export const invalidScoreValueArr = [     // Used as "default" value for state v
 export const minScoreValue = 0;             // Minimum score value
 export const maxScoreValue = 100;           // Maximum score value
 export const ScoreValueObj = {
-  opacityValue: initialScoreValue,
-  blueVsYellowValue: initialScoreValue,
-  greenVsRedValue: initialScoreValue,
-  bAndYVsGandRValue: initialScoreValue,
+  eVsIValue: initialScoreValue,
+  nVsSValue: initialScoreValue,
+  fVsTValue: initialScoreValue,
+  jVsPValue: initialScoreValue,
   toString: function(): string {
     return(
-      "ImageLib.ScoreValueObj.opacityValue = " + this.opacityValue + "\n" +
-      "ImageLib.ScoreValueObj.blueVsYellowValue = " + this.blueVsYellowValue + "\n" +
-      "ImageLib.ScoreValueObj.greenVsRedValue = " + this.greenVsRedValue + "\n" +
-      "ImageLib.ScoreValueObj.bAndYVsGandRValue = " + this.bAndYVsGandRValue
+      "ImageLib.ScoreValueObj.eVsIValue = " + this.eVsIValue + "\n" +
+      "ImageLib.ScoreValueObj.nVsSValue = " + this.nVsSValue + "\n" +
+      "ImageLib.ScoreValueObj.fVsTValue = " + this.fVsTValue + "\n" +
+      "ImageLib.ScoreValueObj.jVsPValue = " + this.jVsPValue
     );
   },
 }
 export function setScoreValueObj( newScoreValueArr: number[] ): void {
-  ScoreValueObj.opacityValue = newScoreValueArr[0];
-  ScoreValueObj.blueVsYellowValue = newScoreValueArr[1];
-  ScoreValueObj.greenVsRedValue = newScoreValueArr[2];
-  ScoreValueObj.bAndYVsGandRValue = newScoreValueArr[3];
+  ScoreValueObj.eVsIValue = newScoreValueArr[0];
+  ScoreValueObj.nVsSValue = newScoreValueArr[1];
+  ScoreValueObj.fVsTValue = newScoreValueArr[2];
+  ScoreValueObj.jVsPValue = newScoreValueArr[3];
 }
 
 // *[Ii]mageStr identifiers contain a string of characters denoting the color of each square in the image
@@ -114,16 +114,16 @@ export function setGridSize( newGridSize: number ): void {
 // ================
 //
 export const scoreValueNames: readonly string[] = [
-  "Opacity",
-  "B vs Y",
-  "G vs R",
-  "B&Y vs G&R",
+  "E vs I",
+  "N vs S",
+  "T vs R",
+  "J vs P",
 ];
 export const scoreValueLabels: readonly string[] = [
-  "Opacity",
-  "Y vs B",
-  "R vs G",
-  "G&R vs B&Y",
+  "E vs I",
+  "N vs S",
+  "F vs T",
+  "J vs P",
 ];
 export const colorLetters: readonly string[] = [
   "B",   // "B"lue
@@ -203,7 +203,7 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
   let squareTopX = gridTopX;
   let squareTopY = gridTopY;
   let colorLetter = "B";
-  const opacityPercent = valueToPct( ScoreValueObj.opacityValue );
+  const opacityPercent = valueToPct( ScoreValueObj.eVsIValue );
 
   if ( logLogicFlow ) {
     console.log( "drawImageStr() in ImageLib.ts: imageStr.length = '" + imageStr.length + "'" );
@@ -262,23 +262,23 @@ function getRandomPrimaryColor(): string {
   // if ( logLogicFlow ) {
   //   console.log( "getRandomPrimaryColor() in ImageLib.ts: Top of getRandomPrimaryColor" );
   // }
-  const blueVsYellowPercent = valueToPct( ScoreValueObj.blueVsYellowValue );
-  const greenVsRedPercent = valueToPct( ScoreValueObj.greenVsRedValue );
-  const bAndYVsGandRPercent = valueToPct( ScoreValueObj.bAndYVsGandRValue );
+  const nVsSPercent = valueToPct( ScoreValueObj.nVsSValue );
+  const fVsTPercent = valueToPct( ScoreValueObj.fVsTValue );
+  const jVsPPercent = valueToPct( ScoreValueObj.jVsPValue );
 
   let randomFloat = Math.random();
   let randomColorLetter = colorLetters[4];  // default is INVALID!
 
-  if ( randomFloat <= bAndYVsGandRPercent ) {
+  if ( randomFloat <= jVsPPercent ) {
     randomFloat = Math.random();
-    if ( randomFloat <= blueVsYellowPercent ) {
+    if ( randomFloat <= nVsSPercent ) {
       randomColorLetter = colorLetters[0];
     } else {
       randomColorLetter = colorLetters[3];
     }
   } else {
     randomFloat = Math.random();
-    if ( randomFloat <= greenVsRedPercent ) {
+    if ( randomFloat <= fVsTPercent ) {
       randomColorLetter = colorLetters[1];
     } else {
       randomColorLetter = colorLetters[2];
