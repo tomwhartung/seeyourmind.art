@@ -114,6 +114,7 @@ const maxTrivialGridSize = 5;    // Compositions are trivial for trivial grid si
 // Constant Arrays:
 // ================
 //
+export const unknownFcnLetter = "X";
 export const scoreValueNames: readonly string[] = [
   "E vs I",
   "N vs S",
@@ -177,7 +178,7 @@ export function getCanvasHeight(): number {
   return ( squareSize * gridSize ) + ( 2 * gridTopY );
 }
 
-export let fourLetterTypeStr = 'XXXX';
+export let fourLetterTypeStr = unknownFcnLetter + unknownFcnLetter + unknownFcnLetter + unknownFcnLetter;
 
 // Functions:
 // ==========
@@ -193,7 +194,7 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
 
   let squareTopX = gridTopX;
   let squareTopY = gridTopY;
-  let colorLetter = "B";
+  let colorLetter = colorLetters[0];   // just a default value
 
   if ( logLogicFlow ) {
     console.log( "drawImageStr() in ImageLib.ts: imageStr.length = '" + imageStr.length + "'" );
@@ -396,45 +397,49 @@ function computeGoal() {
 
 // setFourLetterType: use the score to set the four-letter Jungian/MBTI(r) type
 function setFourLetterType() {
-  const fourLetterTypeArr : string[] = [ 'X', 'X', 'X', 'X' ];
+  const fourLetterTypeArr : string[] = [ unknownFcnLetter, unknownFcnLetter, unknownFcnLetter, unknownFcnLetter ];
 
   if ( ScoreValueObj.eVsIValue == initialScoreValue ) {
-    fourLetterTypeArr[0] = 'X';
+    fourLetterTypeArr[0] = unknownFcnLetter;
   } else if ( ScoreValueObj.eVsIValue < initialScoreValue ) {
-    fourLetterTypeArr[0] = 'I';
+    fourLetterTypeArr[0] = leftFcnLetters[0];
   } else {
-    fourLetterTypeArr[0] = 'E';
+    fourLetterTypeArr[0] = rightFcnLetters[0];
   }
-  console.log( "setFourLetterType: ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLetterTypeArr[0] = " + fourLetterTypeArr[0] );
 
   if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
-    fourLetterTypeArr[1] = 'X';
+    fourLetterTypeArr[1] = unknownFcnLetter;
   } else if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
-    fourLetterTypeArr[1] = 'S';
+    fourLetterTypeArr[1] = leftFcnLetters[1];
   } else {
-    fourLetterTypeArr[1] = 'N';
+    fourLetterTypeArr[1] = rightFcnLetters[1];
   }
-  console.log( "setFourLetterType: ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLetterTypeArr[1] = " + fourLetterTypeArr[1] );
 
   if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
-    fourLetterTypeArr[2] = 'X';
-  } else if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
-    fourLetterTypeArr[2] = 'T';
+    fourLetterTypeArr[2] = unknownFcnLetter;
+  } else if ( ScoreValueObj.fVsTValue < initialScoreValue ) {
+    fourLetterTypeArr[2] = leftFcnLetters[2];
   } else {
-    fourLetterTypeArr[2] = 'F';
+    fourLetterTypeArr[2] = rightFcnLetters[2];
   }
-  console.log( "setFourLetterType: ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLetterTypeArr[2] = " + fourLetterTypeArr[2] );
 
   if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
-    fourLetterTypeArr[3] = 'X';
-  } else if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
-    fourLetterTypeArr[3] = 'P';
+    fourLetterTypeArr[3] = unknownFcnLetter;
+  } else if ( ScoreValueObj.jVsPValue < initialScoreValue ) {
+    fourLetterTypeArr[3] = leftFcnLetters[3];
   } else {
-    fourLetterTypeArr[3] = 'J';
+    fourLetterTypeArr[3] = rightFcnLetters[3];
   }
-  console.log( "setFourLetterType: ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLetterTypeArr[3] = " + fourLetterTypeArr[3] );
 
   fourLetterTypeStr = fourLetterTypeArr.join('');
+  // if ( logLogicFlow ) {
+  console.log( "setFourLetterType: ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLetterTypeArr[0] = " + fourLetterTypeArr[0] );
+  console.log( "setFourLetterType: ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLetterTypeArr[1] = " + fourLetterTypeArr[1] );
+  console.log( "setFourLetterType: ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLetterTypeArr[2] = " + fourLetterTypeArr[2] );
+  console.log( "setFourLetterType: ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLetterTypeArr[3] = " + fourLetterTypeArr[3] );
+  console.log( "setFourLetterType: fourLetterTypeArr = " + fourLetterTypeArr );
+  console.log( "setFourLetterType: fourLetterTypeStr = " + fourLetterTypeStr );
+  // }
 }
 
 // computePcts: Convert the score values to percentages
