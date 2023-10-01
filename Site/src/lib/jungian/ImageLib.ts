@@ -252,8 +252,7 @@ export function createFreshImageStr(): string {
     return randomImageStr;                 // Just for now....
   }
 
-  setFourLetterType();
-  computeGoal();
+  setTypeAndGoal();
 
   // if ( logLogicFlow ) {
     console.log( "---------------------------------------------------------------" );
@@ -353,51 +352,17 @@ function createRandomImageStr(): string {
   }
   return randomImageStr;
 }
-// computeGoal: calc number of squares needed of each color
-function computeGoal() {
+// setTypeAndGoal: set the four-letter Jungian/MBTI(r) type and calc number of squares needed of each color
+function setTypeAndGoal() {
   if ( logLogicFlow ) {
-    console.log( "Top of computeGoal() in ImageLib.ts" );
+    console.log( "Top of setTypeAndGoal() in ImageLib.ts" );
   }
+
+  const fourLetterTypeArr : string[] = [ unknownFcnLetter, unknownFcnLetter, unknownFcnLetter, unknownFcnLetter ];
 
   const totSquares = gridSize * gridSize;
   let numBlueAndYellowSquares = 0;
   let numGreenAndRedSquares = 0;
-
-  if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
-    numBlueAndYellowSquares = Math.round( totSquares / 2 );
-  } else {
-    numBlueAndYellowSquares = Math.round( totSquares * pcts.jVsP );
-  }
-  numGreenAndRedSquares = totSquares - numBlueAndYellowSquares;
-
-  if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
-    numSquares.blue = Math.round( numBlueAndYellowSquares / 2 );
-  } else {
-    numSquares.yellow = Math.round( numBlueAndYellowSquares * pcts.nVsS );
-  }
-  numSquares.blue = numBlueAndYellowSquares - numSquares.blue;
-
-  if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
-    numSquares.green = Math.round( totSquares / 2 );
-  } else {
-    numSquares.green = Math.round( numGreenAndRedSquares * pcts.fVsT );
-  }
-  numSquares.red = numGreenAndRedSquares - numSquares.green;
-
-  // if ( logLogicFlow ) {
-  console.log( "computeGoal: totSquares = " + totSquares );
-  console.log( "numBlueAndYellowSquares = " + numBlueAndYellowSquares );
-  console.log( "numGreenAndRedSquares = " + numGreenAndRedSquares );
-  // }
-
-  if ( numSquares && numSquares.toString() ) {
-    console.log( numSquares.toString() );
-  }
-}
-
-// setFourLetterType: use the score to set the four-letter Jungian/MBTI(r) type
-function setFourLetterType() {
-  const fourLetterTypeArr : string[] = [ unknownFcnLetter, unknownFcnLetter, unknownFcnLetter, unknownFcnLetter ];
 
   if ( ScoreValueObj.eVsIValue == initialScoreValue ) {
     fourLetterTypeArr[0] = unknownFcnLetter;
@@ -407,38 +372,60 @@ function setFourLetterType() {
     fourLetterTypeArr[0] = rightFcnLetters[0];
   }
 
+  if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
+    fourLetterTypeArr[3] = unknownFcnLetter;
+    numBlueAndYellowSquares = Math.round( totSquares / 2 );
+  } else {
+    numBlueAndYellowSquares = Math.round( totSquares * pcts.jVsP );
+    if ( ScoreValueObj.jVsPValue < initialScoreValue ) {
+      fourLetterTypeArr[3] = leftFcnLetters[3];
+    } else {
+      fourLetterTypeArr[3] = rightFcnLetters[3];
+    }
+  }
+  numGreenAndRedSquares = totSquares - numBlueAndYellowSquares;
+
   if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
     fourLetterTypeArr[1] = unknownFcnLetter;
-  } else if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
-    fourLetterTypeArr[1] = leftFcnLetters[1];
+    numSquares.blue = Math.round( numBlueAndYellowSquares / 2 );
   } else {
-    fourLetterTypeArr[1] = rightFcnLetters[1];
+    numSquares.yellow = Math.round( numBlueAndYellowSquares * pcts.nVsS );
+    if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
+      fourLetterTypeArr[1] = leftFcnLetters[1];
+    } else {
+      fourLetterTypeArr[1] = rightFcnLetters[1];
+    }
   }
+  numSquares.blue = numBlueAndYellowSquares - numSquares.yellow;
 
   if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
     fourLetterTypeArr[2] = unknownFcnLetter;
-  } else if ( ScoreValueObj.fVsTValue < initialScoreValue ) {
-    fourLetterTypeArr[2] = leftFcnLetters[2];
+    numSquares.green = Math.round( totSquares / 2 );
   } else {
-    fourLetterTypeArr[2] = rightFcnLetters[2];
+    numSquares.green = Math.round( numGreenAndRedSquares * pcts.fVsT );
+    if ( ScoreValueObj.fVsTValue < initialScoreValue ) {
+      fourLetterTypeArr[2] = leftFcnLetters[2];
+    } else {
+      fourLetterTypeArr[2] = rightFcnLetters[2];
+    }
   }
-
-  if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
-    fourLetterTypeArr[3] = unknownFcnLetter;
-  } else if ( ScoreValueObj.jVsPValue < initialScoreValue ) {
-    fourLetterTypeArr[3] = leftFcnLetters[3];
-  } else {
-    fourLetterTypeArr[3] = rightFcnLetters[3];
-  }
+  numSquares.red = numGreenAndRedSquares - numSquares.green;
 
   fourLetterTypeStr = fourLetterTypeArr.join('');
+
   // if ( logLogicFlow ) {
-  console.log( "setFourLetterType: ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLetterTypeArr[0] = " + fourLetterTypeArr[0] );
-  console.log( "setFourLetterType: ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLetterTypeArr[1] = " + fourLetterTypeArr[1] );
-  console.log( "setFourLetterType: ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLetterTypeArr[2] = " + fourLetterTypeArr[2] );
-  console.log( "setFourLetterType: ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLetterTypeArr[3] = " + fourLetterTypeArr[3] );
-  console.log( "setFourLetterType: fourLetterTypeArr = " + fourLetterTypeArr );
-  console.log( "setFourLetterType: fourLetterTypeStr = " + fourLetterTypeStr );
+    console.log( "setTypeAndGoal: totSquares = " + totSquares );
+    console.log( "setTypeAndGoal: numBlueAndYellowSquares = " + numBlueAndYellowSquares );
+    console.log( "setTypeAndGoal: numGreenAndRedSquares = " + numGreenAndRedSquares );
+    console.log( "setTypeAndGoal: ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLetterTypeArr[0] = " + fourLetterTypeArr[0] );
+    console.log( "setTypeAndGoal: ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLetterTypeArr[1] = " + fourLetterTypeArr[1] );
+    console.log( "setTypeAndGoal: ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLetterTypeArr[2] = " + fourLetterTypeArr[2] );
+    console.log( "setTypeAndGoal: ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLetterTypeArr[3] = " + fourLetterTypeArr[3] );
+    console.log( "setTypeAndGoal: fourLetterTypeArr = " + fourLetterTypeArr );
+    console.log( "setTypeAndGoal: fourLetterTypeStr = " + fourLetterTypeStr );
+    if ( numSquares && numSquares.toString() ) {
+      console.log( numSquares.toString() );
+    }
   // }
 }
 
