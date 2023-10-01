@@ -32,25 +32,19 @@ function ScoreSlider( props: ScoreSliderPropsIFace ) {
   const sliderOppVal = 100 - props.sliderVal;
   const sliderId = "myslider-" + props.sliderNo.toString();
 
-  let sliderLabel = "";
-  const sliderCaption = sliderOppVal.toString() + "% " +
+  let sliderCaption = "";
+  const sliderLabel = sliderOppVal.toString() + "% " +
                     ImageLib.scoreValueLabels[props.sliderNo] + ": " +
                     props.sliderVal.toString() + "%";
 
-  // if ( props.sliderNo == 0 ) {
-  //   sliderCaption = ImageLib.scoreValueLabels[props.sliderNo] + ": " +
-  //                 props.sliderVal.toString();
-  // }
-
   if ( props.sliderVal == ImageLib.initialScoreValue ) {
-    sliderLabel = "X: 50%";
+    sliderCaption = "X: 50% " + ImageLib.leftFcnLetters[props.sliderNo] +
+                    "/50% " + ImageLib.rightFcnLetters[props.sliderNo];
   } else if ( props.sliderVal < ImageLib.initialScoreValue ) {
-    sliderLabel = "iNtuition: " + sliderOppVal + "%";
+    sliderCaption = ImageLib.leftFcnNames[props.sliderNo] + ": " + sliderOppVal + "%";
   } else {
-    sliderLabel = "Sensing: " + props.sliderVal + "%";
+    sliderCaption = ImageLib.rightFcnNames[props.sliderNo] + ": " + props.sliderVal + "%";
   }
-  //if ( props.sliderNo == 0 ) {
-  //}
 
   let defaultValue = ImageLib.initialScoreValue;
 
