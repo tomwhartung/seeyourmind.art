@@ -13,8 +13,8 @@ import ScoreSliderCard from '../lib/jungian/ScoreSliderLib.tsx';
 import SquareSizeSlider from '../lib/jungian/SquareSizeSliderLib.tsx';
 
 // NOTE: Setting logLogicFlow to true for one page seems to in effect set it for all pages
-// ImageLib.setLogLogicFlow( false );    // un-comment when everything's ok
-ImageLib.setLogLogicFlow( true );     // un-comment when trying to track down issues
+ImageLib.setLogLogicFlow( false );    // un-comment when everything's ok
+// ImageLib.setLogLogicFlow( true );     // un-comment when trying to track down issues
 
 let drawFreshImage = false;
 
@@ -310,6 +310,7 @@ function FixedContainer() {
             defaultValue={ImageLib.gridSize}
             min={ImageLib.minGridSize}
             max={ImageLib.maxGridSize}
+            step='2'
             id='grid-size'
             label={gridSizeLabel}
             onChange={handleGridSizeChange}
