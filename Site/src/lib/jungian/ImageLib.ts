@@ -120,11 +120,11 @@ export const scoreValueNames: readonly string[] = [
   "T vs R",
   "J vs P",
 ];
-export const scoreValueLabels: readonly string[] = [
-  "E vs I",
-  "N vs S",
-  "F vs T",
-  "J vs P",
+export const leftFcnNames: readonly string[] = [
+  "Extraverted",
+  "iNtuition",
+  "Feeling",
+  "Judging"
 ];
 export const leftFcnLetters: readonly string[] = [
   "E",
@@ -132,23 +132,17 @@ export const leftFcnLetters: readonly string[] = [
   "F",
   "J"
 ];
-export const leftFcnNames: readonly string[] = [
-  "Extraverted",
-  "iNtuition",
-  "Feeling",
-  "Judging"
+export const rightFcnNames: readonly string[] = [
+  "Introverted",
+  "Sensing",
+  "Thinking",
+  "Perception"
 ];
 export const rightFcnLetters: readonly string[] = [
   "I",
   "S",
   "T",
   "P"
-];
-export const rightFcnNames: readonly string[] = [
-  "Introverted",
-  "Sensing",
-  "Thinking",
-  "Perception"
 ];
 
 export const colorLetters: readonly string[] = [
