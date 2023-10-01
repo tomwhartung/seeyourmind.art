@@ -372,9 +372,9 @@ function computeGoal() {
   if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
     numSquares.blue = Math.round( numBlueAndYellowSquares / 2 );
   } else {
-    numSquares.blue = Math.round( numBlueAndYellowSquares * pcts.nVsS );
+    numSquares.yellow = Math.round( numBlueAndYellowSquares * pcts.nVsS );
   }
-  numSquares.yellow = numBlueAndYellowSquares - numSquares.blue;
+  numSquares.blue = numBlueAndYellowSquares - numSquares.blue;
 
   if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
     numSquares.green = Math.round( totSquares / 2 );
@@ -383,9 +383,12 @@ function computeGoal() {
   }
   numSquares.red = numGreenAndRedSquares - numSquares.green;
 
+  // if ( logLogicFlow ) {
   console.log( "computeGoal: totSquares = " + totSquares );
   console.log( "numBlueAndYellowSquares = " + numBlueAndYellowSquares );
   console.log( "numGreenAndRedSquares = " + numGreenAndRedSquares );
+  // }
+
   if ( numSquares && numSquares.toString() ) {
     console.log( numSquares.toString() );
   }
@@ -459,9 +462,9 @@ function getRandomColor(): string {
   if ( randomFloat <= pcts.jVsP ) {
     randomFloat = Math.random();
     if ( randomFloat <= pcts.nVsS ) {
-      randomColorLetter = colorLetters[0];
-    } else {
       randomColorLetter = colorLetters[3];
+    } else {
+      randomColorLetter = colorLetters[0];
     }
   } else {
     randomFloat = Math.random();
