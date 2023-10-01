@@ -119,10 +119,7 @@ function FixedContainer() {
     const nextScoreValueArr = currentScoreValueArr.slice();
     nextScoreValueArr[col] = parseInt( scoreValue );
     setCurrentScoreValueArr( nextScoreValueArr );
-    // When the value for a slider (other than opacity) changes, we need to draw a new image
-    if ( 0 < col ) {
-      drawFreshImage = true;
-    }
+    drawFreshImage = true;           // When the value for a slider changes, we need to draw a new image
     if ( ImageLib.logLogicFlow ) {
       if ( 0 < col ) {
         console.log( "handleScoreValueChange: set drawFreshImage = true" );
@@ -279,7 +276,7 @@ function FixedContainer() {
 
   // Construct markup for the ScoreSliderCards
   const sliderNumberCols = [];
-  for ( let col = 0; col < ImageLib.scoreValueLabels.length; col++ ) {
+  for ( let col = 0; col < ImageLib.leftFcnNames.length; col++ ) {
     sliderNumberCols.push(
       <div key={col} className="col-md-3">
         <ScoreSliderCard
