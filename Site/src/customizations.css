@@ -13,6 +13,14 @@
 }
 
 /*
+ * Hide the bubble that appears when moving the score sliders,
+ *   because it can be misleading
+ */
+.score-slider .thumb {
+  visibility: hidden;
+}
+
+/*
  * Not using this rule right now...
  */
 a.current-page {
