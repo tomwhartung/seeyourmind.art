@@ -249,15 +249,20 @@ export function createFreshImageStr(): string {
   const randomImageStr = createRandomImageStr();
 
   if ( gridSize <= maxTrivialGridSize ) {
-    return randomImageStr;                 // Just for now....
+    return randomImageStr;  // Just for now....
   }
 
   setTypeAndGoal();
 
+  let done = false;
+
+  while( ! done ) {
+    sprinkleNeeded();
+    drawLines();
+    done = checkIfDone();
+  }
   // if ( logLogicFlow ) {
-    console.log( "---------------------------------------------------------------" );
     console.log( "createFreshImageStr(): fourLetterTypeStr = " + fourLetterTypeStr );
-    console.log( "---------------------------------------------------------------" );
   // }
 
   // let colorLetter = "B";
@@ -282,6 +287,34 @@ export function createFreshImageStr(): string {
   return freshImageStr;
 }
 
+// "Private" Variables and Functions that I am working on and want close by, for now:
+// ==================================================================================
+function sprinkleNeeded(): void {
+  // if ( logLogicFlow ) {
+    if ( numSquares && numSquares.toString() ) {
+      console.log( "sprinkleNeeded:\n" + numSquares.toString() );
+    }
+  // }
+}
+function drawLines(): void {
+  // if ( logLogicFlow ) {
+    console.log( "drawLines: fourLetterTypeStr = " + fourLetterTypeStr );
+  // }
+}
+function checkIfDone(): boolean {
+  // if ( logLogicFlow ) {
+    console.log( "checkIfDone:\n" + numSquares.toString() );
+  // }
+  let done = false;
+  for ( let row=0; row < gridSize; row++ ) {
+    for ( let col=0; col < gridSize; col++ ){
+      // colorLetter = getRandomColor();
+      // imageCharArr.push( colorLetter );
+      done = true;
+    }
+  }
+  return done;
+}
 
 // "Private" Variables and Functions:
 // ==================================
@@ -414,18 +447,13 @@ function setTypeAndGoal() {
   fourLetterTypeStr = fourLetterTypeArr.join('');
 
   // if ( logLogicFlow ) {
-    console.log( "setTypeAndGoal: totSquares = " + totSquares );
-    console.log( "setTypeAndGoal: numBlueAndYellowSquares = " + numBlueAndYellowSquares );
-    console.log( "setTypeAndGoal: numGreenAndRedSquares = " + numGreenAndRedSquares );
-    console.log( "setTypeAndGoal: ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLetterTypeArr[0] = " + fourLetterTypeArr[0] );
-    console.log( "setTypeAndGoal: ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLetterTypeArr[1] = " + fourLetterTypeArr[1] );
-    console.log( "setTypeAndGoal: ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLetterTypeArr[2] = " + fourLetterTypeArr[2] );
-    console.log( "setTypeAndGoal: ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLetterTypeArr[3] = " + fourLetterTypeArr[3] );
-    console.log( "setTypeAndGoal: fourLetterTypeArr = " + fourLetterTypeArr );
-    console.log( "setTypeAndGoal: fourLetterTypeStr = " + fourLetterTypeStr );
-    if ( numSquares && numSquares.toString() ) {
-      console.log( numSquares.toString() );
-    }
+    console.log( "setTypeAndGoal: totSquares = " + totSquares + "\n" +
+      "numBlueAndYellowSquares = " + numBlueAndYellowSquares + " and numGreenAndRedSquares = " + numGreenAndRedSquares + "\n" +
+      "ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLetterTypeArr[0] = " + fourLetterTypeArr[0] + "\n" +
+      "ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLetterTypeArr[1] = " + fourLetterTypeArr[1] + "\n" +
+      "ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLetterTypeArr[2] = " + fourLetterTypeArr[2] + "\n" +
+      "ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLetterTypeArr[3] = " + fourLetterTypeArr[3] + "\n" +
+      "fourLetterTypeArr = " + fourLetterTypeArr + " and fourLetterTypeStr = " + fourLetterTypeStr + "\n" );
   // }
 }
 
