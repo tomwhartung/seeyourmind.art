@@ -288,6 +288,7 @@ interface ColorsIFace {
   green: number;
   red: number;
   yellow: number;
+  toString: () => string;
 }
 const defaultNum = 0;
 const numSquares : ColorsIFace = {
@@ -295,6 +296,12 @@ const numSquares : ColorsIFace = {
   green: defaultNum,
   red: defaultNum,
   yellow: defaultNum,
+  toString: function(): string {
+    return(
+      "ImageLib.numSquares: blue(" + this.blue + ") + yellow(" + this.yellow + ") = " + (this.blue+this.yellow) + "\n" +
+      "ImageLib.numSquares.green(" + this.green  + ") + red(" + this.red + ") = " + (this.green+this.red) + "\n"
+    );
+  },
 };
 
 
@@ -357,6 +364,13 @@ function computeGoal() {
     numSquares.green = Math.round( numGreenAndRedSquares * pcts.fVsT );
   }
   numSquares.red = numGreenAndRedSquares - numSquares.green;
+
+  console.log( "computeGoal: totSquares = " + totSquares );
+  console.log( "numBlueAndYellowSquares = " + numBlueAndYellowSquares );
+  console.log( "numGreenAndRedSquares = " + numGreenAndRedSquares );
+  if ( numSquares && numSquares.toString() ) {
+    console.log( numSquares.toString() );
+  }
 }
 
 // setFourLetterType: use the score to set the four-letter Jungian/MBTI(r) type
