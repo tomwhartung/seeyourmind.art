@@ -30,12 +30,14 @@ export function ScoreSliderCard( props: ScoreSliderPropsIFace ) {
 // ScoreSlider: Jungian Score-specific wrapper for the MDBRange component
 function ScoreSlider( props: ScoreSliderPropsIFace ) {
   const sliderOppVal = 100 - props.sliderVal;
-  const sliderId = "myslider-" + props.sliderNo.toString();
+  const sliderId = "score-slider-" + props.sliderNo.toString();
 
   let sliderCaption = "";
-  const sliderLabel = sliderOppVal.toString() + "% " +
-                    ImageLib.scoreValueLabels[props.sliderNo] + ": " +
-                    props.sliderVal.toString() + "%";
+  const sliderTitle =
+    ImageLib.leftFcnLetters[props.sliderNo] + ": " +
+    sliderOppVal.toString() + "% " + " vs " +
+    props.sliderVal.toString() + "% " +
+    ImageLib.rightFcnLetters[props.sliderNo];
 
   if ( props.sliderVal == ImageLib.initialScoreValue ) {
     sliderCaption = "X: 50% " + ImageLib.leftFcnLetters[props.sliderNo] +
@@ -53,16 +55,16 @@ function ScoreSlider( props: ScoreSliderPropsIFace ) {
   }
 
   return (
-    <>
+    <div className="score-slider">
       <MDBRange
         className="pt-2 ps-2 pe-2"
         defaultValue={defaultValue}
         id={sliderId}
-        label={sliderLabel}
+        label={sliderTitle}
         onChange={props.onSliderChange}
       />
-      <p className="ps-2">{sliderCaption}</p>
-    </>
+      <p className="ps-2 text-center fw-bold">{sliderCaption}</p>
+    </div>
   );
 }
 
