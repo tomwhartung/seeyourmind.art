@@ -194,7 +194,6 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
   let squareTopX = gridTopX;
   let squareTopY = gridTopY;
   let colorLetter = "B";
-  const opacityPercent = valueToPct( ScoreValueObj.eVsIValue );
 
   if ( logLogicFlow ) {
     console.log( "drawImageStr() in ImageLib.ts: imageStr.length = '" + imageStr.length + "'" );
@@ -214,15 +213,15 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
         // console.log( "for loop in drawImageStr() in ImageLib.ts: colorLetter = " + colorLetter );
         squareTopX = gridTopX + (col * squareSize);
         if ( colorLetter == "B" ) {
-          context.fillStyle = "rgba(0, 0, 255, " + opacityPercent.toString() + ")";
+          context.fillStyle = "rgba(0, 0, 255, 1)";
         } else if ( colorLetter == "G" ) {
-          context.fillStyle = "rgba(0, 255, 0, " + opacityPercent.toString() + ")";
+          context.fillStyle = "rgba(0, 255, 0, 1)";
         } else if ( colorLetter == "R" ) {
-          context.fillStyle = "rgba(255, 0, 0, " + opacityPercent.toString() + ")";
+          context.fillStyle = "rgba(255, 0, 0, 1)";
         } else if ( colorLetter == "Y" ) {
-          context.fillStyle = "rgba(255, 255, 0, " + opacityPercent.toString() + ")";
+          context.fillStyle = "rgba(255, 255, 0, 1)";
         } else {
-          context.fillStyle = "rgb(255, 255, 255, " + opacityPercent.toString() + ")";
+          context.fillStyle = "rgb(255, 255, 255, 1)";
         }
         context.fillRect( squareTopX, squareTopY, squareSize, squareSize );
       }
@@ -442,7 +441,7 @@ function computePcts() {
   pcts.fVsT = valueToPct( ScoreValueObj.fVsTValue );
   pcts.jVsP = valueToPct( ScoreValueObj.jVsPValue );
 }
-// valueToPct: convert a slider value [0 - 100] to a percentage of opacity [0.0 - 1.00]
+// valueToPct: convert a slider value [0 - 100] to a percentage [0.0 - 1.00]
 function valueToPct( value: number ): number {
   const percent = value / 100;
   return ( percent );
