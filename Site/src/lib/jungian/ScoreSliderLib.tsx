@@ -29,33 +29,45 @@ export function ScoreSliderCard( props: ScoreSliderPropsIFace ) {
 
 // ScoreSlider: Jungian Score-specific wrapper for the MDBRange component
 function ScoreSlider( props: ScoreSliderPropsIFace ) {
-  const sliderOppositeValue = 100 - props.sliderVal;
+  const sliderOppVal = 100 - props.sliderVal;
   const sliderId = "myslider-" + props.sliderNo.toString();
-  let sliderLabel = sliderOppositeValue.toString() + "% " +
+
+  let sliderLabel = "";
+  const sliderCaption = sliderOppVal.toString() + "% " +
                     ImageLib.scoreValueLabels[props.sliderNo] + ": " +
                     props.sliderVal.toString() + "%";
 
-  if ( props.sliderNo == 0 ) {
-    sliderLabel = ImageLib.scoreValueLabels[props.sliderNo] + ": " +
-                  props.sliderVal.toString();
-  }
+  // if ( props.sliderNo == 0 ) {
+  //   sliderCaption = ImageLib.scoreValueLabels[props.sliderNo] + ": " +
+  //                 props.sliderVal.toString();
+  // }
 
-  let scoreValueForTag = ImageLib.initialScoreValue;
+  if ( props.sliderVal == ImageLib.initialScoreValue ) {
+    sliderLabel = "X: 50%";
+  } else if ( props.sliderVal < ImageLib.initialScoreValue ) {
+    sliderLabel = "iNtuition: " + sliderOppVal + "%";
+  } else {
+    sliderLabel = "Sensing: " + props.sliderVal + "%";
+  }
+  //if ( props.sliderNo == 0 ) {
+  //}
+
+  let defaultValue = ImageLib.initialScoreValue;
 
   if ( ImageLib.minScoreValue <= props.sliderVal && props.sliderVal <= ImageLib.minScoreValue ) {
-     scoreValueForTag = props.sliderVal;
+     defaultValue = props.sliderVal;
   }
 
   return (
     <>
       <MDBRange
         className="pt-2 ps-2 pe-2"
-        defaultValue={scoreValueForTag}
+        defaultValue={defaultValue}
         id={sliderId}
-        label=""
+        label={sliderLabel}
         onChange={props.onSliderChange}
       />
-      <p className="ps-2">{sliderLabel}</p>
+      <p className="ps-2">{sliderCaption}</p>
     </>
   );
 }
