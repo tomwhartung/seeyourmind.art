@@ -20,6 +20,13 @@
   visibility: hidden;
 }
 
+.score-slider {
+  text-align: center;
+}
+.form-label {
+  margin: auto;
+}
+
 /*
  * Not using this rule right now...
  */
