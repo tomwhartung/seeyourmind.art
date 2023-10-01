@@ -126,6 +126,31 @@ export const scoreValueLabels: readonly string[] = [
   "F vs T",
   "J vs P",
 ];
+export const leftFcnLetters: readonly string[] = [
+  "E",
+  "N",
+  "F",
+  "J"
+];
+export const leftFcnNames: readonly string[] = [
+  "Extraverted",
+  "iNtuition",
+  "Feeling",
+  "Judging"
+];
+export const rightFcnLetters: readonly string[] = [
+  "I",
+  "S",
+  "T",
+  "P"
+];
+export const rightFcnNames: readonly string[] = [
+  "Introverted",
+  "Sensing",
+  "Thinking",
+  "Perception"
+];
+
 export const colorLetters: readonly string[] = [
   "B",   // "B"lue
   "G",   // "G"reen
