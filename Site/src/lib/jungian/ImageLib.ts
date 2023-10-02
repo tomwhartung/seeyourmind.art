@@ -114,7 +114,6 @@ const maxTrivialGridSize = 5;    // Compositions are trivial for trivial grid si
 // Constant Arrays:
 // ================
 //
-export const unknownFcnLetter = "X";
 export const scoreValueNames: readonly string[] = [
   "E vs I",
   "N vs S",
@@ -178,7 +177,10 @@ export function getCanvasHeight(): number {
   return ( squareSize * gridSize ) + ( 2 * gridTopY );
 }
 
-export let fourLetterTypeStr = unknownFcnLetter + unknownFcnLetter + unknownFcnLetter + unknownFcnLetter;
+export const unknownFcnLetter = "X";
+export const fourLtrTypeArr : string[] = [ unknownFcnLetter, unknownFcnLetter, unknownFcnLetter, unknownFcnLetter ];
+export let fourLtrTypeStr = fourLtrTypeArr.join('');
+
 
 // Functions:
 // ==========
@@ -245,25 +247,24 @@ export function createFreshImageStr(): string {
     console.log( "Top of createFreshImageStr() in ImageLib.ts" );
   }
 
-  computePcts();
-  const randomImageStr = createRandomImageStr();
+  setTypeAndGoal();
+  setLineParms();   // relies on type being set!
+
+  let freshImageStr = createRandomImageStr();
 
   if ( gridSize <= maxTrivialGridSize ) {
-    return randomImageStr;  // Just for now....
+    return freshImageStr;  // Just for now....
   }
-
-  setTypeAndGoal();
-  let newImageStr = drawLines( randomImageStr );
 
   let done = false;
 
   while( ! done ) {
-    newImageStr = sprinkleNeeded( newImageStr );
-    drawLines( newImageStr );
-    done = checkIfDone( newImageStr );
+    freshImageStr = sprinkleNeeded( freshImageStr );
+    freshImageStr = drawLines( freshImageStr );
+    done = checkIfDone( freshImageStr );
   }
   // if ( logLogicFlow ) {
-    console.log( "createFreshImageStr(): fourLetterTypeStr = " + fourLetterTypeStr );
+    console.log( "createFreshImageStr(): fourLtrTypeStr = " + fourLtrTypeStr );
   // }
 
   // let colorLetter = "B";
@@ -278,8 +279,6 @@ export function createFreshImageStr(): string {
   //   // }
   // }
   // const freshImageStr = imageCharArr.join('');
-
-  const freshImageStr = randomImageStr;
 
   if ( logLogicFlow ) {
     console.log( "createFreshImageStr(): Fresh Image's freshImageStr.length = " + freshImageStr.length );
@@ -305,7 +304,7 @@ function sprinkleNeeded( oldImageStr: string ): string {
 }
 function drawLines( oldImageStr: string ): string {
   // if ( logLogicFlow ) {
-    console.log( "drawLines: fourLetterTypeStr = " + fourLetterTypeStr );
+    console.log( "drawLines: fourLtrTypeStr = " + fourLtrTypeStr );
   // }
   const newImageStr = oldImageStr;
   return newImageStr;
@@ -436,74 +435,98 @@ function setTypeAndGoal() {
     console.log( "Top of setTypeAndGoal() in ImageLib.ts" );
   }
 
-  const fourLetterTypeArr : string[] = [ unknownFcnLetter, unknownFcnLetter, unknownFcnLetter, unknownFcnLetter ];
-
   const totSquares = gridSize * gridSize;
   let numBlueAndYellowSquares = 0;
   let numGreenAndRedSquares = 0;
+  computePcts();
 
   if ( ScoreValueObj.eVsIValue == initialScoreValue ) {
-    fourLetterTypeArr[0] = unknownFcnLetter;
+    fourLtrTypeArr[0] = unknownFcnLetter;
   } else if ( ScoreValueObj.eVsIValue < initialScoreValue ) {
-    fourLetterTypeArr[0] = leftFcnLetters[0];
+    fourLtrTypeArr[0] = leftFcnLetters[0];
   } else {
-    fourLetterTypeArr[0] = rightFcnLetters[0];
+    fourLtrTypeArr[0] = rightFcnLetters[0];
   }
 
   if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
-    fourLetterTypeArr[3] = unknownFcnLetter;
+    fourLtrTypeArr[3] = unknownFcnLetter;
     numBlueAndYellowSquares = Math.round( totSquares / 2 );
   } else {
     numBlueAndYellowSquares = Math.round( totSquares * pcts.jVsP );
     if ( ScoreValueObj.jVsPValue < initialScoreValue ) {
-      fourLetterTypeArr[3] = leftFcnLetters[3];
+      fourLtrTypeArr[3] = leftFcnLetters[3];
     } else {
-      fourLetterTypeArr[3] = rightFcnLetters[3];
+      fourLtrTypeArr[3] = rightFcnLetters[3];
     }
   }
   numGreenAndRedSquares = totSquares - numBlueAndYellowSquares;
 
   if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
-    fourLetterTypeArr[1] = unknownFcnLetter;
+    fourLtrTypeArr[1] = unknownFcnLetter;
     goalSquares.blue = Math.round( numBlueAndYellowSquares / 2 );
   } else {
     goalSquares.yellow = Math.round( numBlueAndYellowSquares * pcts.nVsS );
     if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
-      fourLetterTypeArr[1] = leftFcnLetters[1];
+      fourLtrTypeArr[1] = leftFcnLetters[1];
     } else {
-      fourLetterTypeArr[1] = rightFcnLetters[1];
+      fourLtrTypeArr[1] = rightFcnLetters[1];
     }
   }
   goalSquares.blue = numBlueAndYellowSquares - goalSquares.yellow;
 
   if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
-    fourLetterTypeArr[2] = unknownFcnLetter;
+    fourLtrTypeArr[2] = unknownFcnLetter;
     goalSquares.green = Math.round( totSquares / 2 );
   } else {
     goalSquares.green = Math.round( numGreenAndRedSquares * pcts.fVsT );
     if ( ScoreValueObj.fVsTValue < initialScoreValue ) {
-      fourLetterTypeArr[2] = leftFcnLetters[2];
+      fourLtrTypeArr[2] = leftFcnLetters[2];
     } else {
-      fourLetterTypeArr[2] = rightFcnLetters[2];
+      fourLtrTypeArr[2] = rightFcnLetters[2];
     }
   }
   goalSquares.red = numGreenAndRedSquares - goalSquares.green;
 
-  fourLetterTypeStr = fourLetterTypeArr.join('');
+  fourLtrTypeStr = fourLtrTypeArr.join('');
 
   // if ( logLogicFlow ) {
     console.log( "setTypeAndGoal: totSquares = " + totSquares + "\n" +
       "numBlueAndYellowSquares = " + numBlueAndYellowSquares + " and numGreenAndRedSquares = " + numGreenAndRedSquares + "\n" +
-      "ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLetterTypeArr[0] = " + fourLetterTypeArr[0] + "\n" +
-      "ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLetterTypeArr[1] = " + fourLetterTypeArr[1] + "\n" +
-      "ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLetterTypeArr[2] = " + fourLetterTypeArr[2] + "\n" +
-      "ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLetterTypeArr[3] = " + fourLetterTypeArr[3] + "\n" +
-      "fourLetterTypeArr = " + fourLetterTypeArr + " and fourLetterTypeStr = " + fourLetterTypeStr + "\n" );
+      "ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLtrTypeArr[0] = " + fourLtrTypeArr[0] + "\n" +
+      "ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLtrTypeArr[1] = " + fourLtrTypeArr[1] + "\n" +
+      "ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLtrTypeArr[2] = " + fourLtrTypeArr[2] + "\n" +
+      "ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLtrTypeArr[3] = " + fourLtrTypeArr[3] + "\n" +
+      "fourLtrTypeArr = " + fourLtrTypeArr + " and fourLtrTypeStr = " + fourLtrTypeStr + "\n" );
   // }
+}
+const lineParms = {
+  talPos: 5,    // 0-based positon of lines at the top and on the left side
+  rabPos: 13,   // 0-based positon of lines at the bottom and on the right side
+  topColor:    colorLetters[1],    // Green
+  leftColor:   colorLetters[0],    // Blue
+  rightColor:  colorLetters[3],    // Yellow
+  bottomColor: colorLetters[2],    // Red
+  toString: function(): string {
+    return(
+      "ImageLib.lineParms.talPos = " + this.talPos + "\n" +
+      "ImageLib.lineParms.rabPos = " + this.rabPos + "\n" +
+      "ImageLib.lineParms.topColor = " + this.topColor + "\n" +
+      "ImageLib.lineParms.leftColor = " + this.leftColor + "\n" +
+      "ImageLib.lineParms.rightColor = " + this.rightColor + "\n" +
+      "ImageLib.lineParms.bottomColor = " + this.bottomColor
+    );
+  },
+};
+// setLineParms: set the position, color, drawing sequence, and length of lines in the image
+function setLineParms(): void {
+  if ( gridSize != 19 ) {
+    lineParms.talPos = Math.round( gridSize / 3 );
+    lineParms.rabPos = Math.round( (2*gridSize) / 3 );
+  }
 }
 
 // computePcts: Convert the score values to percentages
-function computePcts() {
+function computePcts(): void {
   pcts.eVsI = valueToPct( ScoreValueObj.eVsIValue );
   pcts.nVsS = valueToPct( ScoreValueObj.nVsSValue );
   pcts.fVsT = valueToPct( ScoreValueObj.fVsTValue );
@@ -522,21 +545,21 @@ function getRandomColor(): string {
   // }
 
   let randomFloat = Math.random();
-  let randomColorLetter = colorLetters[0];   // just a temporary default value
+  let randomColorLetter = colorLetters[0];   // Blue - just a temporary default value
 
   if ( randomFloat <= pcts.jVsP ) {
     randomFloat = Math.random();
     if ( randomFloat <= pcts.nVsS ) {
-      randomColorLetter = colorLetters[3];
+      randomColorLetter = colorLetters[3];   // Yellow
     } else {
-      randomColorLetter = colorLetters[0];
+      randomColorLetter = colorLetters[0];   // Blue
     }
   } else {
     randomFloat = Math.random();
     if ( randomFloat <= pcts.fVsT ) {
-      randomColorLetter = colorLetters[1];
+      randomColorLetter = colorLetters[1];  // Green
     } else {
-      randomColorLetter = colorLetters[2];
+      randomColorLetter = colorLetters[2];  // Red
     }
   }
 
