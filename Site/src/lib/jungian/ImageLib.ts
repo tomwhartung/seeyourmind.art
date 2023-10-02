@@ -499,6 +499,8 @@ function setTypeAndGoal() {
       "fourLtrTypeArr = " + fourLtrTypeArr + " and fourLtrTypeStr = " + fourLtrTypeStr + "\n" );
   // }
 }
+const drawSeqForE = 'brtl';  // these go from shortest to longest: bottom-right-top-left
+const drawSeqForI = 'ltrb';  // these go from shortest to longest: left-top-right-bottom
 const lineParms = {
   talPos: 5,    // 0-based positon of lines at the top and on the left side
   rabPos: 13,   // 0-based positon of lines at the bottom and on the right side
@@ -506,6 +508,7 @@ const lineParms = {
   leftColor:   colorLetters[0],    // Blue
   rightColor:  colorLetters[3],    // Yellow
   bottomColor: colorLetters[2],    // Red
+  drawSeq:     drawSeqForE,
   toString: function(): string {
     return(
       "ImageLib.lineParms.talPos = " + this.talPos + "\n" +
@@ -513,7 +516,8 @@ const lineParms = {
       "ImageLib.lineParms.topColor = " + this.topColor + "\n" +
       "ImageLib.lineParms.leftColor = " + this.leftColor + "\n" +
       "ImageLib.lineParms.rightColor = " + this.rightColor + "\n" +
-      "ImageLib.lineParms.bottomColor = " + this.bottomColor
+      "ImageLib.lineParms.bottomColor = " + this.bottomColor + "\n" +
+      "ImageLib.lineParms.drawSeq = " + this.drawSeq
     );
   },
 };
@@ -522,6 +526,72 @@ function setLineParms(): void {
   if ( gridSize != 19 ) {
     lineParms.talPos = Math.round( gridSize / 3 );
     lineParms.rabPos = Math.round( (2*gridSize) / 3 );
+  }
+  if ( fourLtrTypeArr[0] == 'E' ) {
+    if ( fourLtrTypeArr[3] == 'J' ) {
+      if ( fourLtrTypeArr[1] == 'N' ) {
+        lineParms.topColor    = colorLetters[0];  // Blue
+        lineParms.bottomColor = colorLetters[0];  // Blue
+      } else {
+        lineParms.topColor    = colorLetters[3];  // Yellow
+        lineParms.bottomColor = colorLetters[3];  // Yellow
+      }
+      if ( fourLtrTypeArr[2] == 'F' ) {
+        lineParms.leftColor  = colorLetters[2];  // Red
+        lineParms.rightColor = colorLetters[2];  // Red
+      } else {
+        lineParms.leftColor  = colorLetters[1];  // Green
+        lineParms.rightColor = colorLetters[1];  // Green
+      }
+    } else {  // EXXP types
+      if ( fourLtrTypeArr[1] == 'N' ) {
+        lineParms.leftColor  = colorLetters[0];  // Blue
+        lineParms.rightColor = colorLetters[0];  // Blue
+      } else {
+        lineParms.leftColor  = colorLetters[3];  // Yellow
+        lineParms.rightColor = colorLetters[3];  // Yellow
+      }
+      if ( fourLtrTypeArr[2] == 'F' ) {
+        lineParms.topColor    = colorLetters[2];  // Red
+        lineParms.bottomColor = colorLetters[2];  // Red
+      } else {
+        lineParms.topColor    = colorLetters[1];  // Green
+        lineParms.bottomColor = colorLetters[1];  // Green
+      }
+    }
+  } else {  // IXXX types
+    lineParms.drawSeq = drawSeqForI;
+    if ( fourLtrTypeArr[3] == 'J' ) {
+      if ( fourLtrTypeArr[1] == 'N' ) {
+        lineParms.topColor    = colorLetters[0];  // Blue
+        lineParms.bottomColor = colorLetters[0];  // Blue
+      } else {
+        lineParms.topColor    = colorLetters[3];  // Yellow
+        lineParms.bottomColor = colorLetters[3];  // Yellow
+      }
+      if ( fourLtrTypeArr[2] == 'F' ) {
+        lineParms.leftColor  = colorLetters[2];  // Red
+        lineParms.rightColor = colorLetters[2];  // Red
+      } else {
+        lineParms.leftColor  = colorLetters[1];  // Green
+        lineParms.rightColor = colorLetters[1];  // Green
+      }
+    } else {  // IXXP types
+      if ( fourLtrTypeArr[1] == 'N' ) {
+        lineParms.leftColor  = colorLetters[0];  // Blue
+        lineParms.rightColor = colorLetters[0];  // Blue
+      } else {
+        lineParms.leftColor  = colorLetters[3];  // Yellow
+        lineParms.rightColor = colorLetters[3];  // Yellow
+      }
+      if ( fourLtrTypeArr[2] == 'F' ) {
+        lineParms.topColor    = colorLetters[2];  // Red
+        lineParms.bottomColor = colorLetters[2];  // Red
+      } else {
+        lineParms.topColor    = colorLetters[1];  // Green
+        lineParms.bottomColor = colorLetters[1];  // Green
+      }
+    }
   }
 }
 
