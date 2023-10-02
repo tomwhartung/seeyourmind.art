@@ -248,7 +248,7 @@ export function createFreshImageStr(): string {
   }
 
   setTypeAndGoal();
-  setLineParms();   // relies on type being set!
+  setLineParms();   // relies on type being set!!!
 
   let freshImageStr = createRandomImageStr();
 
@@ -259,9 +259,9 @@ export function createFreshImageStr(): string {
   let done = false;
 
   while( ! done ) {
-    freshImageStr = sprinkleNeeded( freshImageStr );
-    freshImageStr = drawLines( freshImageStr );
-    done = checkIfDone( freshImageStr );
+    freshImageStr = sprinkleNeeded( freshImageStr );  // relies on goal being set!!!
+    freshImageStr = drawLines( freshImageStr );       // relies on lineParms being set!!!
+    done = checkIfDone( freshImageStr );              // returns true if neededSquares.* == 0
   }
   // if ( logLogicFlow ) {
     console.log( "createFreshImageStr(): fourLtrTypeStr = " + fourLtrTypeStr );
@@ -283,56 +283,135 @@ export function createFreshImageStr(): string {
   if ( logLogicFlow ) {
     console.log( "createFreshImageStr(): Fresh Image's freshImageStr.length = " + freshImageStr.length );
     console.log( "createFreshImageStr() in ImageLib.ts: Return()ing the freshImageStr" );
+    if ( currentSquares && currentSquares.toString() ) {
+      console.log( "createFreshImageStr:\n currentSquares" + currentSquares.toString() );
+    }
   }
   return freshImageStr;
 }
 
 // "Private" Variables and Functions that I am working on and want close by, for now:
 // ==================================================================================
+interface ColorsIFace {
+  blue: number;
+  green: number;
+  red: number;
+  yellow: number;
+  toString: () => string;
+}
+const defaultNum = 0;
+const goalSquares : ColorsIFace = {
+  blue: defaultNum,
+  green: defaultNum,
+  red: defaultNum,
+  yellow: defaultNum,
+  toString: function(): string {
+    return(
+      "goalSquares: blue = " + this.blue + "; yellow = " + this.yellow + "; green = " + this.green  + "; red = " + this.red
+    );
+  },
+};
+const currentSquares : ColorsIFace = {
+  blue: defaultNum,
+  green: defaultNum,
+  red: defaultNum,
+  yellow: defaultNum,
+  toString: function(): string {
+    return(
+      "currentSquares: blue = " + this.blue + "; yellow = " + this.yellow + "; green = " + this.green  + "; red = " + this.red
+    );
+  },
+};
+const neededSquares : ColorsIFace = {
+  blue: defaultNum,
+  green: defaultNum,
+  red: defaultNum,
+  yellow: defaultNum,
+  toString: function(): string {
+    return(
+      "neededSquares: blue = " + this.blue + "; yellow = " + this.yellow + "; green = " + this.green  + "; red = " + this.red
+    );
+  },
+};
+
 function sprinkleNeeded( oldImageStr: string ): string {
   // if ( logLogicFlow ) {
-    if ( goalSquares && goalSquares.toString() ) {
-      console.log( "sprinkleNeeded:\n goalSquares = " + goalSquares.toString() );
-    }
-    if ( currentSquares && currentSquares.toString() ) {
-      console.log( "sprinkleNeeded:\n currentSquares" + currentSquares.toString() );
-    }
+  console.log( "sprinkleNeeded: top of function" );
   // }
   const newImageStr = oldImageStr;
-  countSquares( oldImageStr );
+  setCurrentSquares( oldImageStr );
+  setNeededSquares();
+  // if ( logLogicFlow ) {
+  //   if ( goalSquares && goalSquares.toString() ) {
+  //     console.log( "sprinkleNeeded:\n goalSquares = " + goalSquares.toString() );
+  //   }
+  //   if ( currentSquares && currentSquares.toString() ) {
+  //     console.log( "sprinkleNeeded:\n currentSquares" + currentSquares.toString() );
+  //   }
+  //   if ( neededSquares && neededSquares.toString() ) {
+  //     console.log( "sprinkleNeeded:\n neededSquares" + neededSquares.toString() );
+  //   }
+  console.log( "sprinkleNeeded: returning" );
+  // }
   return newImageStr;
 }
 function drawLines( oldImageStr: string ): string {
   // if ( logLogicFlow ) {
-    console.log( "drawLines: fourLtrTypeStr = " + fourLtrTypeStr );
+  console.log( "drawLines: top of function" );
   // }
+
   const newImageStr = oldImageStr;
+
+  // if ( logLogicFlow ) {
+  console.log( "drawLines: returning" );
+  // }
   return newImageStr;
 }
+// checkIfDone: if currentSquares = goalSquares and none are needed, returns true
+//   else returns false
 function checkIfDone( imageStr: string ): boolean {
+  // if ( logLogicFlow ) {
+    console.log( "checkIfDone: Top of function" );
+  // }
+  let done = false;
+  setCurrentSquares( imageStr );
+  setNeededSquares();
+  if ( neededSquares.blue == 0 && neededSquares.green == 0 &&
+       neededSquares.red == 0 && neededSquares.yellow == 0 ) {
+    console.log( "checkIfDone: ======================================================" );
+    console.log( "checkIfDone: WE ARE DONE FOR REALSIES!!! WE ARE DONE FOR REALSIES!!" );
+    console.log( "checkIfDone: ======================================================" );
+    done = true;
+  } else {
+    console.log( "checkIfDone: =================================================" );
+    console.log( "checkIfDone: WE ARE NOT DONE BUT WE ARE PRETENDING THAT WE ARE" );
+    console.log( "checkIfDone: =================================================" );
+    done = true;
+  }
   // if ( logLogicFlow ) {
     if ( goalSquares && goalSquares.toString() ) {
       console.log( "checkIfDone:\n goalSquares = " + goalSquares.toString() );
     }
-  // }
-  let done = false;
-  countSquares( imageStr );
-  done = true;
-  // if ( logLogicFlow ) {
     if ( currentSquares && currentSquares.toString() ) {
       console.log( "checkIfDone:\n currentSquares" + currentSquares.toString() );
     }
+    if ( currentSquares && currentSquares.toString() ) {
+      console.log( "checkIfDone:\n neededSquares" + neededSquares.toString() );
+    }
+    console.log( "checkIfDone: returning" );
   // }
   return done;
 }
-function countSquares( imageStr: string ): void {
+function setCurrentSquares( imageStr: string ): void {
   currentSquares.blue = 0;
   currentSquares.green = 0;
   currentSquares.red = 0;
   currentSquares.yellow = 0;
+
   const totalSquares = gridSize * gridSize;
   let colorLetter = colorLetters[0];   // just a temporary default value
   const imageCharArr = imageStr.split('');
+
   for ( let imgStrIdx=0; imgStrIdx < totalSquares; imgStrIdx++ ) {
     colorLetter = imageCharArr[imgStrIdx++];
     if ( colorLetter == colorLetters[0] ) {
@@ -346,6 +425,12 @@ function countSquares( imageStr: string ): void {
     }
   }
   return;
+}
+function setNeededSquares(): void {
+  neededSquares.blue = goalSquares.blue - currentSquares.blue;
+  neededSquares.green = goalSquares.green - currentSquares.green;
+  neededSquares.red = goalSquares.red - currentSquares.red;
+  neededSquares.yellow = goalSquares.yellow - currentSquares.yellow;
 }
 
 // "Private" Variables and Functions:
@@ -364,39 +449,6 @@ const pcts : ScoreIFace = {
   nVsS: defaultPct,
   fVsT: defaultPct,
   jVsP: defaultPct,
-};
-
-interface ColorsIFace {
-  blue: number;
-  green: number;
-  red: number;
-  yellow: number;
-  toString: () => string;
-}
-const defaultNum = 0;
-const goalSquares : ColorsIFace = {
-  blue: defaultNum,
-  green: defaultNum,
-  red: defaultNum,
-  yellow: defaultNum,
-  toString: function(): string {
-    return(
-      "ImageLib.goalSquares: blue(" + this.blue + ") + yellow(" + this.yellow + ") = " + (this.blue+this.yellow) + "\n" +
-      "ImageLib.goalSquares.green(" + this.green  + ") + red(" + this.red + ") = " + (this.green+this.red) + "\n"
-    );
-  },
-};
-const currentSquares : ColorsIFace = {
-  blue: defaultNum,
-  green: defaultNum,
-  red: defaultNum,
-  yellow: defaultNum,
-  toString: function(): string {
-    return(
-      "ImageLib.currentSquares: blue(" + this.blue + ") + yellow(" + this.yellow + ") = " + (this.blue+this.yellow) + "\n" +
-      "ImageLib.currentSquares.green(" + this.green  + ") + red(" + this.red + ") = " + (this.green+this.red) + "\n"
-    );
-  },
 };
 
 
