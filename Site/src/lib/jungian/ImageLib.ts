@@ -204,15 +204,15 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
 
   if ( imageStr.length > 0 ) {
     const imageCharArr = imageStr.split( "" );
-    let imgStrIdx = 0;
+    let imgArrIdx = 0;
     if ( logLogicFlow ) {
       console.log( "drawImageStr() in ImageLib.ts: starting the for loop" );
     }
     for ( let row=0; row < gridSize; row++ ) {
       squareTopY = gridTopY + (row * squareSize);
       for ( let col=0; col < gridSize; col++ ){
-        colorLetter = imageCharArr[imgStrIdx++];
-        // console.log( "for loop in drawImageStr() in ImageLib.ts: imgStrIdx = " + imgStrIdx );
+        colorLetter = imageCharArr[imgArrIdx++];
+        // console.log( "for loop in drawImageStr() in ImageLib.ts: imgArrIdx = " + imgArrIdx );
         // console.log( "for loop in drawImageStr() in ImageLib.ts: colorLetter = " + colorLetter );
         squareTopX = gridTopX + (col * squareSize);
         if ( colorLetter == "B" ) {
@@ -390,19 +390,22 @@ function checkIfDone( imageStr: string ): boolean {
   }
   // if ( logLogicFlow ) {
     if ( goalSquares && goalSquares.toString() ) {
-      console.log( "checkIfDone:\n goalSquares = " + goalSquares.toString() );
+      console.log( "checkIfDone: " + goalSquares.toString() );
     }
     if ( currentSquares && currentSquares.toString() ) {
-      console.log( "checkIfDone:\n currentSquares" + currentSquares.toString() );
+      console.log( "checkIfDone: " + currentSquares.toString() );
     }
     if ( currentSquares && currentSquares.toString() ) {
-      console.log( "checkIfDone:\n neededSquares" + neededSquares.toString() );
+      console.log( "checkIfDone: " + neededSquares.toString() );
     }
     console.log( "checkIfDone: returning" );
   // }
   return done;
 }
 function setCurrentSquares( imageStr: string ): void {
+  // if ( logLogicFlow ) {
+  console.log( "setCurrentSquares: top of function" );
+  // }
   currentSquares.blue = 0;
   currentSquares.green = 0;
   currentSquares.red = 0;
@@ -412,8 +415,8 @@ function setCurrentSquares( imageStr: string ): void {
   let colorLetter = colorLetters[0];   // just a temporary default value
   const imageCharArr = imageStr.split('');
 
-  for ( let imgStrIdx=0; imgStrIdx < totalSquares; imgStrIdx++ ) {
-    colorLetter = imageCharArr[imgStrIdx++];
+  for ( let imgArrIdx=0; imgArrIdx < totalSquares; imgArrIdx++ ) {
+    colorLetter = imageCharArr[imgArrIdx];
     if ( colorLetter == colorLetters[0] ) {
       currentSquares.blue++;
     } else if ( colorLetter == colorLetters[1] ) {
@@ -424,6 +427,11 @@ function setCurrentSquares( imageStr: string ): void {
       currentSquares.yellow++;
     }
   }
+  // if ( logLogicFlow ) {
+  if ( currentSquares && currentSquares.toString() ) {
+    console.log( "setCurrentSquares: " + currentSquares.toString() );
+  }
+  // }
   return;
 }
 function setNeededSquares(): void {
@@ -431,6 +439,11 @@ function setNeededSquares(): void {
   neededSquares.green = goalSquares.green - currentSquares.green;
   neededSquares.red = goalSquares.red - currentSquares.red;
   neededSquares.yellow = goalSquares.yellow - currentSquares.yellow;
+  // if ( logLogicFlow ) {
+  if ( currentSquares && currentSquares.toString() ) {
+    console.log( "setNeededSquares: " + neededSquares.toString() );
+  }
+  // }
 }
 
 // "Private" Variables and Functions:
