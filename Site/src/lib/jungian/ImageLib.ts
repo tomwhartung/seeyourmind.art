@@ -266,7 +266,7 @@ export function createFreshImageStr(): string {
 
   while( ! done ) {
     freshImageStr = sprinkleNeeded( freshImageStr );  // relies on goal being set!!!
-    freshImageStr = drawLines( freshImageStr );       // relies on lineParms being set!!!
+    freshImageStr = drawLines( freshImageStr );       // relies on lineParmsObj being set!!!
     done = checkIfDone( freshImageStr );              // returns true if neededSquares.* == 0
     numTries++;
     if ( ! done ) {
@@ -397,7 +397,7 @@ function sprinkleNeeded( oldImageStr: string ): string {
   return newImageStr;
 }
 // drawLines: draws the lines in the image
-//   **NOTE:** this function relies on the lineParms being set!!!
+//   **NOTE:** this function relies on the lineParmsObj being set!!!
 function drawLines( oldImageStr: string ): string {
   // if ( logLogicFlow ) {
   console.log( "(2) drawLines in ImageLib.ts: top of function" );
@@ -638,9 +638,20 @@ function setTypeAndGoal() {
   console.log( "setTypeAndGoal in ImageLib.ts: returning" );
   // }
 }
+
 const drawSeqForE = 'brtl';  // these go from shortest to longest: bottom-right-top-left
 const drawSeqForI = 'ltrb';  // these go from shortest to longest: left-top-right-bottom
-const lineParms = {
+interface LineParmsIFace {
+  talPos: number;         // positon of lines at the Top And on the Left side - 0-based
+  rabPos: number;         // positon of lines at the Bottom And on the Right side - 0-based
+  topColor:    string;    // One of the colorLetters
+  leftColor:   string;    // One of the colorLetters
+  rightColor:  string;    // One of the colorLetters
+  bottomColor: string;    // One of the colorLetters
+  drawSeq:     string;    // drawSeqForE or drawSeqForI
+  toString: () => string;
+}
+const lineParmsObj: LineParmsIFace = {
   talPos: 5,    // 0-based positon of lines at the top and on the left side
   rabPos: 13,   // 0-based positon of lines at the bottom and on the right side
   topColor:    colorLetters[1],    // Green
@@ -650,85 +661,85 @@ const lineParms = {
   drawSeq:     drawSeqForE,
   toString: function(): string {
     return(
-      "ImageLib.lineParms.talPos = " + this.talPos + "\n" +
-      "ImageLib.lineParms.rabPos = " + this.rabPos + "\n" +
-      "ImageLib.lineParms.topColor = " + this.topColor + "\n" +
-      "ImageLib.lineParms.leftColor = " + this.leftColor + "\n" +
-      "ImageLib.lineParms.rightColor = " + this.rightColor + "\n" +
-      "ImageLib.lineParms.bottomColor = " + this.bottomColor + "\n" +
-      "ImageLib.lineParms.drawSeq = " + this.drawSeq
+      "lineParmsObj.talPos = " + this.talPos + "\n" +
+      "lineParmsObj.rabPos = " + this.rabPos + "\n" +
+      "lineParmsObj.topColor = " + this.topColor + "\n" +
+      "lineParmsObj.leftColor = " + this.leftColor + "\n" +
+      "lineParmsObj.rightColor = " + this.rightColor + "\n" +
+      "lineParmsObj.bottomColor = " + this.bottomColor + "\n" +
+      "lineParmsObj.drawSeq = " + this.drawSeq
     );
   },
 };
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
 function setLineParms(): void {
   if ( gridSize != 19 ) {
-    lineParms.talPos = Math.round( gridSize / 3 );
-    lineParms.rabPos = Math.round( (2*gridSize) / 3 );
+    lineParmsObj.talPos = Math.round( gridSize / 3 );
+    lineParmsObj.rabPos = Math.round( (2*gridSize) / 3 );
   }
   if ( fourLtrTypeArr[0] == 'E' ) {
     if ( fourLtrTypeArr[3] == 'J' ) {
       if ( fourLtrTypeArr[1] == 'N' ) {
-        lineParms.topColor    = colorLetters[0];  // Blue
-        lineParms.bottomColor = colorLetters[0];  // Blue
+        lineParmsObj.topColor    = colorLetters[0];  // Blue
+        lineParmsObj.bottomColor = colorLetters[0];  // Blue
       } else {
-        lineParms.topColor    = colorLetters[3];  // Yellow
-        lineParms.bottomColor = colorLetters[3];  // Yellow
+        lineParmsObj.topColor    = colorLetters[3];  // Yellow
+        lineParmsObj.bottomColor = colorLetters[3];  // Yellow
       }
       if ( fourLtrTypeArr[2] == 'F' ) {
-        lineParms.leftColor  = colorLetters[2];  // Red
-        lineParms.rightColor = colorLetters[2];  // Red
+        lineParmsObj.leftColor  = colorLetters[2];  // Red
+        lineParmsObj.rightColor = colorLetters[2];  // Red
       } else {
-        lineParms.leftColor  = colorLetters[1];  // Green
-        lineParms.rightColor = colorLetters[1];  // Green
+        lineParmsObj.leftColor  = colorLetters[1];  // Green
+        lineParmsObj.rightColor = colorLetters[1];  // Green
       }
     } else {  // EXXP types
       if ( fourLtrTypeArr[1] == 'N' ) {
-        lineParms.leftColor  = colorLetters[0];  // Blue
-        lineParms.rightColor = colorLetters[0];  // Blue
+        lineParmsObj.leftColor  = colorLetters[0];  // Blue
+        lineParmsObj.rightColor = colorLetters[0];  // Blue
       } else {
-        lineParms.leftColor  = colorLetters[3];  // Yellow
-        lineParms.rightColor = colorLetters[3];  // Yellow
+        lineParmsObj.leftColor  = colorLetters[3];  // Yellow
+        lineParmsObj.rightColor = colorLetters[3];  // Yellow
       }
       if ( fourLtrTypeArr[2] == 'F' ) {
-        lineParms.topColor    = colorLetters[2];  // Red
-        lineParms.bottomColor = colorLetters[2];  // Red
+        lineParmsObj.topColor    = colorLetters[2];  // Red
+        lineParmsObj.bottomColor = colorLetters[2];  // Red
       } else {
-        lineParms.topColor    = colorLetters[1];  // Green
-        lineParms.bottomColor = colorLetters[1];  // Green
+        lineParmsObj.topColor    = colorLetters[1];  // Green
+        lineParmsObj.bottomColor = colorLetters[1];  // Green
       }
     }
   } else {  // IXXX types
-    lineParms.drawSeq = drawSeqForI;
+    lineParmsObj.drawSeq = drawSeqForI;
     if ( fourLtrTypeArr[3] == 'J' ) {
       if ( fourLtrTypeArr[1] == 'N' ) {
-        lineParms.topColor    = colorLetters[0];  // Blue
-        lineParms.bottomColor = colorLetters[0];  // Blue
+        lineParmsObj.topColor    = colorLetters[0];  // Blue
+        lineParmsObj.bottomColor = colorLetters[0];  // Blue
       } else {
-        lineParms.topColor    = colorLetters[3];  // Yellow
-        lineParms.bottomColor = colorLetters[3];  // Yellow
+        lineParmsObj.topColor    = colorLetters[3];  // Yellow
+        lineParmsObj.bottomColor = colorLetters[3];  // Yellow
       }
       if ( fourLtrTypeArr[2] == 'F' ) {
-        lineParms.leftColor  = colorLetters[2];  // Red
-        lineParms.rightColor = colorLetters[2];  // Red
+        lineParmsObj.leftColor  = colorLetters[2];  // Red
+        lineParmsObj.rightColor = colorLetters[2];  // Red
       } else {
-        lineParms.leftColor  = colorLetters[1];  // Green
-        lineParms.rightColor = colorLetters[1];  // Green
+        lineParmsObj.leftColor  = colorLetters[1];  // Green
+        lineParmsObj.rightColor = colorLetters[1];  // Green
       }
     } else {  // IXXP types
       if ( fourLtrTypeArr[1] == 'N' ) {
-        lineParms.leftColor  = colorLetters[0];  // Blue
-        lineParms.rightColor = colorLetters[0];  // Blue
+        lineParmsObj.leftColor  = colorLetters[0];  // Blue
+        lineParmsObj.rightColor = colorLetters[0];  // Blue
       } else {
-        lineParms.leftColor  = colorLetters[3];  // Yellow
-        lineParms.rightColor = colorLetters[3];  // Yellow
+        lineParmsObj.leftColor  = colorLetters[3];  // Yellow
+        lineParmsObj.rightColor = colorLetters[3];  // Yellow
       }
       if ( fourLtrTypeArr[2] == 'F' ) {
-        lineParms.topColor    = colorLetters[2];  // Red
-        lineParms.bottomColor = colorLetters[2];  // Red
+        lineParmsObj.topColor    = colorLetters[2];  // Red
+        lineParmsObj.bottomColor = colorLetters[2];  // Red
       } else {
-        lineParms.topColor    = colorLetters[1];  // Green
-        lineParms.bottomColor = colorLetters[1];  // Green
+        lineParmsObj.topColor    = colorLetters[1];  // Green
+        lineParmsObj.bottomColor = colorLetters[1];  // Green
       }
     }
   }
