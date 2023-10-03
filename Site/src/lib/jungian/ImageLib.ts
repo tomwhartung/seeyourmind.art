@@ -256,12 +256,22 @@ export function createFreshImageStr(): string {
     return freshImageStr;  // Just for now....
   }
 
+  const itersMax = 10;
+  let itersCnt = 0;
   let done = false;
 
   while( ! done ) {
     freshImageStr = sprinkleNeeded( freshImageStr );  // relies on goal being set!!!
     freshImageStr = drawLines( freshImageStr );       // relies on lineParms being set!!!
     done = checkIfDone( freshImageStr );              // returns true if neededSquares.* == 0
+    itersCnt++;
+    if ( itersMax < itersCnt ) {
+      done = true;
+      console.log( "createFreshImageStr: done after itersCnt = " + itersCnt + " iterations" );
+      console.log( "createFreshImageStr: =================================================" );
+      console.log( "createFreshImageStr: WE ARE NOT DONE BUT WE ARE PRETENDING THAT WE ARE" );
+      console.log( "createFreshImageStr: =================================================" );
+    }
   }
   // if ( logLogicFlow ) {
     console.log( "createFreshImageStr(): fourLtrTypeStr = " + fourLtrTypeStr );
@@ -338,19 +348,40 @@ function sprinkleNeeded( oldImageStr: string ): string {
   // if ( logLogicFlow ) {
   console.log( "sprinkleNeeded: top of function" );
   // }
-  const newImageStr = oldImageStr;
+  let newImageStr = oldImageStr;
   setCurrentSquares( oldImageStr );
   setNeededSquares();
+
   // if ( logLogicFlow ) {
-  //   if ( goalSquares && goalSquares.toString() ) {
-  //     console.log( "sprinkleNeeded:\n goalSquares = " + goalSquares.toString() );
-  //   }
-  //   if ( currentSquares && currentSquares.toString() ) {
-  //     console.log( "sprinkleNeeded:\n currentSquares" + currentSquares.toString() );
-  //   }
-  //   if ( neededSquares && neededSquares.toString() ) {
-  //     console.log( "sprinkleNeeded:\n neededSquares" + neededSquares.toString() );
-  //   }
+  if ( goalSquares && goalSquares.toString() ) {
+    console.log( "sprinkleNeeded:\n goalSquares = " + goalSquares.toString() );
+  }
+  if ( currentSquares && currentSquares.toString() ) {
+    console.log( "sprinkleNeeded:\n currentSquares" + currentSquares.toString() );
+  }
+  if ( neededSquares && neededSquares.toString() ) {
+    console.log( "sprinkleNeeded:\n neededSquares" + neededSquares.toString() );
+  }
+  // }
+
+  if ( neededSquares.blue > 0 ) {
+    newImageStr = changeRandomSquares( newImageStr, neededSquares.blue, colorLetters[0] );
+    console.log( "sprinkleNeeded: changed " + neededSquares.blue + " to " + colorLetters[0] );
+  }
+  if ( neededSquares.green > 0 ) {
+    newImageStr = changeRandomSquares( newImageStr, neededSquares.green, colorLetters[1] );
+    console.log( "sprinkleNeeded: changed " + neededSquares.green + " to " + colorLetters[1] );
+  }
+  if ( neededSquares.red > 0 ) {
+    newImageStr = changeRandomSquares( newImageStr, neededSquares.red, colorLetters[2] );
+    console.log( "sprinkleNeeded: changed " + neededSquares.red + " to " + colorLetters[2] );
+  }
+  if ( neededSquares.yellow > 0 ) {
+    newImageStr = changeRandomSquares( newImageStr, neededSquares.yellow, colorLetters[3] );
+    console.log( "sprinkleNeeded: changed " + neededSquares.yellow + " to " + colorLetters[3] );
+  }
+
+  // if ( logLogicFlow ) {
   console.log( "sprinkleNeeded: returning" );
   // }
   return newImageStr;
@@ -382,11 +413,6 @@ function checkIfDone( imageStr: string ): boolean {
     console.log( "checkIfDone: WE ARE DONE FOR REALSIES!!! WE ARE DONE FOR REALSIES!!" );
     console.log( "checkIfDone: ======================================================" );
     done = true;
-  } else {
-    console.log( "checkIfDone: =================================================" );
-    console.log( "checkIfDone: WE ARE NOT DONE BUT WE ARE PRETENDING THAT WE ARE" );
-    console.log( "checkIfDone: =================================================" );
-    done = true;
   }
   // if ( logLogicFlow ) {
     if ( goalSquares && goalSquares.toString() ) {
@@ -404,7 +430,7 @@ function checkIfDone( imageStr: string ): boolean {
 }
 function setCurrentSquares( imageStr: string ): void {
   // if ( logLogicFlow ) {
-  console.log( "setCurrentSquares: top of function" );
+  // console.log( "setCurrentSquares: top of function" );
   // }
   currentSquares.blue = 0;
   currentSquares.green = 0;
@@ -428,9 +454,9 @@ function setCurrentSquares( imageStr: string ): void {
     }
   }
   // if ( logLogicFlow ) {
-  if ( currentSquares && currentSquares.toString() ) {
-    console.log( "setCurrentSquares: " + currentSquares.toString() );
-  }
+  // if ( currentSquares && currentSquares.toString() ) {
+  //   console.log( "setCurrentSquares: " + currentSquares.toString() );
+  // }
   // }
   return;
 }
@@ -440,10 +466,36 @@ function setNeededSquares(): void {
   neededSquares.red = goalSquares.red - currentSquares.red;
   neededSquares.yellow = goalSquares.yellow - currentSquares.yellow;
   // if ( logLogicFlow ) {
-  if ( currentSquares && currentSquares.toString() ) {
-    console.log( "setNeededSquares: " + neededSquares.toString() );
-  }
+  // if ( currentSquares && currentSquares.toString() ) {
+  //   console.log( "setNeededSquares: " + neededSquares.toString() );
   // }
+  // }
+}
+function changeRandomSquares( oldImageStr: string, numNeeded: number, colorLetter: string ): string {
+  // if ( logLogicFlow ) {
+  console.log( "changeRandomSquares: top of function" );
+  // }
+
+  const newImageCharArr = oldImageStr.split( "" );
+  const imageLength = newImageCharArr.length;
+  let squareNum = 0;
+
+  for( let num = 0; num < numNeeded; num++ ) {
+    squareNum = Math.floor( Math.random() * (imageLength + 1) );
+    newImageCharArr.splice( squareNum, 1, colorLetter );
+    // if ( logLogicFlow ) {
+    const squareRow = Math.floor( squareNum / gridSize );
+    const squareCol = squareNum % gridSize;
+    console.log( "Changed squareNum = " + squareNum + " = (" + squareCol + ", " + squareRow + ") to " + colorLetter );
+    // }
+  }
+
+  // if ( logLogicFlow ) {
+  console.log( "changeRandomSquares: returning" );
+  // }
+
+  const newImageStr = newImageCharArr.join('');
+  return newImageStr;
 }
 
 // "Private" Variables and Functions:
@@ -496,9 +548,9 @@ function createRandomImageStr(): string {
 }
 // setTypeAndGoal: set the four-letter Jungian/MBTI(r) type and calc number of squares needed of each color
 function setTypeAndGoal() {
-  if ( logLogicFlow ) {
-    console.log( "Top of setTypeAndGoal() in ImageLib.ts" );
-  }
+  // if ( logLogicFlow ) {
+  console.log( "Top of setTypeAndGoal() in ImageLib.ts" );
+  // }
 
   const totSquares = gridSize * gridSize;
   let numBlueAndYellowSquares = 0;
@@ -541,7 +593,7 @@ function setTypeAndGoal() {
 
   if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
     fourLtrTypeArr[2] = unknownFcnLetter;
-    goalSquares.green = Math.round( totSquares / 2 );
+    goalSquares.green = Math.round( numGreenAndRedSquares / 2 );
   } else {
     goalSquares.green = Math.round( numGreenAndRedSquares * pcts.fVsT );
     if ( ScoreValueObj.fVsTValue < initialScoreValue ) {
@@ -555,13 +607,16 @@ function setTypeAndGoal() {
   fourLtrTypeStr = fourLtrTypeArr.join('');
 
   // if ( logLogicFlow ) {
-    console.log( "setTypeAndGoal: totSquares = " + totSquares + "\n" +
+  console.log( "setTypeAndGoal: totSquares = " + totSquares + "\n" +
       "numBlueAndYellowSquares = " + numBlueAndYellowSquares + " and numGreenAndRedSquares = " + numGreenAndRedSquares + "\n" +
       "ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLtrTypeArr[0] = " + fourLtrTypeArr[0] + "\n" +
       "ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLtrTypeArr[1] = " + fourLtrTypeArr[1] + "\n" +
       "ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLtrTypeArr[2] = " + fourLtrTypeArr[2] + "\n" +
       "ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLtrTypeArr[3] = " + fourLtrTypeArr[3] + "\n" +
       "fourLtrTypeArr = " + fourLtrTypeArr + " and fourLtrTypeStr = " + fourLtrTypeStr + "\n" );
+  if ( goalSquares && goalSquares.toString() ) {
+    console.log( "setTypeAndGoal:\n goalSquares = " + goalSquares.toString() );
+  }
   // }
 }
 const drawSeqForE = 'brtl';  // these go from shortest to longest: bottom-right-top-left
