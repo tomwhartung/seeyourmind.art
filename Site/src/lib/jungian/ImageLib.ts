@@ -188,9 +188,9 @@ export let fourLtrTypeStr = fourLtrTypeArr.join('');
 // drawImageStr: Draw a "groja-esque" grid of blue, green, red, and yellow squares
 //   Splits imageStr into an imageCharArr, and draws the squares one-by-one
 export function drawImageStr( context: CanvasRenderingContext2D ): void {
-  // if ( logLogicFlow ) {
-  console.log( "drawImageStr in ImageLib.ts: top of function" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "drawImageStr in ImageLib.ts: top of function" );
+  }
 
   drawUnderlyingCanvas( context );
 
@@ -234,18 +234,18 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
       console.log( "drawImageStr() in ImageLib.ts: imageStr is empty, hope that's ok...!" );
     }
   }
-  // if ( logLogicFlow ) {
-  console.log( "drawImageStr in ImageLib.ts: returning" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "drawImageStr in ImageLib.ts: returning" );
+  }
 }
 
 // createFreshImageStr: Create a new random "groja-esque" grid of blue, green, red, and yellow squares
 //   Starts with an empty imageCharArr and adds color letters one-by-one
 //   Returns the imageCharArr as a string
 export function createFreshImageStr(): string {
-  // if ( logLogicFlow ) {
-  console.log( "(0) createFreshImageStr in ImageLib.ts: top of function" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "(0) createFreshImageStr in ImageLib.ts: top of function" );
+  }
 
   setTypeAndGoal();
   setLineParms();   // relies on type being set!!!
@@ -270,7 +270,7 @@ export function createFreshImageStr(): string {
     done = checkIfDone( freshImageStr );              // returns true if neededSquares.* == 0
     numTries++;
     if ( ! done ) {
-      console.log( "(0) createFreshImageStr not yet done after " + numTries + " tries" );
+      // console.log( "(0) createFreshImageStr not yet done after " + numTries + " tries" );
       if ( maxTries < numTries ) {
         done = true;
       }
@@ -279,6 +279,14 @@ export function createFreshImageStr(): string {
 
   if ( logLogicFlow ) {
     console.log( "(0) createFreshImageStr: end of for loop!" );
+  }
+  // if ( logLogicFlow ) {
+  if ( numTries < maxTries ) {
+    console.log( "(0) createFreshImageStr: FINISHED OK after numTries = " + numTries );
+  } else {
+    console.log( "(0) createFreshImageStr: -------------------------------------------------" );
+    console.log( "(0) createFreshImageStr: STOPPING WITHOUT FINISHING!" );
+    console.log( "(0) createFreshImageStr: numTries = " + numTries + " > maxTries = " + maxTries );
     if ( goalSquares && goalSquares.toString() ) {
       console.log( goalSquares.toString() );
     }
@@ -288,16 +296,10 @@ export function createFreshImageStr(): string {
     if ( neededSquares && neededSquares.toString() ) {
       console.log( neededSquares.toString() );
     }
-    if ( numTries < maxTries ) {
-      console.log( "(0) createFreshImageStr: FINISHED OK after numTries = " + numTries );
-    } else {
-      console.log( "(0) createFreshImageStr: -------------------------------------------------" );
-      console.log( "(0) createFreshImageStr: STOPPING WITHOUT FINISHING!" );
-      console.log( "(0) createFreshImageStr: numTries = " + numTries + " > maxTries = " + maxTries );
-      console.log( "(0) createFreshImageStr: -------------------------------------------------" );
-    }
-    console.log( "(0) createFreshImageStr in ImageLib.ts: Returning the freshImageStr" );
+    console.log( "(0) createFreshImageStr: -------------------------------------------------" );
   }
+  // console.log( "(0) createFreshImageStr in ImageLib.ts: Returning the freshImageStr" );
+  // }
 
   return freshImageStr;
 }
@@ -434,10 +436,10 @@ const lineParmsObj: LineParmsIFace = {
 // drawLines: draws the lines in the image
 //   **NOTE:** this function relies on the lineParmsObj being set!!!
 function drawLines( oldImageStr: string ): string {
-  // if ( logLogicFlow ) {
-  console.log( "(2) drawLines in ImageLib.ts: top of function" );
-  console.log( lineParmsObj.toString() );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "(2) drawLines in ImageLib.ts: top of function" );
+    console.log( lineParmsObj.toString() );
+  }
 
   let newImageStr = oldImageStr;
   let startPos = Math.round( gridSize/4 );
@@ -474,9 +476,9 @@ function drawLines( oldImageStr: string ): string {
     }
     newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor,
                                 lineParmsObj.talPos, startPos, length );
-    // if ( logLogicFlow ) {
-    console.log( "drawLines: drew 4 lines for an Extroverted personality" );
-    // }
+    if ( logLogicFlow ) {
+      console.log( "drawLines: drew 4 lines for an Extroverted personality" );
+    }
   } else {                                       // left-top-right-bottom
     newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor,
                                 lineParmsObj.talPos, startPos, length );
@@ -496,22 +498,22 @@ function drawLines( oldImageStr: string ): string {
     }
     newImageStr = drawHorizLine( newImageStr, lineParmsObj.bottomColor,
                                 lineParmsObj.rabPos, startPos, length );
-    // if ( logLogicFlow ) {
-    console.log( "drawLines: drew 4 lines for an Introverted personality" );
-    // }
+    if ( logLogicFlow ) {
+      console.log( "drawLines: drew 4 lines for an Introverted personality" );
+    }
   }
 
-  // if ( logLogicFlow ) {
-  console.log( "(2) drawLines in ImageLib.ts: returning the newImageStr" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "(2) drawLines in ImageLib.ts: returning the newImageStr" );
+  }
   return newImageStr;
 }
 function drawHorizLine( oldImageStr: string,
          clrLtr: string, yPos: number, xStart: number, length: number ): string {
-  // if ( logLogicFlow ) {
-  console.log( "drawHorizLine in ImageLib.ts: top of function" );
-  console.log( "drawing " + length + " " + clrLtr + " squares starting at (" + xStart + ", " + yPos + ")" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "drawHorizLine in ImageLib.ts: top of function" );
+    console.log( "drawing " + length + " " + clrLtr + " squares starting at (" + xStart + ", " + yPos + ")" );
+  }
 
   const newImageCharArr = oldImageStr.split( "" );
   const firstIdx = (yPos * gridSize) + xStart;
@@ -525,18 +527,18 @@ function drawHorizLine( oldImageStr: string,
 
   const newImageStr = newImageCharArr.join('');
 
-  // if ( logLogicFlow ) {
-  console.log( "drawHorizLine in ImageLib.ts: returning the newImageStr" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "drawHorizLine in ImageLib.ts: returning the newImageStr" );
+  }
 
   return newImageStr;
 }
 function drawVertLine( oldImageStr: string,
          clrLtr: string, xPos: number, yStart: number, length: number ): string {
-  // if ( logLogicFlow ) {
-  console.log( "drawVertLine in ImageLib.ts: top of function" );
-  console.log( "drawing " + length + " " + clrLtr + " squares starting at (" + yStart + ", " + xPos + ")" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "drawVertLine in ImageLib.ts: top of function" );
+    console.log( "drawing " + length + " " + clrLtr + " squares starting at (" + yStart + ", " + xPos + ")" );
+  }
 
   const newImageCharArr = oldImageStr.split( "" );
   const firstIdx = (yStart * gridSize) + xPos;
@@ -550,18 +552,18 @@ function drawVertLine( oldImageStr: string,
 
   const newImageStr = newImageCharArr.join('');
 
-  // if ( logLogicFlow ) {
-  console.log( "drawVertLine in ImageLib.ts: returning the newImageStr" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "drawVertLine in ImageLib.ts: returning the newImageStr" );
+  }
 
   return newImageStr;
 }
 // checkIfDone: returns true if currentSquares = goalSquares
 //   else returns false
 function checkIfDone( imageStr: string ): boolean {
-  // if ( logLogicFlow ) {
-  console.log( "(3) checkIfDone in ImageLib.ts: top of function" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "(3) checkIfDone in ImageLib.ts: top of function" );
+  }
 
   let done = false;
   setCurrentSquares( imageStr );
@@ -570,27 +572,27 @@ function checkIfDone( imageStr: string ): boolean {
   if ( neededSquares.blue == 0 && neededSquares.green == 0 &&
        neededSquares.red == 0 && neededSquares.yellow == 0 ) {
     done = true;
-    // if ( logLogicFlow ) {
-    console.log( "(3) checkIfDone: the neededSquares.* are all 0 and WE ARE DONE!" );
-    // }
+    if ( logLogicFlow ) {
+      console.log( "(3) checkIfDone: the neededSquares.* are all 0 and WE ARE DONE!" );
+    }
   } else {
-    // if ( logLogicFlow ) {
-    console.log( "(3) checkIfDone: we are not done yet" );
-    // }
+    if ( logLogicFlow ) {
+      console.log( "(3) checkIfDone: we are not done yet" );
+    }
   }
 
-  // if ( logLogicFlow ) {
-  if ( goalSquares && goalSquares.toString() ) {
-    console.log( goalSquares.toString() );
+  if ( logLogicFlow ) {
+    if ( goalSquares && goalSquares.toString() ) {
+      console.log( goalSquares.toString() );
+    }
+    if ( currentSquares && currentSquares.toString() ) {
+      console.log( currentSquares.toString() );
+    }
+    if ( currentSquares && currentSquares.toString() ) {
+      console.log( neededSquares.toString() );
+    }
+    console.log( "(3) checkIfDone in ImageLib.ts: returning done = " + done );
   }
-  if ( currentSquares && currentSquares.toString() ) {
-    console.log( currentSquares.toString() );
-  }
-  if ( currentSquares && currentSquares.toString() ) {
-    console.log( neededSquares.toString() );
-  }
-  console.log( "(3) checkIfDone in ImageLib.ts: returning done = " + done );
-  // }
   return done;
 }
 function setCurrentSquares( imageStr: string ): void {
@@ -686,9 +688,9 @@ const pcts : ScoreIFace = {
 //   Starts with an empty imageCharArr and adds color letters one-by-one
 //   Returns the imageCharArr as a string
 function createRandomImageStr(): string {
-  // if ( logLogicFlow ) {
-  console.log( "createRandomImageStr in ImageLib.ts: top of function" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "createRandomImageStr in ImageLib.ts: top of function" );
+  }
 
   let colorLetter = "B";
   const imageCharArr: string[] = [];
@@ -705,17 +707,17 @@ function createRandomImageStr(): string {
 
   const randomImageStr = imageCharArr.join('');
 
-  // if ( logLogicFlow ) {
-  console.log( "createRandomImageStr: Fresh Image's randomImageStr.length = " + randomImageStr.length );
-  console.log( "createRandomImageStr in ImageLib.ts: Returning the randomImageStr" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "createRandomImageStr: Fresh Image's randomImageStr.length = " + randomImageStr.length );
+    console.log( "createRandomImageStr in ImageLib.ts: Returning the randomImageStr" );
+  }
   return randomImageStr;
 }
 // setTypeAndGoal: set the four-letter Jungian/MBTI(r) type and calc number of squares needed of each color
 function setTypeAndGoal() {
-  // if ( logLogicFlow ) {
-  console.log( "setTypeAndGoal in ImageLib.ts: top of function" );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "setTypeAndGoal in ImageLib.ts: top of function" );
+  }
 
   const totSquares = gridSize * gridSize;
   let neededBAndYSquares = 0;
@@ -771,19 +773,19 @@ function setTypeAndGoal() {
 
   fourLtrTypeStr = fourLtrTypeArr.join('');
 
-  // if ( logLogicFlow ) {
-  console.log( "totSquares = " + totSquares + "\n" +
-      "fourLtrTypeArr = " + fourLtrTypeArr + " and fourLtrTypeStr = " + fourLtrTypeStr + "\n" +
-   // "ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLtrTypeArr[0] = " + fourLtrTypeArr[0] + "\n" +
-   // "ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLtrTypeArr[1] = " + fourLtrTypeArr[1] + "\n" +
-   // "ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLtrTypeArr[2] = " + fourLtrTypeArr[2] + "\n" +
-   // "ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLtrTypeArr[3] = " + fourLtrTypeArr[3] + "\n" +
-      "neededBAndYSquares = " + neededBAndYSquares + " and neededGAndRSquares = " + neededGAndRSquares + "\n" );
-  if ( goalSquares && goalSquares.toString() ) {
-    console.log( goalSquares.toString() );
+  if ( logLogicFlow ) {
+    console.log( "totSquares = " + totSquares + "\n" +
+        "fourLtrTypeArr = " + fourLtrTypeArr + " and fourLtrTypeStr = " + fourLtrTypeStr + "\n" +
+     // "ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLtrTypeArr[0] = " + fourLtrTypeArr[0] + "\n" +
+     // "ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLtrTypeArr[1] = " + fourLtrTypeArr[1] + "\n" +
+     // "ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLtrTypeArr[2] = " + fourLtrTypeArr[2] + "\n" +
+     // "ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLtrTypeArr[3] = " + fourLtrTypeArr[3] + "\n" +
+        "neededBAndYSquares = " + neededBAndYSquares + " and neededGAndRSquares = " + neededGAndRSquares + "\n" );
+    if ( goalSquares && goalSquares.toString() ) {
+      console.log( goalSquares.toString() );
+    }
+    console.log( "setTypeAndGoal in ImageLib.ts: returning" );
   }
-  console.log( "setTypeAndGoal in ImageLib.ts: returning" );
-  // }
 }
 
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
