@@ -396,18 +396,162 @@ function sprinkleNeeded( oldImageStr: string ): string {
   // }
   return newImageStr;
 }
+
+const drawSeqForE = 'brtl';  // these go from shortest to longest: bottom-right-top-left
+const drawSeqForI = 'ltrb';  // these go from shortest to longest: left-top-right-bottom
+interface LineParmsIFace {
+  talPos: number;         // positon of lines at the Top And on the Left side - 0-based
+  rabPos: number;         // positon of lines at the Bottom And on the Right side - 0-based
+  topColor:    string;    // One of the colorLetters
+  leftColor:   string;    // One of the colorLetters
+  rightColor:  string;    // One of the colorLetters
+  bottomColor: string;    // One of the colorLetters
+  drawSeq:     string;    // drawSeqForE or drawSeqForI
+  toString: () => string;
+}
+const lineParmsObj: LineParmsIFace = {
+  talPos: 5,    // 0-based positon of lines at the top and on the left side
+  rabPos: 13,   // 0-based positon of lines at the bottom and on the right side
+  topColor:    colorLetters[1],    // Green
+  leftColor:   colorLetters[0],    // Blue
+  rightColor:  colorLetters[3],    // Yellow
+  bottomColor: colorLetters[2],    // Red
+  drawSeq:     drawSeqForE,
+  toString: function(): string {
+    return(
+      "lineParmsObj.talPos = " + this.talPos + "\n" +
+      "lineParmsObj.rabPos = " + this.rabPos + "\n" +
+      "lineParmsObj.topColor = " + this.topColor + "\n" +
+      "lineParmsObj.leftColor = " + this.leftColor + "\n" +
+      "lineParmsObj.rightColor = " + this.rightColor + "\n" +
+      "lineParmsObj.bottomColor = " + this.bottomColor + "\n" +
+      "lineParmsObj.drawSeq = " + this.drawSeq
+    );
+  },
+};
 // drawLines: draws the lines in the image
 //   **NOTE:** this function relies on the lineParmsObj being set!!!
 function drawLines( oldImageStr: string ): string {
   // if ( logLogicFlow ) {
   console.log( "(2) drawLines in ImageLib.ts: top of function" );
+  console.log( lineParmsObj.toString() );
   // }
 
-  const newImageStr = oldImageStr;
+  let newImageStr = oldImageStr;
+  let startPos = Math.round( gridSize/4 );
+  let length = Math.round( gridSize/2 );
+  let expansionAmount = 1;
+  const minExpandableGridSize = 9;
+  const largeGridSize = 23;
+  const hugeGridSize = 31;
+
+  if ( largeGridSize < gridSize ) {
+    if ( hugeGridSize < gridSize ) {
+      expansionAmount = 5;
+    } else {
+      expansionAmount = 3;
+    }
+  }
+
+  if ( lineParmsObj.drawSeq == drawSeqForE ) {  // bottom-right-top-left
+    newImageStr = drawHorizLine( newImageStr, lineParmsObj.bottomColor,
+                                lineParmsObj.rabPos, startPos, length );
+    if ( minExpandableGridSize < gridSize ) {
+      startPos -= expansionAmount;
+      length += expansionAmount * 2;
+    }
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor,
+                                lineParmsObj.rabPos, startPos, length );
+    startPos -= expansionAmount;
+    length += expansionAmount * 2;
+    newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor,
+                                lineParmsObj.talPos, startPos, length );
+    if ( minExpandableGridSize < gridSize ) {
+      startPos -= expansionAmount;
+      length += expansionAmount * 2;
+    }
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor,
+                                lineParmsObj.talPos, startPos, length );
+    // if ( logLogicFlow ) {
+    console.log( "drawLines: drew 4 lines for an Extroverted personality" );
+    // }
+  } else {                                       // left-top-right-bottom
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor,
+                                lineParmsObj.talPos, startPos, length );
+    if ( minExpandableGridSize < gridSize ) {
+      startPos -= expansionAmount;
+      length += expansionAmount * 2;
+    }
+    newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor,
+                                lineParmsObj.talPos, startPos, length );
+    startPos -= expansionAmount;
+    length += expansionAmount * 2;
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor,
+                                lineParmsObj.rabPos, startPos, length );
+    if ( minExpandableGridSize < gridSize ) {
+      startPos -= expansionAmount;
+      length += expansionAmount * 2;
+    }
+    newImageStr = drawHorizLine( newImageStr, lineParmsObj.bottomColor,
+                                lineParmsObj.rabPos, startPos, length );
+    // if ( logLogicFlow ) {
+    console.log( "drawLines: drew 4 lines for an Introverted personality" );
+    // }
+  }
 
   // if ( logLogicFlow ) {
   console.log( "(2) drawLines in ImageLib.ts: returning the newImageStr" );
   // }
+  return newImageStr;
+}
+function drawHorizLine( oldImageStr: string,
+         clrLtr: string, yPos: number, xStart: number, length: number ): string {
+  // if ( logLogicFlow ) {
+  console.log( "drawHorizLine in ImageLib.ts: top of function" );
+  console.log( "drawing " + length + " " + clrLtr + " squares starting at (" + xStart + ", " + yPos + ")" );
+  // }
+
+  const newImageCharArr = oldImageStr.split( "" );
+  const firstIdx = (yPos * gridSize) + xStart;
+  const lastIdx  = firstIdx + length;
+  let imgArrIdx = firstIdx;
+
+  for( let col = firstIdx; col <= lastIdx ; col++ ) {
+    newImageCharArr[imgArrIdx] = clrLtr;
+    imgArrIdx++;
+  }
+
+  const newImageStr = newImageCharArr.join('');
+
+  // if ( logLogicFlow ) {
+  console.log( "drawHorizLine in ImageLib.ts: returning the newImageStr" );
+  // }
+
+  return newImageStr;
+}
+function drawVertLine( oldImageStr: string,
+         clrLtr: string, xPos: number, yStart: number, length: number ): string {
+  // if ( logLogicFlow ) {
+  console.log( "drawVertLine in ImageLib.ts: top of function" );
+  console.log( "drawing " + length + " " + clrLtr + " squares starting at (" + yStart + ", " + xPos + ")" );
+  // }
+
+  const newImageCharArr = oldImageStr.split( "" );
+  const firstIdx = (yStart * gridSize) + xPos;
+  let imgArrIdx = firstIdx;
+
+  // for( let row = firstIdx; row <= lastIdx ; row++ ) {
+  for( let row = 1; row <= length ; row++ ) {
+    newImageCharArr[imgArrIdx] = clrLtr;
+    imgArrIdx += gridSize;
+  }
+
+  const newImageStr = newImageCharArr.join('');
+
+  // if ( logLogicFlow ) {
+  console.log( "drawVertLine in ImageLib.ts: returning the newImageStr" );
+  // }
+
   return newImageStr;
 }
 // checkIfDone: returns true if currentSquares = goalSquares
@@ -416,6 +560,7 @@ function checkIfDone( imageStr: string ): boolean {
   // if ( logLogicFlow ) {
   console.log( "(3) checkIfDone in ImageLib.ts: top of function" );
   // }
+
   let done = false;
   setCurrentSquares( imageStr );
   setNeededSquares();
@@ -489,7 +634,7 @@ function setNeededSquares(): void {
   //   }
   // }
 }
-function changeRandomSquares( oldImageStr: string, numNeeded: number, colorLetter: string ): string {
+function changeRandomSquares( oldImageStr: string, numNeeded: number, clrLtr: string ): string {
   // if ( logLogicFlow ) {
   //   console.log( "changeRandomSquares: top of function" );
   // }
@@ -500,11 +645,11 @@ function changeRandomSquares( oldImageStr: string, numNeeded: number, colorLette
 
   for( let num = 0; num < numNeeded; num++ ) {
     squareNum = Math.floor( Math.random() * (imageLength + 1) );
-    newImageCharArr.splice( squareNum, 1, colorLetter );
+    newImageCharArr.splice( squareNum, 1, clrLtr );
     // if ( logLogicFlow ) {
     //   const squareRow = Math.floor( squareNum / gridSize );
     //   const squareCol = squareNum % gridSize;
-    //   console.log( "Changed squareNum = " + squareNum + " = (" + squareCol + ", " + squareRow + ") to " + colorLetter );
+    //   console.log( "Changed squareNum = " + squareNum + " = (" + squareCol + ", " + squareRow + ") to " + clrLtr );
     // }
   }
 
@@ -639,38 +784,6 @@ function setTypeAndGoal() {
   // }
 }
 
-const drawSeqForE = 'brtl';  // these go from shortest to longest: bottom-right-top-left
-const drawSeqForI = 'ltrb';  // these go from shortest to longest: left-top-right-bottom
-interface LineParmsIFace {
-  talPos: number;         // positon of lines at the Top And on the Left side - 0-based
-  rabPos: number;         // positon of lines at the Bottom And on the Right side - 0-based
-  topColor:    string;    // One of the colorLetters
-  leftColor:   string;    // One of the colorLetters
-  rightColor:  string;    // One of the colorLetters
-  bottomColor: string;    // One of the colorLetters
-  drawSeq:     string;    // drawSeqForE or drawSeqForI
-  toString: () => string;
-}
-const lineParmsObj: LineParmsIFace = {
-  talPos: 5,    // 0-based positon of lines at the top and on the left side
-  rabPos: 13,   // 0-based positon of lines at the bottom and on the right side
-  topColor:    colorLetters[1],    // Green
-  leftColor:   colorLetters[0],    // Blue
-  rightColor:  colorLetters[3],    // Yellow
-  bottomColor: colorLetters[2],    // Red
-  drawSeq:     drawSeqForE,
-  toString: function(): string {
-    return(
-      "lineParmsObj.talPos = " + this.talPos + "\n" +
-      "lineParmsObj.rabPos = " + this.rabPos + "\n" +
-      "lineParmsObj.topColor = " + this.topColor + "\n" +
-      "lineParmsObj.leftColor = " + this.leftColor + "\n" +
-      "lineParmsObj.rightColor = " + this.rightColor + "\n" +
-      "lineParmsObj.bottomColor = " + this.bottomColor + "\n" +
-      "lineParmsObj.drawSeq = " + this.drawSeq
-    );
-  },
-};
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
 function setLineParms(): void {
   if ( gridSize != 19 ) {
