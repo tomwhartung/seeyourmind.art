@@ -788,23 +788,64 @@ function setTypeAndGoal() {
 }
 
 // lineDataMap: holds line colors and drawing sequence for all 81 types
-//   For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
-// lineDataStr[0] = colorLetter for top line, saved as lineParmsObj.topColor
-// lineDataStr[1] = colorLetter for left line, saved as lineParmsObj.leftColor
-// lineDataStr[2] = colorLetter for right line, saved as lineParmsObj.rightColor
-// lineDataStr[3] = colorLetter for bottom line, saved as lineParmsObj.bottomColor
-// lineDataStr[4]: "E" for drawSeqForE or "I" for drawSeqForI, saved as lineParmsObj.drawSeq
+// Key:
+//   lineDataStr[0] = colorLetter for top line, saved as lineParmsObj.topColor
+//   lineDataStr[1] = colorLetter for left line, saved as lineParmsObj.leftColor
+//   lineDataStr[2] = colorLetter for right line, saved as lineParmsObj.rightColor
+//   lineDataStr[3] = colorLetter for bottom line, saved as lineParmsObj.bottomColor
+//   lineDataStr[4]: "E" for drawSeqForE or "I" for drawSeqForI, saved as lineParmsObj.drawSeq
+// For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
 const lineDataMap = new Map();
-lineDataMap.set( 'XXXX', "GBYRE" );
-lineDataMap.set( 'EXXX', "GBYRE" );
-lineDataMap.set( 'IXXX', "GBYRI" );
-lineDataMap.set( 'XNXX', "GBBRE" );
-lineDataMap.set( 'XSXX', "GYYRE" );
-lineDataMap.set( 'XXFX', "RBYRE" );
-lineDataMap.set( 'XXTX', "GBYGE" );
-lineDataMap.set( 'XXXJ', "GBYRE" );
-lineDataMap.set( 'XXXP', "GBYRE" );
-lineDataMap.set( 'EXXX', "GBYRE" );
+lineDataMap.set( 'XXXX', "GBYRE" );  // No values known
+
+lineDataMap.set( 'EXXX', "GBYRE" );  // One value known
+lineDataMap.set( 'IXXX', "GBYRI" );  // One value known
+lineDataMap.set( 'XNXX', "GBBRE" );  // One value known
+lineDataMap.set( 'XSXX', "GYYRE" );  // One value known
+lineDataMap.set( 'XXFX', "RBYRE" );  // One value known
+lineDataMap.set( 'XXTX', "GBYGE" );  // One value known
+lineDataMap.set( 'XXXJ', "GBYRE" );  // One value known
+lineDataMap.set( 'XXXP', "GBYRE" );  // One value known
+
+lineDataMap.set( 'ENXX', "GBBRE" );  // Two values known
+lineDataMap.set( 'ESXX', "GYYRE" );  // Two values known
+lineDataMap.set( 'INXX', "BGRBI" );  // Two values known
+lineDataMap.set( 'ISXX', "YGRYI" );  // Two values known
+
+lineDataMap.set( 'EXFX', "RBYRE" );  // Two values known
+lineDataMap.set( 'EXTX', "GBYGE" );  // Two values known
+lineDataMap.set( 'IXFX', "BRRYI" );  // Two values known
+lineDataMap.set( 'IXTX', "BGGYI" );  // Two values known
+
+lineDataMap.set( 'EXXJ', "GBYRE" );  // Two values known
+lineDataMap.set( 'EXXP', "GBYRE" );  // Two values known
+lineDataMap.set( 'IXXJ', "GBYRI" );  // Two values known
+lineDataMap.set( 'IXXP', "GBYRI" );  // Two values known
+
+lineDataMap.set( 'XNFX', "RBBRE" );  // Two values known
+lineDataMap.set( 'XNTX', "GBBGE" );  // Two values known
+lineDataMap.set( 'XSFX', "RYYRI" );  // Two values known
+lineDataMap.set( 'XSTX', "GYYGI" );  // Two values known
+
+lineDataMap.set( 'XNXJ', "BGRBE" );  // Two values known
+lineDataMap.set( 'XNXP', "GBBRE" );  // Two values known
+lineDataMap.set( 'XSXJ', "YGRYE" );  // Two values known
+lineDataMap.set( 'XSXP', "GYYRE" );  // Two values known
+
+lineDataMap.set( 'XXFJ', "BRRYE" );  // Two values known
+lineDataMap.set( 'XXFP', "RBYRE" );  // Two values known
+lineDataMap.set( 'XXTJ', "BGGYE" );  // Two values known
+lineDataMap.set( 'XXTP', "GBYGE" );  // Two values known
+
+lineDataMap.set( 'EXFJ', "BRRYE" );  // Three values known
+lineDataMap.set( 'EXFP', "RBYRE" );  // Three values known
+lineDataMap.set( 'EXTJ', "BGGYE" );  // Three values known
+lineDataMap.set( 'EXTP', "GBYGE" );  // Three values known
+lineDataMap.set( 'IXFJ', "BRRYI" );  // Three values known
+lineDataMap.set( 'IXFP', "RBYRI" );  // Three values known
+lineDataMap.set( 'IXTJ', "BGGYI" );  // Three values known
+lineDataMap.set( 'IXTP', "GBYGI" );  // Three values known
+
 
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
 function setLineParms(): void {
