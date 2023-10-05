@@ -410,6 +410,8 @@ interface LineParmsIFace {
   rightColor:  string;    // One of the colorLetters
   bottomColor: string;    // One of the colorLetters
   drawSeq:     string;    // drawSeqForE or drawSeqForI
+  domFcn:      string;    // Dominant function for this type - 'F', 'N', 'S', or 'T'
+  auxFcn:      string;    // Auxiliary function for this type - 'F', 'N', 'S', or 'T'
   toString: () => string;
 }
 const lineParmsObj: LineParmsIFace = {
@@ -419,7 +421,9 @@ const lineParmsObj: LineParmsIFace = {
   leftColor:   colorLetters[0],    // Blue
   rightColor:  colorLetters[3],    // Yellow
   bottomColor: colorLetters[2],    // Red
-  drawSeq:     drawSeqForE,
+  drawSeq:     drawSeqForE,        // Defaults to 'E', because there is no drawing seq for 'X'!
+  domFcn:      unknownFcnLetter,   // Defaults to 'X' for unknown
+  auxFcn:      unknownFcnLetter,   // Defaults to 'X' for unknown
   toString: function(): string {
     return(
       "lineParmsObj.talPos = " + this.talPos + "\n" +
@@ -789,15 +793,15 @@ function setTypeAndGoal() {
 
 // lineDataMap: holds line colors and drawing sequence for all 81 types
 // Key:
-//   lineDataStr[0] = colorLetter for top line, saved as lineParmsObj.topColor
-//   lineDataStr[1] = colorLetter for left line, saved as lineParmsObj.leftColor
-//   lineDataStr[2] = colorLetter for right line, saved as lineParmsObj.rightColor
-//   lineDataStr[3] = colorLetter for bottom line, saved as lineParmsObj.bottomColor
-//   lineDataStr[4]: "-" to help with readability
-//   lineDataStr[5]: "E" for drawSeqForE or "I" for drawSeqForI, saved as lineParmsObj.drawSeq
-//   lineDataStr[6]: "-" to help with readability
-//   lineDataStr[7]: Dominant function for this type, with "X" indicating it is unknown
-//   lineDataStr[8]: Auxiliary function for this type, with "X" indicating it is unknown
+//   lineDataStr[0] = lineParmsObj.topColor: colorLetter for top line
+//   lineDataStr[1] = lineParmsObj.leftColor: colorLetter for left line
+//   lineDataStr[2] = lineParmsObj.rightColor: colorLetter for right line
+//   lineDataStr[3] = lineParmsObj.bottomColor: colorLetter for bottom line
+//   lineDataStr[4] = "-": to help with readability
+//   lineDataStr[5] = lineParmsObj.drawSeq: "E" for drawSeqForE or "I" for drawSeqForI
+//   lineDataStr[6] = "-": to help with readability
+//   lineDataStr[7] = lineParmsObj.domFcn: Dominant function for this type, with "X" -> unknown
+//   lineDataStr[8] = lineParmsObj.auxFcn: Auxiliary function for this type, with "X" -> unknown
 // For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
 const lineDataMap = new Map();
 lineDataMap.set( 'XXXX', "GBYR-E-XX" );  // No values known
@@ -924,6 +928,14 @@ function setLineParms(): void {
   } else {
     lineParmsObj.drawSeq = drawSeqForI;
   }
+
+  lineParmsObj.domFcn = lineDataArr[7];
+  lineParmsObj.auxFcn = lineDataArr[8];
+
+  // if ( logLogicFlow ) {
+  console.log( "setLineParms: lineParmsObj.domFcn = " + lineParmsObj.domFcn );
+  console.log( "setLineParms: lineParmsObj.auxFcn = " + lineParmsObj.auxFcn );
+  // }
 }
 
 // computePcts: Convert the score values to percentages
