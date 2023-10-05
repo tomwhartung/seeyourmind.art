@@ -826,8 +826,8 @@ lineDataMap.set( 'IXXP', "GBYR-I-" );  // Two values known
 
 lineDataMap.set( 'XNFX', "RBBR-E-" );  // Two values known - Assuming E and P
 lineDataMap.set( 'XNTX', "GBBG-E-" );  // Two values known - Assuming E and P
-lineDataMap.set( 'XSFX', "RYYR-I-" );  // Two values known - Assuming E and P
-lineDataMap.set( 'XSTX', "GYYG-I-" );  // Two values known - Assuming E and P
+lineDataMap.set( 'XSFX', "RYYR-E-" );  // Two values known - Assuming E and P
+lineDataMap.set( 'XSTX', "GYYG-E-" );  // Two values known - Assuming E and P
 
 lineDataMap.set( 'XNXJ', "BGRB-E-" );  // Two values known - Assuming E
 lineDataMap.set( 'XNXP', "GBBR-E-" );  // Two values known - Assuming E
@@ -875,7 +875,23 @@ lineDataMap.set( 'XSFP', "RYYR-E-" );  // Three values known - Assuming E
 lineDataMap.set( 'XSTJ', "YGGY-E-" );  // Three values known - Assuming E
 lineDataMap.set( 'XSTP', "GYYG-E-" );  // Three values known - Assuming E
 
+lineDataMap.set( 'ENFJ', "BRRB-E-" );  // All four values known
+lineDataMap.set( 'ENFP', "RBBR-E-" );  // All four values known
+lineDataMap.set( 'ENTJ', "BGGB-E-" );  // All four values known
+lineDataMap.set( 'ENTP', "GBBG-E-" );  // All four values known
+lineDataMap.set( 'ESFJ', "YRRY-E-" );  // All four values known
+lineDataMap.set( 'ESFP', "RYYR-E-" );  // All four values known
+lineDataMap.set( 'ESTJ', "YGGY-E-" );  // All four values known
+lineDataMap.set( 'ESTP', "GYYG-E-" );  // All four values known
 
+lineDataMap.set( 'INFJ', "BRRB-I-" );  // All four values known
+lineDataMap.set( 'INFP', "RBBR-I-" );  // All four values known
+lineDataMap.set( 'INTJ', "BGGB-I-" );  // All four values known
+lineDataMap.set( 'INTP', "GBBG-I-" );  // All four values known
+lineDataMap.set( 'ISFJ', "YRRY-I-" );  // All four values known
+lineDataMap.set( 'ISFP', "RYYR-I-" );  // All four values known
+lineDataMap.set( 'ISTJ', "YGGY-I-" );  // All four values known
+lineDataMap.set( 'ISTP', "GYYG-I-" );  // All four values known
 
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
 function setLineParms(): void {
