@@ -432,7 +432,9 @@ const lineParmsObj: LineParmsIFace = {
       "lineParmsObj.leftColor = " + this.leftColor + "\n" +
       "lineParmsObj.rightColor = " + this.rightColor + "\n" +
       "lineParmsObj.bottomColor = " + this.bottomColor + "\n" +
-      "lineParmsObj.drawSeq = " + this.drawSeq
+      "lineParmsObj.drawSeq = " + this.drawSeq + "\n" +
+      "lineParmsObj.domFcn = " + this.domFcn + "\n" +
+      "lineParmsObj.auxFcn = " + this.auxFcn
     );
   },
 };
@@ -933,8 +935,9 @@ function setLineParms(): void {
   lineParmsObj.auxFcn = lineDataArr[8];
 
   // if ( logLogicFlow ) {
-  console.log( "setLineParms: lineParmsObj.domFcn = " + lineParmsObj.domFcn );
-  console.log( "setLineParms: lineParmsObj.auxFcn = " + lineParmsObj.auxFcn );
+  //   console.log( "setLineParms: lineParmsObj.domFcn = " + lineParmsObj.domFcn );
+  //   console.log( "setLineParms: lineParmsObj.auxFcn = " + lineParmsObj.auxFcn );
+  console.log( lineParmsObj.toString() );
   // }
 }
 
