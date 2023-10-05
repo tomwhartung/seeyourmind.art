@@ -841,59 +841,59 @@ lineDataMap.set( 'XXFP', "RBYR-E-XF" );  // Two values known - Assuming E
 lineDataMap.set( 'XXTJ', "BGGY-E-TX" );  // Two values known - Assuming E
 lineDataMap.set( 'XXTP', "GBYG-E-XT" );  // Two values known - Assuming E
 
-lineDataMap.set( 'EXFJ', "BRRY-E-" );  // Three values known
-lineDataMap.set( 'EXFP', "RBYR-E-" );  // Three values known
-lineDataMap.set( 'EXTJ', "BGGY-E-" );  // Three values known
-lineDataMap.set( 'EXTP', "GBYG-E-" );  // Three values known
-lineDataMap.set( 'IXFJ', "BRRY-I-" );  // Three values known
-lineDataMap.set( 'IXFP', "RBYR-I-" );  // Three values known
-lineDataMap.set( 'IXTJ', "BGGY-I-" );  // Three values known
-lineDataMap.set( 'IXTP', "GBYG-I-" );  // Three values known
+lineDataMap.set( 'EXFJ', "BRRY-E-FX" );  // Three values known
+lineDataMap.set( 'EXFP', "RBYR-E-XF" );  // Three values known
+lineDataMap.set( 'EXTJ', "BGGY-E-TX" );  // Three values known
+lineDataMap.set( 'EXTP', "GBYG-E-XT" );  // Three values known
+lineDataMap.set( 'IXFJ', "BRRY-I-XF" );  // Three values known
+lineDataMap.set( 'IXFP', "RBYR-I-FX" );  // Three values known
+lineDataMap.set( 'IXTJ', "BGGY-I-XT" );  // Three values known
+lineDataMap.set( 'IXTP', "GBYG-I-TX" );  // Three values known
 
-lineDataMap.set( 'ENXJ', "BGRB-E-" );  // Three values known
-lineDataMap.set( 'ENXP', "GBBR-E-" );  // Three values known
-lineDataMap.set( 'ESXJ', "YGRY-E-" );  // Three values known
-lineDataMap.set( 'ESXP', "GYYR-E-" );  // Three values known
-lineDataMap.set( 'INXJ', "BGRB-I-" );  // Three values known
-lineDataMap.set( 'INXP', "GBBR-I-" );  // Three values known
-lineDataMap.set( 'ISXJ', "YGRY-I-" );  // Three values known
-lineDataMap.set( 'ISXP', "GYYR-I-" );  // Three values known
+lineDataMap.set( 'ENXJ', "BGRB-E-XN" );  // Three values known
+lineDataMap.set( 'ENXP', "GBBR-E-NX" );  // Three values known
+lineDataMap.set( 'ESXJ', "YGRY-E-XS" );  // Three values known
+lineDataMap.set( 'ESXP', "GYYR-E-SX" );  // Three values known
+lineDataMap.set( 'INXJ', "BGRB-I-NX" );  // Three values known
+lineDataMap.set( 'INXP', "GBBR-I-XN" );  // Three values known
+lineDataMap.set( 'ISXJ', "YGRY-I-SX" );  // Three values known
+lineDataMap.set( 'ISXP', "GYYR-I-XS" );  // Three values known
 
-lineDataMap.set( 'ENFX', "RBBR-E-" );  // Three values known - Assuming P
-lineDataMap.set( 'ENTX', "GBBG-E-" );  // Three values known - Assuming P
-lineDataMap.set( 'ESFX', "RYYR-E-" );  // Three values known - Assuming P
-lineDataMap.set( 'ESTX', "GYYG-E-" );  // Three values known - Assuming P
-lineDataMap.set( 'INFX', "RBBR-I-" );  // Three values known - Assuming P
-lineDataMap.set( 'INTX', "GBBG-I-" );  // Three values known - Assuming P
-lineDataMap.set( 'ISFX', "RYYR-I-" );  // Three values known - Assuming P
-lineDataMap.set( 'ISTX', "GYYG-I-" );  // Three values known - Assuming P
+lineDataMap.set( 'ENFX', "RBBR-E-NF" );  // Three values known - Assuming P
+lineDataMap.set( 'ENTX', "GBBG-E-NT" );  // Three values known - Assuming P
+lineDataMap.set( 'ESFX', "RYYR-E-SF" );  // Three values known - Assuming P
+lineDataMap.set( 'ESTX', "GYYG-E-ST" );  // Three values known - Assuming P
+lineDataMap.set( 'INFX', "RBBR-I-FN" );  // Three values known - Assuming P
+lineDataMap.set( 'INTX', "GBBG-I-TN" );  // Three values known - Assuming P
+lineDataMap.set( 'ISFX', "RYYR-I-FS" );  // Three values known - Assuming P
+lineDataMap.set( 'ISTX', "GYYG-I-TS" );  // Three values known - Assuming P
 
-lineDataMap.set( 'XNFJ', "BRRB-E-" );  // Three values known - Assuming E
-lineDataMap.set( 'XNFP', "RBBR-E-" );  // Three values known - Assuming E
-lineDataMap.set( 'XNTJ', "BGGB-E-" );  // Three values known - Assuming E
-lineDataMap.set( 'XNTP', "GBBG-E-" );  // Three values known - Assuming E
-lineDataMap.set( 'XSFJ', "YRRY-E-" );  // Three values known - Assuming E
-lineDataMap.set( 'XSFP', "RYYR-E-" );  // Three values known - Assuming E
-lineDataMap.set( 'XSTJ', "YGGY-E-" );  // Three values known - Assuming E
-lineDataMap.set( 'XSTP', "GYYG-E-" );  // Three values known - Assuming E
+lineDataMap.set( 'XNFJ', "BRRB-E-FN" );  // Three values known - Assuming E
+lineDataMap.set( 'XNFP', "RBBR-E-NF" );  // Three values known - Assuming E
+lineDataMap.set( 'XNTJ', "BGGB-E-TN" );  // Three values known - Assuming E
+lineDataMap.set( 'XNTP', "GBBG-E-NT" );  // Three values known - Assuming E
+lineDataMap.set( 'XSFJ', "YRRY-E-FS" );  // Three values known - Assuming E
+lineDataMap.set( 'XSFP', "RYYR-E-SF" );  // Three values known - Assuming E
+lineDataMap.set( 'XSTJ', "YGGY-E-TS" );  // Three values known - Assuming E
+lineDataMap.set( 'XSTP', "GYYG-E-ST" );  // Three values known - Assuming E
 
-lineDataMap.set( 'ENFJ', "BRRB-E-" );  // All four values known
-lineDataMap.set( 'ENFP', "RBBR-E-" );  // All four values known
-lineDataMap.set( 'ENTJ', "BGGB-E-" );  // All four values known
-lineDataMap.set( 'ENTP', "GBBG-E-" );  // All four values known
-lineDataMap.set( 'ESFJ', "YRRY-E-" );  // All four values known
-lineDataMap.set( 'ESFP', "RYYR-E-" );  // All four values known
-lineDataMap.set( 'ESTJ', "YGGY-E-" );  // All four values known
-lineDataMap.set( 'ESTP', "GYYG-E-" );  // All four values known
+lineDataMap.set( 'ENFJ', "BRRB-E-FN" );  // All four values known
+lineDataMap.set( 'ENFP', "RBBR-E-NF" );  // All four values known
+lineDataMap.set( 'ENTJ', "BGGB-E-TN" );  // All four values known
+lineDataMap.set( 'ENTP', "GBBG-E-NT" );  // All four values known
+lineDataMap.set( 'ESFJ', "YRRY-E-FS" );  // All four values known
+lineDataMap.set( 'ESFP', "RYYR-E-SF" );  // All four values known
+lineDataMap.set( 'ESTJ', "YGGY-E-TS" );  // All four values known
+lineDataMap.set( 'ESTP', "GYYG-E-ST" );  // All four values known
 
-lineDataMap.set( 'INFJ', "BRRB-I-" );  // All four values known
-lineDataMap.set( 'INFP', "RBBR-I-" );  // All four values known
-lineDataMap.set( 'INTJ', "BGGB-I-" );  // All four values known
-lineDataMap.set( 'INTP', "GBBG-I-" );  // All four values known
-lineDataMap.set( 'ISFJ', "YRRY-I-" );  // All four values known
-lineDataMap.set( 'ISFP', "RYYR-I-" );  // All four values known
-lineDataMap.set( 'ISTJ', "YGGY-I-" );  // All four values known
-lineDataMap.set( 'ISTP', "GYYG-I-" );  // All four values known
+lineDataMap.set( 'INFJ', "BRRB-I-NF" );  // All four values known
+lineDataMap.set( 'INFP', "RBBR-I-FN" );  // All four values known
+lineDataMap.set( 'INTJ', "BGGB-I-NT" );  // All four values known
+lineDataMap.set( 'INTP', "GBBG-I-TN" );  // All four values known
+lineDataMap.set( 'ISFJ', "YRRY-I-SF" );  // All four values known
+lineDataMap.set( 'ISFP', "RYYR-I-FS" );  // All four values known
+lineDataMap.set( 'ISTJ', "YGGY-I-ST" );  // All four values known
+lineDataMap.set( 'ISTP', "GYYG-I-TS" );  // All four values known
 
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
 function setLineParms(): void {
