@@ -796,55 +796,55 @@ function setTypeAndGoal() {
 //   lineDataStr[4]: "E" for drawSeqForE or "I" for drawSeqForI, saved as lineParmsObj.drawSeq
 // For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
 const lineDataMap = new Map();
-lineDataMap.set( 'XXXX', "GBYRE" );  // No values known
+lineDataMap.set( 'XXXX', "GBYR-E-" );  // No values known
 
-lineDataMap.set( 'EXXX', "GBYRE" );  // One value known
-lineDataMap.set( 'IXXX', "GBYRI" );  // One value known
-lineDataMap.set( 'XNXX', "GBBRE" );  // One value known
-lineDataMap.set( 'XSXX', "GYYRE" );  // One value known
-lineDataMap.set( 'XXFX', "RBYRE" );  // One value known
-lineDataMap.set( 'XXTX', "GBYGE" );  // One value known
-lineDataMap.set( 'XXXJ', "GBYRE" );  // One value known
-lineDataMap.set( 'XXXP', "GBYRE" );  // One value known
+lineDataMap.set( 'EXXX', "GBYR-E-" );  // One value known
+lineDataMap.set( 'IXXX', "GBYR-I-" );  // One value known
+lineDataMap.set( 'XNXX', "GBBR-E-" );  // One value known
+lineDataMap.set( 'XSXX', "GYYR-E-" );  // One value known
+lineDataMap.set( 'XXFX', "RBYR-E-" );  // One value known
+lineDataMap.set( 'XXTX', "GBYG-E-" );  // One value known
+lineDataMap.set( 'XXXJ', "GBYR-E-" );  // One value known
+lineDataMap.set( 'XXXP', "GBYR-E-" );  // One value known
 
-lineDataMap.set( 'ENXX', "GBBRE" );  // Two values known
-lineDataMap.set( 'ESXX', "GYYRE" );  // Two values known
-lineDataMap.set( 'INXX', "BGRBI" );  // Two values known
-lineDataMap.set( 'ISXX', "YGRYI" );  // Two values known
+lineDataMap.set( 'ENXX', "GBBR-E-" );  // Two values known
+lineDataMap.set( 'ESXX', "GYYR-E-" );  // Two values known
+lineDataMap.set( 'INXX', "BGRB-I-" );  // Two values known
+lineDataMap.set( 'ISXX', "YGRY-I-" );  // Two values known
 
-lineDataMap.set( 'EXFX', "RBYRE" );  // Two values known
-lineDataMap.set( 'EXTX', "GBYGE" );  // Two values known
-lineDataMap.set( 'IXFX', "BRRYI" );  // Two values known
-lineDataMap.set( 'IXTX', "BGGYI" );  // Two values known
+lineDataMap.set( 'EXFX', "RBYR-E-" );  // Two values known
+lineDataMap.set( 'EXTX', "GBYG-E-" );  // Two values known
+lineDataMap.set( 'IXFX', "BRRY-I-" );  // Two values known
+lineDataMap.set( 'IXTX', "BGGY-I-" );  // Two values known
 
-lineDataMap.set( 'EXXJ', "GBYRE" );  // Two values known
-lineDataMap.set( 'EXXP', "GBYRE" );  // Two values known
-lineDataMap.set( 'IXXJ', "GBYRI" );  // Two values known
-lineDataMap.set( 'IXXP', "GBYRI" );  // Two values known
+lineDataMap.set( 'EXXJ', "GBYR-E-" );  // Two values known
+lineDataMap.set( 'EXXP', "GBYR-E-" );  // Two values known
+lineDataMap.set( 'IXXJ', "GBYR-I-" );  // Two values known
+lineDataMap.set( 'IXXP', "GBYR-I-" );  // Two values known
 
-lineDataMap.set( 'XNFX', "RBBRE" );  // Two values known
-lineDataMap.set( 'XNTX', "GBBGE" );  // Two values known
-lineDataMap.set( 'XSFX', "RYYRI" );  // Two values known
-lineDataMap.set( 'XSTX', "GYYGI" );  // Two values known
+lineDataMap.set( 'XNFX', "RBBR-E-" );  // Two values known
+lineDataMap.set( 'XNTX', "GBBG-E-" );  // Two values known
+lineDataMap.set( 'XSFX', "RYYR-I-" );  // Two values known
+lineDataMap.set( 'XSTX', "GYYG-I-" );  // Two values known
 
-lineDataMap.set( 'XNXJ', "BGRBE" );  // Two values known
-lineDataMap.set( 'XNXP', "GBBRE" );  // Two values known
-lineDataMap.set( 'XSXJ', "YGRYE" );  // Two values known
-lineDataMap.set( 'XSXP', "GYYRE" );  // Two values known
+lineDataMap.set( 'XNXJ', "BGRB-E-" );  // Two values known
+lineDataMap.set( 'XNXP', "GBBR-E-" );  // Two values known
+lineDataMap.set( 'XSXJ', "YGRY-E-" );  // Two values known
+lineDataMap.set( 'XSXP', "GYYR-E-" );  // Two values known
 
-lineDataMap.set( 'XXFJ', "BRRYE" );  // Two values known
-lineDataMap.set( 'XXFP', "RBYRE" );  // Two values known
-lineDataMap.set( 'XXTJ', "BGGYE" );  // Two values known
-lineDataMap.set( 'XXTP', "GBYGE" );  // Two values known
+lineDataMap.set( 'XXFJ', "BRRY-E-" );  // Two values known
+lineDataMap.set( 'XXFP', "RBYR-E-" );  // Two values known
+lineDataMap.set( 'XXTJ', "BGGY-E-" );  // Two values known
+lineDataMap.set( 'XXTP', "GBYG-E-" );  // Two values known
 
-lineDataMap.set( 'EXFJ', "BRRYE" );  // Three values known
-lineDataMap.set( 'EXFP', "RBYRE" );  // Three values known
-lineDataMap.set( 'EXTJ', "BGGYE" );  // Three values known
-lineDataMap.set( 'EXTP', "GBYGE" );  // Three values known
-lineDataMap.set( 'IXFJ', "BRRYI" );  // Three values known
-lineDataMap.set( 'IXFP', "RBYRI" );  // Three values known
-lineDataMap.set( 'IXTJ', "BGGYI" );  // Three values known
-lineDataMap.set( 'IXTP', "GBYGI" );  // Three values known
+lineDataMap.set( 'EXFJ', "BRRY-E-" );  // Three values known
+lineDataMap.set( 'EXFP', "RBYR-E-" );  // Three values known
+lineDataMap.set( 'EXTJ', "BGGY-E-" );  // Three values known
+lineDataMap.set( 'EXTP', "GBYG-E-" );  // Three values known
+lineDataMap.set( 'IXFJ', "BRRY-I-" );  // Three values known
+lineDataMap.set( 'IXFP', "RBYR-I-" );  // Three values known
+lineDataMap.set( 'IXTJ', "BGGY-I-" );  // Three values known
+lineDataMap.set( 'IXTP', "GBYG-I-" );  // Three values known
 
 
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
@@ -871,7 +871,7 @@ function setLineParms(): void {
   lineParmsObj.rightColor = lineDataArr[2];
   lineParmsObj.bottomColor = lineDataArr[3];
 
-  if ( lineDataArr[4] == 'E' ) {
+  if ( lineDataArr[5] == 'E' ) {
     lineParmsObj.drawSeq = drawSeqForE;
   } else {
     lineParmsObj.drawSeq = drawSeqForI;
