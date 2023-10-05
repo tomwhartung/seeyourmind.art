@@ -796,48 +796,50 @@ function setTypeAndGoal() {
 //   lineDataStr[4]: "-" to help with readability
 //   lineDataStr[5]: "E" for drawSeqForE or "I" for drawSeqForI, saved as lineParmsObj.drawSeq
 //   lineDataStr[6]: "-" to help with readability
+//   lineDataStr[7]: Dominant function for this type, with "X" indicating it is unknown
+//   lineDataStr[8]: Auxiliary function for this type, with "X" indicating it is unknown
 // For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
 const lineDataMap = new Map();
-lineDataMap.set( 'XXXX', "GBYR-E-" );  // No values known
+lineDataMap.set( 'XXXX', "GBYR-E-XX" );  // No values known
 
-lineDataMap.set( 'EXXX', "GBYR-E-" );  // One value known
-lineDataMap.set( 'IXXX', "GBYR-I-" );  // One value known
-lineDataMap.set( 'XNXX', "GBBR-E-" );  // One value known
-lineDataMap.set( 'XSXX', "GYYR-E-" );  // One value known
-lineDataMap.set( 'XXFX', "RBYR-E-" );  // One value known
-lineDataMap.set( 'XXTX', "GBYG-E-" );  // One value known
-lineDataMap.set( 'XXXJ', "GBYR-E-" );  // One value known
-lineDataMap.set( 'XXXP', "GBYR-E-" );  // One value known
+lineDataMap.set( 'EXXX', "GBYR-E-XX" );  // One value known
+lineDataMap.set( 'IXXX', "GBYR-I-XX" );  // One value known
+lineDataMap.set( 'XNXX', "GBBR-E-XX" );  // One value known
+lineDataMap.set( 'XSXX', "GYYR-E-XX" );  // One value known
+lineDataMap.set( 'XXFX', "RBYR-E-XX" );  // One value known
+lineDataMap.set( 'XXTX', "GBYG-E-XX" );  // One value known
+lineDataMap.set( 'XXXJ', "GBYR-E-XX" );  // One value known
+lineDataMap.set( 'XXXP', "GBYR-E-XX" );  // One value known
 
-lineDataMap.set( 'ENXX', "GBBR-E-" );  // Two values known
-lineDataMap.set( 'ESXX', "GYYR-E-" );  // Two values known
-lineDataMap.set( 'INXX', "BGRB-I-" );  // Two values known
-lineDataMap.set( 'ISXX', "YGRY-I-" );  // Two values known
+lineDataMap.set( 'ENXX', "GBBR-E-NX" );  // Two values known
+lineDataMap.set( 'ESXX', "GYYR-E-SX" );  // Two values known
+lineDataMap.set( 'INXX', "BGRB-I-NX" );  // Two values known
+lineDataMap.set( 'ISXX', "YGRY-I-SX" );  // Two values known
 
-lineDataMap.set( 'EXFX', "RBYR-E-" );  // Two values known
-lineDataMap.set( 'EXTX', "GBYG-E-" );  // Two values known
-lineDataMap.set( 'IXFX', "BRRY-I-" );  // Two values known
-lineDataMap.set( 'IXTX', "BGGY-I-" );  // Two values known
+lineDataMap.set( 'EXFX', "RBYR-E-FX" );  // Two values known
+lineDataMap.set( 'EXTX', "GBYG-E-TX" );  // Two values known
+lineDataMap.set( 'IXFX', "BRRY-I-FX" );  // Two values known
+lineDataMap.set( 'IXTX', "BGGY-I-TX" );  // Two values known
 
-lineDataMap.set( 'EXXJ', "GBYR-E-" );  // Two values known
-lineDataMap.set( 'EXXP', "GBYR-E-" );  // Two values known
-lineDataMap.set( 'IXXJ', "GBYR-I-" );  // Two values known
-lineDataMap.set( 'IXXP', "GBYR-I-" );  // Two values known
+lineDataMap.set( 'EXXJ', "GBYR-E-XX" );  // Two values known
+lineDataMap.set( 'EXXP', "GBYR-E-XX" );  // Two values known
+lineDataMap.set( 'IXXJ', "GBYR-I-XX" );  // Two values known
+lineDataMap.set( 'IXXP', "GBYR-I-XX" );  // Two values known
 
-lineDataMap.set( 'XNFX', "RBBR-E-" );  // Two values known - Assuming E and P
-lineDataMap.set( 'XNTX', "GBBG-E-" );  // Two values known - Assuming E and P
-lineDataMap.set( 'XSFX', "RYYR-E-" );  // Two values known - Assuming E and P
-lineDataMap.set( 'XSTX', "GYYG-E-" );  // Two values known - Assuming E and P
+lineDataMap.set( 'XNFX', "RBBR-E-NF" );  // Two values known - Assuming E and P
+lineDataMap.set( 'XNTX', "GBBG-E-NT" );  // Two values known - Assuming E and P
+lineDataMap.set( 'XSFX', "RYYR-E-SF" );  // Two values known - Assuming E and P
+lineDataMap.set( 'XSTX', "GYYG-E-ST" );  // Two values known - Assuming E and P
 
-lineDataMap.set( 'XNXJ', "BGRB-E-" );  // Two values known - Assuming E
-lineDataMap.set( 'XNXP', "GBBR-E-" );  // Two values known - Assuming E
-lineDataMap.set( 'XSXJ', "YGRY-E-" );  // Two values known - Assuming E
-lineDataMap.set( 'XSXP', "GYYR-E-" );  // Two values known - Assuming E
+lineDataMap.set( 'XNXJ', "BGRB-E-XN" );  // Two values known - Assuming E
+lineDataMap.set( 'XNXP', "GBBR-E-NX" );  // Two values known - Assuming E
+lineDataMap.set( 'XSXJ', "YGRY-E-XS" );  // Two values known - Assuming E
+lineDataMap.set( 'XSXP', "GYYR-E-SX" );  // Two values known - Assuming E
 
-lineDataMap.set( 'XXFJ', "BRRY-E-" );  // Two values known - Assuming E
-lineDataMap.set( 'XXFP', "RBYR-E-" );  // Two values known - Assuming E
-lineDataMap.set( 'XXTJ', "BGGY-E-" );  // Two values known - Assuming E
-lineDataMap.set( 'XXTP', "GBYG-E-" );  // Two values known - Assuming E
+lineDataMap.set( 'XXFJ', "BRRY-E-FX" );  // Two values known - Assuming E
+lineDataMap.set( 'XXFP', "RBYR-E-XF" );  // Two values known - Assuming E
+lineDataMap.set( 'XXTJ', "BGGY-E-TX" );  // Two values known - Assuming E
+lineDataMap.set( 'XXTP', "GBYG-E-XT" );  // Two values known - Assuming E
 
 lineDataMap.set( 'EXFJ', "BRRY-E-" );  // Three values known
 lineDataMap.set( 'EXFP', "RBYR-E-" );  // Three values known
