@@ -793,11 +793,33 @@ function setTypeAndGoal() {
   }
 }
 
+// lineCoordsMap: defines the line coordinates for each of the supported grid sizes
+// Fields separated by a comma:
+//   talPos: positon of lines at the Top And on the Left side - 0-based
+//   rabPos: positon of lines at the Bottom And on the Right side - 0-based
+// For details, see the "Line Positions" sheet in docs/03-Composition-Jungian.ods
+//   NOTE: Line positions in the spreadsheet are 1-based, but these values are 0-based!!
+const lineCoordsMap = new Map();
+lineCoordsMap.set( '5', "1,3" );    // Smallest grid size that uses lines
+lineCoordsMap.set( '7', "2,4" );
+lineCoordsMap.set( '9', "2,6" );
+lineCoordsMap.set( '11', "3,7" );
+lineCoordsMap.set( '13', "4,8" );
+lineCoordsMap.set( '15', "4,10" );
+lineCoordsMap.set( '17', "5,11" );
+lineCoordsMap.set( '19', "5,13" );  // Ye olde standard grid size
+lineCoordsMap.set( '21', "7,14" );
+lineCoordsMap.set( '23', "7,16" );
+lineCoordsMap.set( '25', "8,17" );
+lineCoordsMap.set( '27', "8,19" );
+lineCoordsMap.set( '29', "9,20" );
+
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
 function setLineParms(): void {
   // if ( logLogicFlow ) {
   console.log( "setLineParms: fourLtrTypeStr = " + fourLtrTypeStr );
   console.log( "setLineParms: lineDataMap.get( fourLtrTypeStr ) = " + lineDataMap.get( fourLtrTypeStr ) );
+  console.log( "setLineParms: lineCoordsMap.get( gridSize.toString() ) = " + lineCoordsMap.get( gridSize.toString() ) );
   // }
 
   if ( gridSize != 19 ) {
