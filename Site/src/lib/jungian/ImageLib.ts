@@ -818,11 +818,23 @@ lineCoordsMap.set( '29', "9,20" );
 function setLineParms(): void {
   // if ( logLogicFlow ) {
   console.log( "setLineParms: fourLtrTypeStr = " + fourLtrTypeStr );
-  console.log( "setLineParms: lineDataMap.get( fourLtrTypeStr ) = " + lineDataMap.get( fourLtrTypeStr ) );
   console.log( "setLineParms: lineCoordsMap.get( gridSize.toString() ) = " + lineCoordsMap.get( gridSize.toString() ) );
+  console.log( "setLineParms: lineDataMap.get( fourLtrTypeStr ) = " + lineDataMap.get( fourLtrTypeStr ) );
   // }
 
-  if ( gridSize != 19 ) {
+  const lineCoordsStr = lineCoordsMap.get( gridSize.toString() );
+
+  if ( lineCoordsStr ) {
+    const lineCoordsArr = lineCoordsStr.split( "," );
+    console.log( "setLineParms: lineCoordsArr[0] = " +  lineCoordsArr[0] );
+    console.log( "setLineParms: lineCoordsArr[1] = " +  lineCoordsArr[1] );
+    const talPos = parseInt( lineCoordsArr[0] );
+    const rabPos = parseInt( lineCoordsArr[1] );
+    // const talPos = 5;
+    // const rabPos = 13;
+    lineParmsObj.talPos = talPos;
+    lineParmsObj.rabPos = rabPos;
+  } else {
     lineParmsObj.talPos = Math.round( gridSize / 3 );
     lineParmsObj.rabPos = Math.round( (2*gridSize) / 3 );
   }
