@@ -793,6 +793,107 @@ function setTypeAndGoal() {
   }
 }
 
+// setLineParms: set the position, color, drawing sequence, and length of lines in the image
+function setLineParms(): void {
+  // if ( logLogicFlow ) {
+  console.log( "setLineParms: fourLtrTypeStr = " + fourLtrTypeStr );
+  console.log( "setLineParms: lineDataMap.get( fourLtrTypeStr ) = " + lineDataMap.get( fourLtrTypeStr ) );
+  // }
+
+  if ( gridSize != 19 ) {
+    lineParmsObj.talPos = Math.round( gridSize / 3 );
+    lineParmsObj.rabPos = Math.round( (2*gridSize) / 3 );
+  }
+
+  let lineDataStr = lineDataMap.get( fourLtrTypeStr );
+
+  if ( ! lineDataStr ) {
+    lineDataStr = lineDataMap.get( 'XXXX' );    // Default to no values known
+  }
+
+  const lineDataArr = lineDataStr.split( "" );
+  lineParmsObj.topColor = lineDataArr[0];
+  lineParmsObj.leftColor = lineDataArr[1];
+  lineParmsObj.rightColor = lineDataArr[2];
+  lineParmsObj.bottomColor = lineDataArr[3];
+
+  if ( lineDataArr[5] == 'E' ) {
+    lineParmsObj.drawSeq = drawSeqForE;
+  } else {
+    lineParmsObj.drawSeq = drawSeqForI;
+  }
+
+  lineParmsObj.domFcn = lineDataArr[7];
+  lineParmsObj.auxFcn = lineDataArr[8];
+
+  // if ( logLogicFlow ) {
+  //   console.log( "setLineParms: lineParmsObj.domFcn = " + lineParmsObj.domFcn );
+  //   console.log( "setLineParms: lineParmsObj.auxFcn = " + lineParmsObj.auxFcn );
+  console.log( lineParmsObj.toString() );
+  // }
+}
+
+// computePcts: Convert the score values to percentages
+function computePcts(): void {
+  pcts.eVsI = valueToPct( ScoreValueObj.eVsIValue );
+  pcts.nVsS = valueToPct( ScoreValueObj.nVsSValue );
+  pcts.fVsT = valueToPct( ScoreValueObj.fVsTValue );
+  pcts.jVsP = valueToPct( ScoreValueObj.jVsPValue );
+}
+// valueToPct: convert a slider value [0 - 100] to a percentage [0.0 - 1.00]
+function valueToPct( value: number ): number {
+  const percent = value / 100;
+  return ( percent );
+}
+
+// getRandomColor: return a random single character, either "B", "G", "R", or "Y"
+function getRandomColor(): string {
+  // if ( logLogicFlow ) {
+  //   console.log( "getRandomColor() in ImageLib.ts: Top of getRandomColor" );
+  // }
+
+  let randomFloat = Math.random();
+  let randomColorLetter = colorLetters[0];   // Blue - just a temporary default value
+
+  if ( randomFloat <= pcts.jVsP ) {
+    randomFloat = Math.random();
+    if ( randomFloat <= pcts.nVsS ) {
+      randomColorLetter = colorLetters[3];   // Yellow
+    } else {
+      randomColorLetter = colorLetters[0];   // Blue
+    }
+  } else {
+    randomFloat = Math.random();
+    if ( randomFloat <= pcts.fVsT ) {
+      randomColorLetter = colorLetters[1];  // Green
+    } else {
+      randomColorLetter = colorLetters[2];  // Red
+    }
+  }
+
+  // if ( logLogicFlow ) {
+  //   console.log( "getRandomColor(): Return()ing randomColorLetter = " + randomColorLetter );
+  // }
+  return randomColorLetter;
+}
+
+// drawUnderlyingCanvas: paints the entire canvas black then fills the inner portion of it with white
+function drawUnderlyingCanvas( context: CanvasRenderingContext2D ): void {
+  const width = getCanvasWidth();
+  const height = getCanvasHeight();
+
+  // Paint it all black
+  context.fillStyle = "rgb(0, 0, 0)";
+  context.fillRect(0, 0, width, height);
+
+  const innerSquareWidth = getCanvasWidth() - ( 2 * gridTopX );
+  const innerSquareHeight = getCanvasHeight() - ( 2 * gridTopY );
+
+  // Paint the inner square, where the actual image will be, white
+  context.fillStyle = "rgb(255, 255, 255)";
+  context.fillRect(gridTopY, gridTopY, innerSquareWidth, innerSquareHeight);
+}
+
 // lineDataMap: holds line colors and drawing sequence for all 81 types
 // Key:
 //   lineDataStr[0] = lineParmsObj.topColor: colorLetter for top line
@@ -900,105 +1001,4 @@ lineDataMap.set( 'ISFJ', "YRRY-I-SF" );  // All four values known
 lineDataMap.set( 'ISFP', "RYYR-I-FS" );  // All four values known
 lineDataMap.set( 'ISTJ', "YGGY-I-ST" );  // All four values known
 lineDataMap.set( 'ISTP', "GYYG-I-TS" );  // All four values known
-
-// setLineParms: set the position, color, drawing sequence, and length of lines in the image
-function setLineParms(): void {
-  // if ( logLogicFlow ) {
-  console.log( "setLineParms: fourLtrTypeStr = " + fourLtrTypeStr );
-  console.log( "setLineParms: lineDataMap.get( fourLtrTypeStr ) = " + lineDataMap.get( fourLtrTypeStr ) );
-  // }
-  
-  if ( gridSize != 19 ) {
-    lineParmsObj.talPos = Math.round( gridSize / 3 );
-    lineParmsObj.rabPos = Math.round( (2*gridSize) / 3 );
-  }
-
-  let lineDataStr = lineDataMap.get( fourLtrTypeStr );
-
-  if ( ! lineDataStr ) {
-    lineDataStr = lineDataMap.get( 'XXXX' );    // Default to no values known
-  }
-
-  const lineDataArr = lineDataStr.split( "" );
-  lineParmsObj.topColor = lineDataArr[0];
-  lineParmsObj.leftColor = lineDataArr[1];
-  lineParmsObj.rightColor = lineDataArr[2];
-  lineParmsObj.bottomColor = lineDataArr[3];
-
-  if ( lineDataArr[5] == 'E' ) {
-    lineParmsObj.drawSeq = drawSeqForE;
-  } else {
-    lineParmsObj.drawSeq = drawSeqForI;
-  }
-
-  lineParmsObj.domFcn = lineDataArr[7];
-  lineParmsObj.auxFcn = lineDataArr[8];
-
-  // if ( logLogicFlow ) {
-  //   console.log( "setLineParms: lineParmsObj.domFcn = " + lineParmsObj.domFcn );
-  //   console.log( "setLineParms: lineParmsObj.auxFcn = " + lineParmsObj.auxFcn );
-  console.log( lineParmsObj.toString() );
-  // }
-}
-
-// computePcts: Convert the score values to percentages
-function computePcts(): void {
-  pcts.eVsI = valueToPct( ScoreValueObj.eVsIValue );
-  pcts.nVsS = valueToPct( ScoreValueObj.nVsSValue );
-  pcts.fVsT = valueToPct( ScoreValueObj.fVsTValue );
-  pcts.jVsP = valueToPct( ScoreValueObj.jVsPValue );
-}
-// valueToPct: convert a slider value [0 - 100] to a percentage [0.0 - 1.00]
-function valueToPct( value: number ): number {
-  const percent = value / 100;
-  return ( percent );
-}
-
-// getRandomColor: return a random single character, either "B", "G", "R", or "Y"
-function getRandomColor(): string {
-  // if ( logLogicFlow ) {
-  //   console.log( "getRandomColor() in ImageLib.ts: Top of getRandomColor" );
-  // }
-
-  let randomFloat = Math.random();
-  let randomColorLetter = colorLetters[0];   // Blue - just a temporary default value
-
-  if ( randomFloat <= pcts.jVsP ) {
-    randomFloat = Math.random();
-    if ( randomFloat <= pcts.nVsS ) {
-      randomColorLetter = colorLetters[3];   // Yellow
-    } else {
-      randomColorLetter = colorLetters[0];   // Blue
-    }
-  } else {
-    randomFloat = Math.random();
-    if ( randomFloat <= pcts.fVsT ) {
-      randomColorLetter = colorLetters[1];  // Green
-    } else {
-      randomColorLetter = colorLetters[2];  // Red
-    }
-  }
-
-  // if ( logLogicFlow ) {
-  //   console.log( "getRandomColor(): Return()ing randomColorLetter = " + randomColorLetter );
-  // }
-  return randomColorLetter;
-}
-
-// drawUnderlyingCanvas: paints the entire canvas black then fills the inner portion of it with white
-function drawUnderlyingCanvas( context: CanvasRenderingContext2D ): void {
-  const width = getCanvasWidth();
-  const height = getCanvasHeight();
-
-  // Paint it all black
-  context.fillStyle = "rgb(0, 0, 0)";
-  context.fillRect(0, 0, width, height);
-
-  const innerSquareWidth = getCanvasWidth() - ( 2 * gridTopX );
-  const innerSquareHeight = getCanvasHeight() - ( 2 * gridTopY );
-
-  // Paint the inner square, where the actual image will be, white
-  context.fillStyle = "rgb(255, 255, 255)";
-  context.fillRect(gridTopY, gridTopY, innerSquareWidth, innerSquareHeight);
-}
 
