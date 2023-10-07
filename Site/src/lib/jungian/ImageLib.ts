@@ -808,30 +808,33 @@ lineCoordsMap.set( '13', "4,8" );
 lineCoordsMap.set( '15', "4,10" );
 lineCoordsMap.set( '17', "5,11" );
 lineCoordsMap.set( '19', "5,13" );  // Ye olde standard grid size
-lineCoordsMap.set( '21', "7,14" );
-lineCoordsMap.set( '23', "7,16" );
-lineCoordsMap.set( '25', "8,17" );
-lineCoordsMap.set( '27', "8,19" );
-lineCoordsMap.set( '29', "9,20" );
+lineCoordsMap.set( '21', "6,14" );
+lineCoordsMap.set( '23', "6,16" );
+lineCoordsMap.set( '25', "7,17" );
+lineCoordsMap.set( '27', "7,19" );
+lineCoordsMap.set( '29', "8,20" );
+lineCoordsMap.set( '31', "9,21" );
+
+// Untested:
+lineCoordsMap.set( '33', "10,20" );
+lineCoordsMap.set( '35', "10,20" );
+lineCoordsMap.set( '37', "10,20" );
+lineCoordsMap.set( '39', "10,20" );
 
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
 function setLineParms(): void {
   // if ( logLogicFlow ) {
   console.log( "setLineParms: fourLtrTypeStr = " + fourLtrTypeStr );
-  console.log( "setLineParms: lineCoordsMap.get( gridSize.toString() ) = " + lineCoordsMap.get( gridSize.toString() ) );
-  console.log( "setLineParms: lineDataMap.get( fourLtrTypeStr ) = " + lineDataMap.get( fourLtrTypeStr ) );
+  // console.log( "setLineParms: lineCoordsMap.get( gridSize.toString() ) = " + lineCoordsMap.get( gridSize.toString() ) );
+  // console.log( "setLineParms: lineDataMap.get( fourLtrTypeStr ) = " + lineDataMap.get( fourLtrTypeStr ) );
   // }
 
   const lineCoordsStr = lineCoordsMap.get( gridSize.toString() );
 
   if ( lineCoordsStr ) {
     const lineCoordsArr = lineCoordsStr.split( "," );
-    console.log( "setLineParms: lineCoordsArr[0] = " +  lineCoordsArr[0] );
-    console.log( "setLineParms: lineCoordsArr[1] = " +  lineCoordsArr[1] );
     const talPos = parseInt( lineCoordsArr[0] );
     const rabPos = parseInt( lineCoordsArr[1] );
-    // const talPos = 5;
-    // const rabPos = 13;
     lineParmsObj.talPos = talPos;
     lineParmsObj.rabPos = rabPos;
   } else {
