@@ -804,7 +804,7 @@ lineCoordsMap.set( '5', "1,3" );    // Smallest grid size that uses lines
 lineCoordsMap.set( '7', "2,4" );
 lineCoordsMap.set( '9', "2,6" );
 lineCoordsMap.set( '11', "3,7" );
-lineCoordsMap.set( '13', "4,8" );
+lineCoordsMap.set( '13', "3,9" );
 lineCoordsMap.set( '15', "4,10" );
 lineCoordsMap.set( '17', "5,11" );
 lineCoordsMap.set( '19', "5,13" );  // Ye olde standard grid size
@@ -813,13 +813,19 @@ lineCoordsMap.set( '23', "6,16" );
 lineCoordsMap.set( '25', "7,17" );
 lineCoordsMap.set( '27', "7,19" );
 lineCoordsMap.set( '29', "8,20" );
-lineCoordsMap.set( '31', "9,21" );
 
 // Untested:
-lineCoordsMap.set( '33', "10,20" );
-lineCoordsMap.set( '35', "10,20" );
-lineCoordsMap.set( '37', "10,20" );
-lineCoordsMap.set( '39', "10,20" );
+lineCoordsMap.set( '31', "9,21" );
+lineCoordsMap.set( '33', "9,23" );
+lineCoordsMap.set( '35', "10,24" );
+lineCoordsMap.set( '37', "10,26" );
+lineCoordsMap.set( '39', "11,27" );
+
+lineCoordsMap.set( '41', "11,29" );
+lineCoordsMap.set( '43', "12,30" );
+lineCoordsMap.set( '45', "13,31" );
+lineCoordsMap.set( '47', "13,33" );
+lineCoordsMap.set( '49', "14,34" );
 
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
 function setLineParms(): void {
