@@ -820,11 +820,11 @@ lineCoordsMap.set( '25', "6,18" );
 lineCoordsMap.set( '27', "7,19" );
 lineCoordsMap.set( '29', "7,21" );
 
-// Provisional:
+// Retested and looks OK:
 lineCoordsMap.set( '31', "8,22" );
-lineCoordsMap.set( '33', "9,23" );
-lineCoordsMap.set( '35', "10,24" );
-lineCoordsMap.set( '37', "10,26" );
+lineCoordsMap.set( '33', "8,24" );
+lineCoordsMap.set( '35', "9,25" );
+lineCoordsMap.set( '37', "9,27" );
 lineCoordsMap.set( '39', "10,28" );
 
 // Totally Untested:
