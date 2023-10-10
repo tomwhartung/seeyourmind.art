@@ -800,27 +800,34 @@ function setTypeAndGoal() {
 // For details, see the "Line Positions" sheet in docs/03-Composition-Jungian.ods
 //   NOTE: Line positions in the spreadsheet are 1-based, but these values are 0-based!!
 const lineCoordsMap = new Map();
-lineCoordsMap.set( '5', "1,3" );    // Smallest grid size that uses lines
-lineCoordsMap.set( '7', "2,4" );
-lineCoordsMap.set( '9', "2,6" );
-lineCoordsMap.set( '11', "3,7" );
-lineCoordsMap.set( '13', "3,9" );
-lineCoordsMap.set( '15', "4,10" );
-lineCoordsMap.set( '17', "5,11" );
-lineCoordsMap.set( '19', "5,13" );  // Ye olde standard grid size
-lineCoordsMap.set( '21', "6,14" );
-lineCoordsMap.set( '23', "6,16" );
-lineCoordsMap.set( '25', "7,17" );
-lineCoordsMap.set( '27', "7,19" );
-lineCoordsMap.set( '29', "8,20" );
+lineCoordsMap.set( '1', "-1,-1" );  // This grid size is too small to have lines
+lineCoordsMap.set( '3', "1,-1" );   // This grid size has one line at most
 
-// Untested:
-lineCoordsMap.set( '31', "9,21" );
+// Retested and looks OK:
+lineCoordsMap.set( '5', "1,3" );    // Smallest grid size that uses lines
+lineCoordsMap.set( '7', "1,5" );
+lineCoordsMap.set( '9', "2,6" );
+
+// Retested and looks OK:
+lineCoordsMap.set( '11', "2,8" );
+lineCoordsMap.set( '13', "3,9" );
+lineCoordsMap.set( '15', "3,11" );
+lineCoordsMap.set( '17', "4,12" );
+lineCoordsMap.set( '19', "5,13" );  // Ye olde standard grid size
+lineCoordsMap.set( '21', "5,15" );
+lineCoordsMap.set( '23', "6,16" );
+lineCoordsMap.set( '25', "6,18" );
+lineCoordsMap.set( '27', "7,19" );
+lineCoordsMap.set( '29', "7,21" );
+
+// Provisional:
+lineCoordsMap.set( '31', "8,22" );
 lineCoordsMap.set( '33', "9,23" );
 lineCoordsMap.set( '35', "10,24" );
 lineCoordsMap.set( '37', "10,26" );
-lineCoordsMap.set( '39', "11,27" );
+lineCoordsMap.set( '39', "10,28" );
 
+// Totally Untested:
 lineCoordsMap.set( '41', "11,29" );
 lineCoordsMap.set( '43', "12,30" );
 lineCoordsMap.set( '45', "13,31" );
