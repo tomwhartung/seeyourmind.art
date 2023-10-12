@@ -793,47 +793,6 @@ function setTypeAndGoal() {
   }
 }
 
-// lineCoordsMap: defines the line coordinates for each of the supported grid sizes
-// Fields separated by a comma:
-//   talPos: positon of lines at the Top And on the Left side - 0-based
-//   rabPos: positon of lines at the Bottom And on the Right side - 0-based
-// For details, see the "Line Positions" sheet in docs/03-Composition-Jungian.ods
-//   NOTE: Line positions in the spreadsheet are 1-based, but these values are 0-based!!
-const lineCoordsMap = new Map();
-lineCoordsMap.set( '1', "-1,-1" );  // This grid size is too small to have lines
-lineCoordsMap.set( '3', "1,-1" );   // This grid size has one line at most
-
-// Retested and looks OK:
-lineCoordsMap.set( '5', "1,3" );    // Smallest grid size that uses lines
-lineCoordsMap.set( '7', "1,5" );
-lineCoordsMap.set( '9', "2,6" );
-
-// Retested and looks OK:
-lineCoordsMap.set( '11', "2,8" );
-lineCoordsMap.set( '13', "3,9" );
-lineCoordsMap.set( '15', "3,11" );
-lineCoordsMap.set( '17', "4,12" );
-lineCoordsMap.set( '19', "5,13" );  // Ye olde standard grid size
-lineCoordsMap.set( '21', "5,15" );
-lineCoordsMap.set( '23', "6,16" );
-lineCoordsMap.set( '25', "6,18" );
-lineCoordsMap.set( '27', "7,19" );
-lineCoordsMap.set( '29', "7,21" );
-
-// Retested and looks OK:
-lineCoordsMap.set( '31', "8,22" );
-lineCoordsMap.set( '33', "8,24" );
-lineCoordsMap.set( '35', "9,25" );
-lineCoordsMap.set( '37', "9,27" );
-lineCoordsMap.set( '39', "10,28" );
-
-// Provisional but Untested:
-lineCoordsMap.set( '41', "10,30" );
-lineCoordsMap.set( '43', "11,31" );
-lineCoordsMap.set( '45', "11,33" );
-lineCoordsMap.set( '47', "12,34" );
-lineCoordsMap.set( '49', "12,36" );
-
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
 function setLineParms(): void {
   // if ( logLogicFlow ) {
@@ -1051,4 +1010,39 @@ lineDataMap.set( 'ISFJ', "YRRY-I-SF" );  // All four values known
 lineDataMap.set( 'ISFP', "RYYR-I-FS" );  // All four values known
 lineDataMap.set( 'ISTJ', "YGGY-I-ST" );  // All four values known
 lineDataMap.set( 'ISTP', "GYYG-I-TS" );  // All four values known
+
+// lineCoordsMap: defines the line coordinates for each of the supported grid sizes
+// Fields separated by a comma:
+//   talPos: positon of lines at the Top And on the Left side - 0-based
+//   rabPos: positon of lines at the Bottom And on the Right side - 0-based
+// For details, see the "Line Positions" sheet in docs/03-Composition-Jungian.ods
+//   IMPORTANT: LINE POSITIONS IN THE SPREADSHEET ARE 1-BASED, BUT THESE VALUES ARE 0-BASED!!
+const lineCoordsMap = new Map();
+lineCoordsMap.set( '1', "-1,-1" );  // This grid size is too small to have lines
+lineCoordsMap.set( '3', "1,-1" );   // This grid size has one line at most
+lineCoordsMap.set( '5', "1,3" );    // Smallest grid size that uses lines
+lineCoordsMap.set( '7', "1,5" );
+lineCoordsMap.set( '9', "2,6" );
+
+lineCoordsMap.set( '11', "2,8" );
+lineCoordsMap.set( '13', "3,9" );
+lineCoordsMap.set( '15', "3,11" );
+lineCoordsMap.set( '17', "4,12" );
+lineCoordsMap.set( '19', "5,13" );  // Ye olde standard grid size
+lineCoordsMap.set( '21', "5,15" );
+lineCoordsMap.set( '23', "6,16" );
+lineCoordsMap.set( '25', "6,18" );
+lineCoordsMap.set( '27', "7,19" );
+lineCoordsMap.set( '29', "7,21" );
+
+lineCoordsMap.set( '31', "8,22" );
+lineCoordsMap.set( '33', "8,24" );
+lineCoordsMap.set( '35', "9,25" );
+lineCoordsMap.set( '37', "9,27" );
+lineCoordsMap.set( '39', "10,28" );
+lineCoordsMap.set( '41', "10,30" );
+lineCoordsMap.set( '43', "11,31" );
+lineCoordsMap.set( '45', "11,33" );
+lineCoordsMap.set( '47', "12,34" );
+lineCoordsMap.set( '49', "12,36" );
 
