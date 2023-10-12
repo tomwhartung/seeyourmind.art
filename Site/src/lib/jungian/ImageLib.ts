@@ -827,12 +827,12 @@ lineCoordsMap.set( '35', "9,25" );
 lineCoordsMap.set( '37', "9,27" );
 lineCoordsMap.set( '39', "10,28" );
 
-// Totally Untested:
-lineCoordsMap.set( '41', "11,29" );
-lineCoordsMap.set( '43', "12,30" );
-lineCoordsMap.set( '45', "13,31" );
-lineCoordsMap.set( '47', "13,33" );
-lineCoordsMap.set( '49', "14,34" );
+// Provisional but Untested:
+lineCoordsMap.set( '41', "10,30" );
+lineCoordsMap.set( '43', "11,31" );
+lineCoordsMap.set( '45', "11,33" );
+lineCoordsMap.set( '47', "12,34" );
+lineCoordsMap.set( '49', "12,36" );
 
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
 function setLineParms(): void {
