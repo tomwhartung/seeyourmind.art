@@ -180,7 +180,8 @@ export function getCanvasHeight(): number {
 export const unknownFcnLetter = "X";
 export const fourLtrTypeArr : string[] = [ unknownFcnLetter, unknownFcnLetter, unknownFcnLetter, unknownFcnLetter ];
 export let fourLtrTypeStr = fourLtrTypeArr.join('');
-
+export let domFcn = unknownFcnLetter;
+export let auxFcn = unknownFcnLetter;
 
 // Functions:
 // ==========
@@ -834,6 +835,8 @@ function setLineParms(): void {
 
   lineParmsObj.domFcn = lineDataArr[7];
   lineParmsObj.auxFcn = lineDataArr[8];
+  domFcn = lineParmsObj.domFcn;
+  auxFcn = lineParmsObj.auxFcn;
 
   // if ( logLogicFlow ) {
   //   console.log( "setLineParms: lineParmsObj.domFcn = " + lineParmsObj.domFcn );
