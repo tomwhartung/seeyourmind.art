@@ -290,6 +290,8 @@ function FixedContainer() {
 
   const gridSizeLabel = "Grid Size: " + ImageLib.gridSize + " Squares per Side";
   const squareSizeLabel = "Square Size: " + ImageLib.squareSize + " Pixels per Square";
+  const createMsg = "Create image of an " + ImageLib.fourLtrTypeStr;
+  const domAuxMsg = "Dominant: " + ImageLib.domFcn + "; Auxiliary: " + ImageLib.auxFcn;
 
   if ( ImageLib.logLogicFlow ) {
     console.log( "return()ing from FixedContainer() in Create.tsx" );
@@ -297,7 +299,8 @@ function FixedContainer() {
 
   return (
     <div className="container">
-      <h4>FixedContainer:</h4>
+      <h3>{createMsg}</h3>
+      <p>{domAuxMsg}</p>
       <div className="row mt-4">
         {sliderNumberCols}
       </div>
@@ -339,7 +342,6 @@ function Create() {
 
   return (
     <div id="create">
-      <h2>Create</h2>
       <FixedContainer />
     </div>
   )
