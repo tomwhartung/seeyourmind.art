@@ -183,6 +183,63 @@ export let fourLtrTypeStr = fourLtrTypeArr.join('');
 export let domFcn = unknownFcnLetter;
 export let auxFcn = unknownFcnLetter;
 
+// setTypeDomAndAux: set the four-letter Jungian/MBTI(r) type and the dominant and auxiliary functions
+export function setTypeDomAndAux( scoreValueArr: number[] ) {
+  if ( logLogicFlow ) {
+    console.log( "setTypeDomAndAux in ImageLib.ts: top of function" );
+  }
+
+  setScoreValueObj( scoreValueArr );
+
+  if ( ScoreValueObj.eVsIValue == initialScoreValue ) {
+    fourLtrTypeArr[0] = unknownFcnLetter;
+  } else if ( ScoreValueObj.eVsIValue < initialScoreValue ) {
+    fourLtrTypeArr[0] = leftFcnLetters[0];
+  } else {
+    fourLtrTypeArr[0] = rightFcnLetters[0];
+  }
+
+  if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
+    fourLtrTypeArr[3] = unknownFcnLetter;
+  } else {
+    if ( ScoreValueObj.jVsPValue < initialScoreValue ) {
+      fourLtrTypeArr[3] = leftFcnLetters[3];
+    } else {
+      fourLtrTypeArr[3] = rightFcnLetters[3];
+    }
+  }
+
+  if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
+    fourLtrTypeArr[1] = unknownFcnLetter;
+  } else {
+    if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
+      fourLtrTypeArr[1] = leftFcnLetters[1];
+    } else {
+      fourLtrTypeArr[1] = rightFcnLetters[1];
+    }
+  }
+
+  if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
+    fourLtrTypeArr[2] = unknownFcnLetter;
+  } else {
+    if ( ScoreValueObj.fVsTValue < initialScoreValue ) {
+      fourLtrTypeArr[2] = leftFcnLetters[2];
+    } else {
+      fourLtrTypeArr[2] = rightFcnLetters[2];
+    }
+  }
+
+  fourLtrTypeStr = fourLtrTypeArr.join('');
+
+  const lineDataArr = getLineDataArr( fourLtrTypeStr );
+  domFcn = lineDataArr[7];
+  auxFcn = lineDataArr[8];
+
+  if ( logLogicFlow ) {
+    console.log( "fourLtrTypeArr = " + fourLtrTypeArr + " and fourLtrTypeStr = " + fourLtrTypeStr + "\n" );
+    console.log( "setTypeDomAndAux in ImageLib.ts: returning" );
+  }
+}
 // Functions:
 // ==========
 //
@@ -248,7 +305,8 @@ export function createFreshImageStr(): string {
     console.log( "(0) createFreshImageStr in ImageLib.ts: top of function" );
   }
 
-  setTypeAndGoal();
+  // setTypeDomAndAux();
+  setGoal();
   setLineParms();   // relies on type being set!!!
 
   let freshImageStr = createRandomImageStr();
@@ -719,10 +777,10 @@ function createRandomImageStr(): string {
   }
   return randomImageStr;
 }
-// setTypeAndGoal: set the four-letter Jungian/MBTI(r) type and calc number of squares needed of each color
-function setTypeAndGoal() {
+// setGoal: calculate number of squares needed of each color
+function setGoal() {
   if ( logLogicFlow ) {
-    console.log( "setTypeAndGoal in ImageLib.ts: top of function" );
+    console.log( "setGoal in ImageLib.ts: top of function" );
   }
 
   const totSquares = gridSize * gridSize;
@@ -730,50 +788,24 @@ function setTypeAndGoal() {
   let neededGAndRSquares = 0;
   computePcts();
 
-  if ( ScoreValueObj.eVsIValue == initialScoreValue ) {
-    fourLtrTypeArr[0] = unknownFcnLetter;
-  } else if ( ScoreValueObj.eVsIValue < initialScoreValue ) {
-    fourLtrTypeArr[0] = leftFcnLetters[0];
-  } else {
-    fourLtrTypeArr[0] = rightFcnLetters[0];
-  }
-
   if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
-    fourLtrTypeArr[3] = unknownFcnLetter;
     neededBAndYSquares = Math.round( totSquares / 2 );
   } else {
     neededBAndYSquares = Math.round( totSquares * pcts.jVsP );
-    if ( ScoreValueObj.jVsPValue < initialScoreValue ) {
-      fourLtrTypeArr[3] = leftFcnLetters[3];
-    } else {
-      fourLtrTypeArr[3] = rightFcnLetters[3];
-    }
   }
   neededGAndRSquares = totSquares - neededBAndYSquares;
 
   if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
-    fourLtrTypeArr[1] = unknownFcnLetter;
     goalSquares.yellow = Math.round( neededBAndYSquares / 2 );
   } else {
     goalSquares.yellow = Math.round( neededBAndYSquares * pcts.nVsS );
-    if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
-      fourLtrTypeArr[1] = leftFcnLetters[1];
-    } else {
-      fourLtrTypeArr[1] = rightFcnLetters[1];
-    }
   }
   goalSquares.blue = neededBAndYSquares - goalSquares.yellow;
 
   if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
-    fourLtrTypeArr[2] = unknownFcnLetter;
     goalSquares.green = Math.round( neededGAndRSquares / 2 );
   } else {
     goalSquares.green = Math.round( neededGAndRSquares * pcts.fVsT );
-    if ( ScoreValueObj.fVsTValue < initialScoreValue ) {
-      fourLtrTypeArr[2] = leftFcnLetters[2];
-    } else {
-      fourLtrTypeArr[2] = rightFcnLetters[2];
-    }
   }
   goalSquares.red = neededGAndRSquares - goalSquares.green;
 
@@ -790,7 +822,7 @@ function setTypeAndGoal() {
     if ( goalSquares && goalSquares.toString() ) {
       console.log( goalSquares.toString() );
     }
-    console.log( "setTypeAndGoal in ImageLib.ts: returning" );
+    console.log( "setGoal in ImageLib.ts: returning" );
   }
 }
 
@@ -815,13 +847,8 @@ function setLineParms(): void {
     lineParmsObj.rabPos = Math.round( (2*gridSize) / 3 );
   }
 
-  let lineDataStr = lineDataMap.get( fourLtrTypeStr );
+  const lineDataArr = getLineDataArr( fourLtrTypeStr );
 
-  if ( ! lineDataStr ) {
-    lineDataStr = lineDataMap.get( 'XXXX' );    // Default to no values known
-  }
-
-  const lineDataArr = lineDataStr.split( "" );
   lineParmsObj.topColor = lineDataArr[0];
   lineParmsObj.leftColor = lineDataArr[1];
   lineParmsObj.rightColor = lineDataArr[2];
@@ -906,6 +933,17 @@ function drawUnderlyingCanvas( context: CanvasRenderingContext2D ): void {
   context.fillRect(gridTopY, gridTopY, innerSquareWidth, innerSquareHeight);
 }
 
+// getLineDataArr: gets the line data from the lineDataMap and returns it as an array
+function getLineDataArr( fourLtrTypeStr: string ): string[] {
+  let lineDataStr = lineDataMap.get( fourLtrTypeStr );
+
+  if ( ! lineDataStr ) {
+    lineDataStr = lineDataMap.get( 'XXXX' );    // Default to no values known
+  }
+
+  const lineDataArr = lineDataStr.split( "" );
+  return lineDataArr;
+}
 // lineDataMap: holds line colors and drawing sequence for all 81 types
 // Key:
 //   lineDataStr[0] = lineParmsObj.topColor: colorLetter for top line
