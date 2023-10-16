@@ -119,6 +119,7 @@ function FixedContainer() {
     const nextScoreValueArr = currentScoreValueArr.slice();
     nextScoreValueArr[col] = parseInt( scoreValue );
     setCurrentScoreValueArr( nextScoreValueArr );
+    ImageLib.setTypeDomAndAux( nextScoreValueArr );
     drawFreshImage = true;           // When the value for a slider changes, we need to draw a new image
     if ( ImageLib.logLogicFlow ) {
       if ( 0 < col ) {
@@ -174,6 +175,7 @@ function FixedContainer() {
     setCurrentSquareSize( storedSquareSize );
     setCurrentGridSize( storedGridSize );
     ImageLib.setScoreValueObj( storedScoreValueArr );
+    ImageLib.setTypeDomAndAux( storedScoreValueArr );
     ImageLib.setSquareSize( LocalStorageLib.getStoredSquareSize() );
     ImageLib.setGridSize( storedGridSize );
     const storedImageStr = LocalStorageLib.getStoredImageStr();
