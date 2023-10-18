@@ -13,8 +13,8 @@ import * as LocalStorageLib from '../lib/jungian/LocalStorageLib.ts';
 import SquareSizeSlider from '../lib/jungian/SquareSizeSliderLib.tsx';
 
 // NOTE: Setting logLogicFlow to true for one page seems to in effect set it for all pages
-ImageLib.setLogLogicFlow( true );   // un-comment when trying to track down issues
-// ImageLib.setLogLogicFlow( false );   // un-comment when everything's ok
+// ImageLib.setLogLogicFlow( true );   // un-comment when trying to track down issues
+ImageLib.setLogLogicFlow( false );   // un-comment when everything's ok
 
 // draw: draw the grid of blue, green, red, and yellow squares defined in ImageLib.imageStr
 function draw( context: CanvasRenderingContext2D ): void {
@@ -54,16 +54,16 @@ function getSquareCoords( pixelX: number, pixelY: number ): number[] {
 // changeSquareAt: change the color of the square at location (squareX, squareY)
 function changeSquareAt( squareX: number, squareY: number, colorIndex: number ): string {
   const charArrIndex = squareX + (squareY * ImageLib.gridSize);
-  const colorLetterPicked = ImageLib.colorLetters[colorIndex];
+  const colorLtrPicked = ImageLib.colorLetters[colorIndex];
 
   // if ( ImageLib.logLogicFlow ) {
   //   console.log( "changeSquareAt: charArrIndex = " + charArrIndex );
   //   console.log( "changeSquareAt: colorIndex = " + colorIndex );
-  //   console.log( "changeSquareAt: colorLetterPicked = " + colorLetterPicked );
+  //   console.log( "changeSquareAt: colorLtrPicked = " + colorLtrPicked );
   // }
 
   const newImageCharArr = ImageLib.imageStr.split( "" );
-  newImageCharArr.splice( charArrIndex, 1, colorLetterPicked );
+  newImageCharArr.splice( charArrIndex, 1, colorLtrPicked );
   const newImageStr = newImageCharArr.join( '' );
   return newImageStr;
 }
