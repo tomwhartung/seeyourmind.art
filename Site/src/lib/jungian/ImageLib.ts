@@ -215,7 +215,7 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
 
   let squareTopX = gridTopX;
   let squareTopY = gridTopY;
-  let colorLetter = colorLetters[0];   // just a temporary default value
+  let colorLtr = colorLetters[0];   // just a temporary default value
 
   if ( logLogicFlow ) {
     console.log( "drawImageStr: imageStr.length = '" + imageStr.length + "'" );
@@ -230,17 +230,17 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
     for ( let row=0; row < gridSize; row++ ) {
       squareTopY = gridTopY + (row * squareSize);
       for ( let col=0; col < gridSize; col++ ){
-        colorLetter = imageCharArr[imgArrIdx++];
+        colorLtr = imageCharArr[imgArrIdx++];
         // console.log( "for loop in drawImageStr() in ImageLib.ts: imgArrIdx = " + imgArrIdx );
-        // console.log( "for loop in drawImageStr() in ImageLib.ts: colorLetter = " + colorLetter );
+        // console.log( "for loop in drawImageStr() in ImageLib.ts: colorLtr = " + colorLtr );
         squareTopX = gridTopX + (col * squareSize);
-        if ( colorLetter == "B" ) {
+        if ( colorLtr == "B" ) {
           context.fillStyle = "rgba(0, 0, 255, 1)";
-        } else if ( colorLetter == "G" ) {
+        } else if ( colorLtr == "G" ) {
           context.fillStyle = "rgba(0, 255, 0, 1)";
-        } else if ( colorLetter == "R" ) {
+        } else if ( colorLtr == "R" ) {
           context.fillStyle = "rgba(255, 0, 0, 1)";
-        } else if ( colorLetter == "Y" ) {
+        } else if ( colorLtr == "Y" ) {
           context.fillStyle = "rgba(255, 255, 0, 1)";
         } else {
           context.fillStyle = "rgb(255, 255, 255, 1)";
@@ -696,16 +696,16 @@ function setCurrentSquares( imageStr: string ): void {
   currentSquares.yellow = 0;
 
   const totalSquares = gridSize * gridSize;
-  let colorLetter = colorLetters[0];   // just a temporary default value
+  let colorLtr = colorLetters[0];   // just a temporary default value
   const imageCharArr = imageStr.split('');
 
   for ( let imgArrIdx=0; imgArrIdx < totalSquares; imgArrIdx++ ) {
-    colorLetter = imageCharArr[imgArrIdx];
-    if ( colorLetter == colorLetters[0] ) {
+    colorLtr = imageCharArr[imgArrIdx];
+    if ( colorLtr == colorLetters[0] ) {
       currentSquares.blue++;
-    } else if ( colorLetter == colorLetters[1] ) {
+    } else if ( colorLtr == colorLetters[1] ) {
       currentSquares.green++;
-    } else if ( colorLetter == colorLetters[2] ) {
+    } else if ( colorLtr == colorLetters[2] ) {
       currentSquares.red++;
     } else {
       currentSquares.yellow++;
@@ -783,13 +783,13 @@ function createRandomImageStr(): string {
     console.log( "createRandomImageStr in ImageLib.ts: top of function" );
   }
 
-  let colorLetter = "B";
+  let colorLtr = "B";
   const imageCharArr: string[] = [];
 
   for ( let row=0; row < gridSize; row++ ) {
     for ( let col=0; col < gridSize; col++ ){
-      colorLetter = getRandomColor();
-      imageCharArr.push( colorLetter );
+      colorLtr = getRandomColor();
+      imageCharArr.push( colorLtr );
     }
     // if ( logLogicFlow ) {
     //   console.log( "createRandomImageStr: imageCharArr.length = " + imageCharArr.length );
@@ -922,28 +922,28 @@ function getRandomColor(): string {
   // }
 
   let randomFloat = Math.random();
-  let randomColorLetter = colorLetters[0];   // Blue - just a temporary default value
+  let randomColorLtr = colorLetters[0];   // Blue - just a temporary default value
 
   if ( randomFloat <= pcts.jVsP ) {
     randomFloat = Math.random();
     if ( randomFloat <= pcts.nVsS ) {
-      randomColorLetter = colorLetters[3];   // Yellow
+      randomColorLtr = colorLetters[3];   // Yellow
     } else {
-      randomColorLetter = colorLetters[0];   // Blue
+      randomColorLtr = colorLetters[0];   // Blue
     }
   } else {
     randomFloat = Math.random();
     if ( randomFloat <= pcts.fVsT ) {
-      randomColorLetter = colorLetters[1];  // Green
+      randomColorLtr = colorLetters[1];  // Green
     } else {
-      randomColorLetter = colorLetters[2];  // Red
+      randomColorLtr = colorLetters[2];  // Red
     }
   }
 
   // if ( logLogicFlow ) {
-  //   console.log( "getRandomColor(): Return()ing randomColorLetter = " + randomColorLetter );
+  //   console.log( "getRandomColor(): Return()ing randomColorLtr = " + randomColorLtr );
   // }
-  return randomColorLetter;
+  return randomColorLtr;
 }
 
 // drawUnderlyingCanvas: paints the entire canvas black then fills the inner portion of it with white
@@ -976,10 +976,10 @@ function getLineDataArr( fourLtrTypeStr: string ): string[] {
 }
 // lineDataMap: holds line colors and drawing sequence for all 81 types
 // Key:
-//   lineDataStr[0] = lineParmsObj.topColor: colorLetter for top line
-//   lineDataStr[1] = lineParmsObj.leftColor: colorLetter for left line
-//   lineDataStr[2] = lineParmsObj.rightColor: colorLetter for right line
-//   lineDataStr[3] = lineParmsObj.bottomColor: colorLetter for bottom line
+//   lineDataStr[0] = lineParmsObj.topColor: color letter for top line
+//   lineDataStr[1] = lineParmsObj.leftColor: color letter for left line
+//   lineDataStr[2] = lineParmsObj.rightColor: color letter for right line
+//   lineDataStr[3] = lineParmsObj.bottomColor: color letter for bottom line
 //   lineDataStr[4] = "-": to help with readability
 //   lineDataStr[5] = lineParmsObj.drawSeq: "E" for drawSeqForE or "I" for drawSeqForI
 // For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
