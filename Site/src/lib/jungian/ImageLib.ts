@@ -184,62 +184,20 @@ export let domFcnLtr = unknownFcnLtr;
 export let auxFcnLtr = unknownFcnLtr;
 
 // setTypeDomAndAux: set the four-letter Jungian/MBTI(r) type and the dominant and auxiliary functions
-export function setTypeDomAndAux( scoreValueArr: number[] ) {
+export function setTypeDomAndAux( scoreValueArr: number[] ): void {
   if ( logLogicFlow ) {
     console.log( "setTypeDomAndAux in ImageLib.ts: top of function" );
   }
 
-  setScoreValueObj( scoreValueArr );
-
-  if ( ScoreValueObj.eVsIValue == initialScoreValue ) {
-    fourLtrTypeArr[0] = unknownFcnLtr;
-  } else if ( ScoreValueObj.eVsIValue < initialScoreValue ) {
-    fourLtrTypeArr[0] = leftFcnLetters[0];
-  } else {
-    fourLtrTypeArr[0] = rightFcnLetters[0];
-  }
-
-  if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
-    fourLtrTypeArr[3] = unknownFcnLtr;
-  } else {
-    if ( ScoreValueObj.jVsPValue < initialScoreValue ) {
-      fourLtrTypeArr[3] = leftFcnLetters[3];
-    } else {
-      fourLtrTypeArr[3] = rightFcnLetters[3];
-    }
-  }
-
-  if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
-    fourLtrTypeArr[1] = unknownFcnLtr;
-  } else {
-    if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
-      fourLtrTypeArr[1] = leftFcnLetters[1];
-    } else {
-      fourLtrTypeArr[1] = rightFcnLetters[1];
-    }
-  }
-
-  if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
-    fourLtrTypeArr[2] = unknownFcnLtr;
-  } else {
-    if ( ScoreValueObj.fVsTValue < initialScoreValue ) {
-      fourLtrTypeArr[2] = leftFcnLetters[2];
-    } else {
-      fourLtrTypeArr[2] = rightFcnLetters[2];
-    }
-  }
-
-  fourLtrTypeStr = fourLtrTypeArr.join('');
-
-  const domAuxArr = getDomAuxArr( fourLtrTypeStr );
-  domFcnLtr = domAuxArr[0];
-  auxFcnLtr = domAuxArr[1];
+  fourLtrTypeStr = setType( scoreValueArr );
+  setDomAuxValues( fourLtrTypeStr );
 
   if ( logLogicFlow ) {
     console.log( "fourLtrTypeArr = " + fourLtrTypeArr + " and fourLtrTypeStr = " + fourLtrTypeStr + "\n" );
     console.log( "setTypeDomAndAux in ImageLib.ts: returning" );
   }
 }
+
 // Functions:
 // ==========
 //
@@ -405,6 +363,68 @@ const neededSquares : ColorsIFace = {
     );
   },
 };
+
+// setType: set the four-letter Jungian/MBTI(r) type
+function setType( scoreValueArr: number[] ): string {
+  setScoreValueObj( scoreValueArr );
+
+  if ( ScoreValueObj.eVsIValue == initialScoreValue ) {
+    fourLtrTypeArr[0] = unknownFcnLtr;
+  } else if ( ScoreValueObj.eVsIValue < initialScoreValue ) {
+    fourLtrTypeArr[0] = leftFcnLetters[0];
+  } else {
+    fourLtrTypeArr[0] = rightFcnLetters[0];
+  }
+
+  if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
+    fourLtrTypeArr[3] = unknownFcnLtr;
+  } else {
+    if ( ScoreValueObj.jVsPValue < initialScoreValue ) {
+      fourLtrTypeArr[3] = leftFcnLetters[3];
+    } else {
+      fourLtrTypeArr[3] = rightFcnLetters[3];
+    }
+  }
+
+  if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
+    fourLtrTypeArr[1] = unknownFcnLtr;
+  } else {
+    if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
+      fourLtrTypeArr[1] = leftFcnLetters[1];
+    } else {
+      fourLtrTypeArr[1] = rightFcnLetters[1];
+    }
+  }
+
+  if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
+    fourLtrTypeArr[2] = unknownFcnLtr;
+  } else {
+    if ( ScoreValueObj.fVsTValue < initialScoreValue ) {
+      fourLtrTypeArr[2] = leftFcnLetters[2];
+    } else {
+      fourLtrTypeArr[2] = rightFcnLetters[2];
+    }
+  }
+
+  fourLtrTypeStr = fourLtrTypeArr.join('');
+
+  return fourLtrTypeStr;
+}
+// setDomAuxValues: set the dominant and auxiliary function letters and phrases
+function setDomAuxValues( fourLtrTypeStr: string ): void {
+
+  let domAuxStr = domAuxMap.get( fourLtrTypeStr );
+
+  if ( ! domAuxStr ) {
+    domAuxStr = domAuxMap.get( 'XXXX' );    // Default to no values known
+  }
+
+  const domAuxValuesArr = domAuxStr.split( "-" );
+  const domAuxFcnLtrs = domAuxValuesArr[0];
+  const domAuxFcnLtrsArr = domAuxFcnLtrs.split( "" );
+  domFcnLtr = domAuxFcnLtrsArr[0];
+  auxFcnLtr = domAuxFcnLtrsArr[1];
+}
 
 // sprinkleNeeded: Adds the needed squares in random spots
 //   **NOTE:** this function relies on the goal being set!!!
@@ -860,13 +880,13 @@ function setLineParms(): void {
     lineParmsObj.drawSeq = drawSeqForI;
   }
 
-  // This MIGHT be unnecessary, because we already do it in setTypeDomAndAux...
+  // This MIGHT BE UNNECESSARY, because we already do it in setTypeDomAndAux...
   // --> CHECK WHEN WE RETURN TO WORKING WITH LINES!!!
   const domAuxArr = getDomAuxArr( fourLtrTypeStr );
-  lineParmsObj.domFcnLtr = domAuxArr[0];
-  lineParmsObj.auxFcnLtr = domAuxArr[1];
-  domFcnLtr = lineParmsObj.domFcnLtr;
-  auxFcnLtr = lineParmsObj.auxFcnLtr;
+  domFcnLtr = domAuxArr[0];
+  auxFcnLtr = domAuxArr[1];
+  lineParmsObj.domFcnLtr = domFcnLtr;
+  lineParmsObj.auxFcnLtr = auxFcnLtr;
 
   // if ( logLogicFlow ) {
   //   console.log( "setLineParms: lineParmsObj.domFcnLtr = " + lineParmsObj.domFcnLtr );
@@ -1053,6 +1073,7 @@ lineDataMap.set( 'ISTJ', "YGGY-I" );  // All four values known
 lineDataMap.set( 'ISTP', "GYYG-I" );  // All four values known
 
 // getDomAuxArr: gets the dominant and auxiliary attributes from the domAuxMap and returns it as an array
+// THIS FUNCTION MAY BE OBSOLETE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function getDomAuxArr( fourLtrTypeStr: string ): string[] {
   let domAuxStr = domAuxMap.get( fourLtrTypeStr );
 
