@@ -91,7 +91,7 @@ export function setImageStr( newImageStr: string ): void {
 export const initialSquareSize = 15;        // Size of each square before user changes it
 export const invalidSquareSize = 0;         // Used as "default" value for state variable
 export const minSquareSize = 1;             // Minimum size of each square
-export const maxSquareSize = 33;            // Maximum size of each square
+export const maxSquareSize = 49;            // Maximum size of each square
 export let squareSize = initialSquareSize;  // Changed by a slider on Refine page
 export function setSquareSize( newSquareSize: number ): void {
   squareSize = newSquareSize;
