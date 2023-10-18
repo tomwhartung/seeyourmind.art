@@ -178,10 +178,13 @@ export function getCanvasHeight(): number {
 }
 
 export const unknownFcnLtr = "X";
+export const unknownDomAuxPhrase = "Xx: Unknown";
 export const fourLtrTypeArr : string[] = [ unknownFcnLtr, unknownFcnLtr, unknownFcnLtr, unknownFcnLtr ];
 export let fourLtrTypeStr = fourLtrTypeArr.join('');
 export let domFcnLtr = unknownFcnLtr;
 export let auxFcnLtr = unknownFcnLtr;
+export let domPhrase = unknownDomAuxPhrase;
+export let auxPhrase = unknownDomAuxPhrase;
 
 // setTypeDomAndAux: set the four-letter Jungian/MBTI(r) type and the dominant and auxiliary functions
 export function setTypeDomAndAux( scoreValueArr: number[] ): void {
@@ -420,10 +423,14 @@ function setDomAuxValues( fourLtrTypeStr: string ): void {
   }
 
   const domAuxValuesArr = domAuxStr.split( "-" );
+
   const domAuxFcnLtrs = domAuxValuesArr[0];
   const domAuxFcnLtrsArr = domAuxFcnLtrs.split( "" );
   domFcnLtr = domAuxFcnLtrsArr[0];
   auxFcnLtr = domAuxFcnLtrsArr[1];
+
+  domPhrase = domAuxValuesArr[1];
+  auxPhrase = domAuxValuesArr[2];
 }
 
 // sprinkleNeeded: Adds the needed squares in random spots
@@ -1096,25 +1103,25 @@ function getDomAuxArr( fourLtrTypeStr: string ): string[] {
 //   domAuxStr[5] = auxiliary function phrase
 // For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
 const domAuxMap = new Map();
-domAuxMap.set( 'XXXX', "XX-Unknown-Unknown" );  // No values known
+domAuxMap.set( 'XXXX', "XX-Xx: Unknown-Xx: Unknown" );  // No values known
 
-domAuxMap.set( 'EXFJ', "FX-Fe: Extraverted Feeling-Unknown" );
-domAuxMap.set( 'EXFP', "XF-Unknown-Fi: Introverted Feeling" );
-domAuxMap.set( 'EXTJ', "TX-Te: Extraverted Thinking-Unknown" );
-domAuxMap.set( 'EXTP', "XT-Unknown-Ti: Introverted Thinking" );
-domAuxMap.set( 'IXFJ', "XF-Unknown-Fe: Extraverted Feeling" );
-domAuxMap.set( 'IXFP', "FX-Fi: Introverted Feeling-Unknown" );
-domAuxMap.set( 'IXTJ', "XT-Unknown-Te: Extraverted Thinking" );
-domAuxMap.set( 'IXTP', "TX-Ti: Introverted Thinking-Unknown" );
+domAuxMap.set( 'EXFJ', "FX-Fe: Extraverted Feeling-Xx: Unknown" );
+domAuxMap.set( 'EXFP', "XF-Xx: Unknown-Fi: Introverted Feeling" );
+domAuxMap.set( 'EXTJ', "TX-Te: Extraverted Thinking-Xx: Unknown" );
+domAuxMap.set( 'EXTP', "XT-Xx: Unknown-Ti: Introverted Thinking" );
+domAuxMap.set( 'IXFJ', "XF-Xx: Unknown-Fe: Extraverted Feeling" );
+domAuxMap.set( 'IXFP', "FX-Fi: Introverted Feeling-Xx: Unknown" );
+domAuxMap.set( 'IXTJ', "XT-Xx: Unknown-Te: Extraverted Thinking" );
+domAuxMap.set( 'IXTP', "TX-Ti: Introverted Thinking-Xx: Unknown" );
 
-domAuxMap.set( 'ENXJ', "XN-Unknown-Ni: Introverted iNtuition" );
-domAuxMap.set( 'ENXP', "NX-Ne: Extraverted iNtution-Unknown" );
-domAuxMap.set( 'ESXJ', "XS-Unknown-Si: Introverted Sensing" );
-domAuxMap.set( 'ESXP', "SX-Se: Extraverted Sensing-Unknown" );
-domAuxMap.set( 'INXJ', "NX-Ni: Introverted iNtution-Unknown" );
-domAuxMap.set( 'INXP', "XN-Unknown-Ne: Extraverted iNtuition" );
-domAuxMap.set( 'ISXJ', "SX-Si: Introverted Sensing-Unknown" );
-domAuxMap.set( 'ISXP', "XS-Unknown-Se: Extraverted Sensing" );
+domAuxMap.set( 'ENXJ', "XN-Xx: Unknown-Ni: Introverted iNtuition" );
+domAuxMap.set( 'ENXP', "NX-Ne: Extraverted iNtution-Xx: Unknown" );
+domAuxMap.set( 'ESXJ', "XS-Xx: Unknown-Si: Introverted Sensing" );
+domAuxMap.set( 'ESXP', "SX-Se: Extraverted Sensing-Xx: Unknown" );
+domAuxMap.set( 'INXJ', "NX-Ni: Introverted iNtution-Xx: Unknown" );
+domAuxMap.set( 'INXP', "XN-Xx: Unknown-Ne: Extraverted iNtuition" );
+domAuxMap.set( 'ISXJ', "SX-Si: Introverted Sensing-Xx: Unknown" );
+domAuxMap.set( 'ISXP', "XS-Xx: Unknown-Se: Extraverted Sensing" );
 
 domAuxMap.set( 'ENFJ', "FN-Fe: Extraverted Feeling-Ni: Introverted iNtuition" );
 domAuxMap.set( 'ENFP', "NF-Ne: Extraverted iNtution-Fi: Introverted Feeling" );
