@@ -177,11 +177,11 @@ export function getCanvasHeight(): number {
   return ( squareSize * gridSize ) + ( 2 * gridTopY );
 }
 
-export const unknownFcnLetter = "X";
-export const fourLtrTypeArr : string[] = [ unknownFcnLetter, unknownFcnLetter, unknownFcnLetter, unknownFcnLetter ];
+export const unknownFcnLtr = "X";
+export const fourLtrTypeArr : string[] = [ unknownFcnLtr, unknownFcnLtr, unknownFcnLtr, unknownFcnLtr ];
 export let fourLtrTypeStr = fourLtrTypeArr.join('');
-export let domFcn = unknownFcnLetter;
-export let auxFcn = unknownFcnLetter;
+export let domFcnLtr = unknownFcnLtr;
+export let auxFcnLtr = unknownFcnLtr;
 
 // setTypeDomAndAux: set the four-letter Jungian/MBTI(r) type and the dominant and auxiliary functions
 export function setTypeDomAndAux( scoreValueArr: number[] ) {
@@ -192,7 +192,7 @@ export function setTypeDomAndAux( scoreValueArr: number[] ) {
   setScoreValueObj( scoreValueArr );
 
   if ( ScoreValueObj.eVsIValue == initialScoreValue ) {
-    fourLtrTypeArr[0] = unknownFcnLetter;
+    fourLtrTypeArr[0] = unknownFcnLtr;
   } else if ( ScoreValueObj.eVsIValue < initialScoreValue ) {
     fourLtrTypeArr[0] = leftFcnLetters[0];
   } else {
@@ -200,7 +200,7 @@ export function setTypeDomAndAux( scoreValueArr: number[] ) {
   }
 
   if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
-    fourLtrTypeArr[3] = unknownFcnLetter;
+    fourLtrTypeArr[3] = unknownFcnLtr;
   } else {
     if ( ScoreValueObj.jVsPValue < initialScoreValue ) {
       fourLtrTypeArr[3] = leftFcnLetters[3];
@@ -210,7 +210,7 @@ export function setTypeDomAndAux( scoreValueArr: number[] ) {
   }
 
   if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
-    fourLtrTypeArr[1] = unknownFcnLetter;
+    fourLtrTypeArr[1] = unknownFcnLtr;
   } else {
     if ( ScoreValueObj.nVsSValue < initialScoreValue ) {
       fourLtrTypeArr[1] = leftFcnLetters[1];
@@ -220,7 +220,7 @@ export function setTypeDomAndAux( scoreValueArr: number[] ) {
   }
 
   if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
-    fourLtrTypeArr[2] = unknownFcnLetter;
+    fourLtrTypeArr[2] = unknownFcnLtr;
   } else {
     if ( ScoreValueObj.fVsTValue < initialScoreValue ) {
       fourLtrTypeArr[2] = leftFcnLetters[2];
@@ -232,8 +232,8 @@ export function setTypeDomAndAux( scoreValueArr: number[] ) {
   fourLtrTypeStr = fourLtrTypeArr.join('');
 
   const domAuxArr = getDomAuxArr( fourLtrTypeStr );
-  domFcn = domAuxArr[0];
-  auxFcn = domAuxArr[1];
+  domFcnLtr = domAuxArr[0];
+  auxFcnLtr = domAuxArr[1];
 
   if ( logLogicFlow ) {
     console.log( "fourLtrTypeArr = " + fourLtrTypeArr + " and fourLtrTypeStr = " + fourLtrTypeStr + "\n" );
@@ -469,8 +469,8 @@ interface LineParmsIFace {
   rightColor:  string;    // One of the colorLetters
   bottomColor: string;    // One of the colorLetters
   drawSeq:     string;    // drawSeqForE or drawSeqForI
-  domFcn:      string;    // Dominant function for this type - 'F', 'N', 'S', or 'T'
-  auxFcn:      string;    // Auxiliary function for this type - 'F', 'N', 'S', or 'T'
+  domFcnLtr:   string;    // Dominant function for this type - 'F', 'N', 'S', or 'T'
+  auxFcnLtr:   string;    // Auxiliary function for this type - 'F', 'N', 'S', or 'T'
   toString: () => string;
 }
 const lineParmsObj: LineParmsIFace = {
@@ -481,8 +481,8 @@ const lineParmsObj: LineParmsIFace = {
   rightColor:  colorLetters[3],    // Yellow
   bottomColor: colorLetters[2],    // Red
   drawSeq:     drawSeqForE,        // Defaults to 'E', because there is no drawing seq for 'X'!
-  domFcn:      unknownFcnLetter,   // Defaults to 'X' for unknown
-  auxFcn:      unknownFcnLetter,   // Defaults to 'X' for unknown
+  domFcnLtr:   unknownFcnLtr,      // Defaults to 'X' for unknown
+  auxFcnLtr:   unknownFcnLtr,      // Defaults to 'X' for unknown
   toString: function(): string {
     return(
       "lineParmsObj.talPos = " + this.talPos + "\n" +
@@ -492,8 +492,8 @@ const lineParmsObj: LineParmsIFace = {
       "lineParmsObj.rightColor = " + this.rightColor + "\n" +
       "lineParmsObj.bottomColor = " + this.bottomColor + "\n" +
       "lineParmsObj.drawSeq = " + this.drawSeq + "\n" +
-      "lineParmsObj.domFcn = " + this.domFcn + "\n" +
-      "lineParmsObj.auxFcn = " + this.auxFcn
+      "lineParmsObj.domFcnLtr = " + this.domFcnLtr + "\n" +
+      "lineParmsObj.auxFcnLtr = " + this.auxFcnLtr
     );
   },
 };
@@ -860,14 +860,17 @@ function setLineParms(): void {
     lineParmsObj.drawSeq = drawSeqForI;
   }
 
-  lineParmsObj.domFcn = lineDataArr[7];
-  lineParmsObj.auxFcn = lineDataArr[8];
-  domFcn = lineParmsObj.domFcn;
-  auxFcn = lineParmsObj.auxFcn;
+  // This MIGHT be unnecessary, because we already do it in setTypeDomAndAux...
+  // --> CHECK WHEN WE RETURN TO WORKING WITH LINES!!!
+  const domAuxArr = getDomAuxArr( fourLtrTypeStr );
+  lineParmsObj.domFcnLtr = domAuxArr[0];
+  lineParmsObj.auxFcnLtr = domAuxArr[1];
+  domFcnLtr = lineParmsObj.domFcnLtr;
+  auxFcnLtr = lineParmsObj.auxFcnLtr;
 
   // if ( logLogicFlow ) {
-  //   console.log( "setLineParms: lineParmsObj.domFcn = " + lineParmsObj.domFcn );
-  //   console.log( "setLineParms: lineParmsObj.auxFcn = " + lineParmsObj.auxFcn );
+  //   console.log( "setLineParms: lineParmsObj.domFcnLtr = " + lineParmsObj.domFcnLtr );
+  //   console.log( "setLineParms: lineParmsObj.auxFcnLtr = " + lineParmsObj.auxFcnLtr );
   console.log( lineParmsObj.toString() );
   // }
 }
@@ -1060,51 +1063,55 @@ function getDomAuxArr( fourLtrTypeStr: string ): string[] {
   const domAuxArr = domAuxStr.split( "" );
   return domAuxArr;
 }
-// domAuxMap: holds line colors and drawing sequence for all 81 types
+// domAuxMap: holds the dom and aux data for types with E/I, J/P, and at least one other letter known
 // Key:
-//   domAuxStr[0] = lineParmsObj.domFcn: Dominant function for this type
-//     "X" -> unknown; BOTH E/I and J/P MUST be set - NO assumptions are made
-//   domAuxStr[1] = lineParmsObj.auxFcn: Auxiliary function for this type
-//     "X" -> unknown; BOTH E/I and J/P MUST be set - NO assumptions are made
+//   domAuxStr[0] = domFcnLtr: Dominant function letter for this type
+//     "X" -> unknown; E/I, J/P and another letter MUST be set - NO assumptions are made
+//   domAuxStr[1] = auxFcnLtr: Auxiliary function letter for this type
+//     "X" -> unknown; E/I, J/P and another letter MUST be set - NO assumptions are made
+//   domAuxStr[2] = "-": to help with readability
+//   domAuxStr[3] = dominant function phrase
+//   domAuxStr[4] = "-": to help with readability
+//   domAuxStr[5] = auxiliary function phrase
 // For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
 const domAuxMap = new Map();
-domAuxMap.set( 'XXXX', "XX" );  // No values known
+domAuxMap.set( 'XXXX', "XX-Unknown-Unknown" );  // No values known
 
-domAuxMap.set( 'EXFJ', "FX" );  // Three values known
-domAuxMap.set( 'EXFP', "XF" );  // Three values known
-domAuxMap.set( 'EXTJ', "TX" );  // Three values known
-domAuxMap.set( 'EXTP', "XT" );  // Three values known
-domAuxMap.set( 'IXFJ', "XF" );  // Three values known
-domAuxMap.set( 'IXFP', "FX" );  // Three values known
-domAuxMap.set( 'IXTJ', "XT" );  // Three values known
-domAuxMap.set( 'IXTP', "TX" );  // Three values known
+domAuxMap.set( 'EXFJ', "FX-Fe: Extraverted Feeling-Unknown" );
+domAuxMap.set( 'EXFP', "XF-Unknown-Fi: Introverted Feeling" );
+domAuxMap.set( 'EXTJ', "TX-Te: Extraverted Thinking-Unknown" );
+domAuxMap.set( 'EXTP', "XT-Unknown-Ti: Introverted Thinking" );
+domAuxMap.set( 'IXFJ', "XF-Unknown-Fe: Extraverted Feeling" );
+domAuxMap.set( 'IXFP', "FX-Fi: Introverted Feeling-Unknown" );
+domAuxMap.set( 'IXTJ', "XT-Unknown-Te: Extraverted Thinking" );
+domAuxMap.set( 'IXTP', "TX-Ti: Introverted Thinking-Unknown" );
 
-domAuxMap.set( 'ENXJ', "XN" );  // Three values known
-domAuxMap.set( 'ENXP', "NX" );  // Three values known
-domAuxMap.set( 'ESXJ', "XS" );  // Three values known
-domAuxMap.set( 'ESXP', "SX" );  // Three values known
-domAuxMap.set( 'INXJ', "NX" );  // Three values known
-domAuxMap.set( 'INXP', "XN" );  // Three values known
-domAuxMap.set( 'ISXJ', "SX" );  // Three values known
-domAuxMap.set( 'ISXP', "XS" );  // Three values known
+domAuxMap.set( 'ENXJ', "XN-Unknown-Ni: Introverted iNtuition" );
+domAuxMap.set( 'ENXP', "NX-Ne: Extraverted iNtution-Unknown" );
+domAuxMap.set( 'ESXJ', "XS-Unknown-Si: Introverted Sensing" );
+domAuxMap.set( 'ESXP', "SX-Se: Extraverted Sensing-Unknown" );
+domAuxMap.set( 'INXJ', "NX-Ni: Introverted iNtution-Unknown" );
+domAuxMap.set( 'INXP', "XN-Unknown-Ne: Extraverted iNtuition" );
+domAuxMap.set( 'ISXJ', "SX-Si: Introverted Sensing-Unknown" );
+domAuxMap.set( 'ISXP', "XS-Unknown-Se: Extraverted Sensing" );
 
-domAuxMap.set( 'ENFJ', "FN" );  // All four values known
-domAuxMap.set( 'ENFP', "NF" );  // All four values known
-domAuxMap.set( 'ENTJ', "TN" );  // All four values known
-domAuxMap.set( 'ENTP', "NT" );  // All four values known
-domAuxMap.set( 'ESFJ', "FS" );  // All four values known
-domAuxMap.set( 'ESFP', "SF" );  // All four values known
-domAuxMap.set( 'ESTJ', "TS" );  // All four values known
-domAuxMap.set( 'ESTP', "ST" );  // All four values known
+domAuxMap.set( 'ENFJ', "FN-Fe: Extraverted Feeling-Ni: Introverted iNtuition" );
+domAuxMap.set( 'ENFP', "NF-Ne: Extraverted iNtution-Fi: Introverted Feeling" );
+domAuxMap.set( 'ENTJ', "TN-Te: Extraverted Thinking-Ni: Introverted iNtuition" );
+domAuxMap.set( 'ENTP', "NT-Ne: Extraverted iNtution-Ti: Introverted Thinking" );
+domAuxMap.set( 'ESFJ', "FS-Fe: Extraverted Feeling-Si: Introverted Sensing" );
+domAuxMap.set( 'ESFP', "SF-Se: Extraverted Sensing-Fi: Introverted Feeling" );
+domAuxMap.set( 'ESTJ', "TS-Te: Extraverted Thinking-Si: Introverted Sensing" );
+domAuxMap.set( 'ESTP', "ST-Se: Extraverted Sensing-Ti: Introverted Thinking" );
 
-domAuxMap.set( 'INFJ', "NF" );  // All four values known
-domAuxMap.set( 'INFP', "FN" );  // All four values known
-domAuxMap.set( 'INTJ', "NT" );  // All four values known
-domAuxMap.set( 'INTP', "TN" );  // All four values known
-domAuxMap.set( 'ISFJ', "SF" );  // All four values known
-domAuxMap.set( 'ISFP', "FS" );  // All four values known
-domAuxMap.set( 'ISTJ', "ST" );  // All four values known
-domAuxMap.set( 'ISTP', "TS" );  // All four values known
+domAuxMap.set( 'INFJ', "NF-Ni: Introverted iNtuition-Fe: Extraverted Feeling" );
+domAuxMap.set( 'INFP', "FN-Fi: Introverted Feeling-Ne: Extraverted iNtution" );
+domAuxMap.set( 'INTJ', "NT-Ni: Introverted iNtuition-Te: Extraverted Thinking" );
+domAuxMap.set( 'INTP', "TN-Ti: Introverted Thinking-Ne: Extraverted iNtution" );
+domAuxMap.set( 'ISFJ', "SF-Si: Introverted Sensing-Fe: Extraverted Feeling" );
+domAuxMap.set( 'ISFP', "FS-Fi: Introverted Feeling-Se: Extraverted Sensing" );
+domAuxMap.set( 'ISTJ', "ST-Si: Introverted Sensing-Te: Extraverted Thinking" );
+domAuxMap.set( 'ISTP', "TS-Ti: Introverted Thinking-Se: Extraverted Sensing" );
 
 // lineCoordsMap: defines the line coordinates for each of the supported grid sizes
 // Fields separated by a comma:
