@@ -270,12 +270,14 @@ export function createFreshImageStr(): string {
   setGoal();
   setLineParms();   // relies on type being set!!!
 
-  let freshImageStr = createRandomImageStr();
+  let freshImageStr = "";
 
   if ( gridSize <= maxTrivialGridSize ) {
-    return freshImageStr;  // Just for now....
+    freshImageStr = processTrivialGridSizes();
+    return freshImageStr;
   }
 
+  freshImageStr = createRandomImageStr();
   const maxTries = 1000;
   let numTries = 0;
   let done = false;
@@ -320,6 +322,26 @@ export function createFreshImageStr(): string {
   // console.log( "(0) createFreshImageStr in ImageLib.ts: Returning the freshImageStr" );
   // }
 
+  return freshImageStr;
+}
+// processTrivialGridSizes: we use a different algo when the grid size is <= maxTrivialGridSize
+function processTrivialGridSizes(): string {
+  // if ( logLogicFlow ) {
+  console.log( "processTrivialGridSizes: top of function; gridSize = " + gridSize );
+  console.log( "processTrivialGridSizes: domFcnLtr = " + domFcnLtr );
+  console.log( "processTrivialGridSizes: auxFcnLtr = " + auxFcnLtr );
+  // }
+
+  let freshImageStr = "";
+  if ( gridSize == 1 ) {
+    freshImageStr = createRandomImageStr();
+  } else {
+    freshImageStr = createRandomImageStr();
+  }
+
+  // if ( logLogicFlow ) {
+  console.log( "processTrivialGridSizes: returning freshImageStr = " + freshImageStr );
+  // }
   return freshImageStr;
 }
 
