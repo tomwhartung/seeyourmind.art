@@ -977,41 +977,6 @@ function getLineDataArr( fourLtrTypeStr: string ): string[] {
   return lineDataArr;
 }
 
-// processTinyGridSizes: we use a different algo when the grid size is <= maxTinyGridSize
-function processTinyGridSizes(): string {
-  // if ( logLogicFlow ) {
-  console.log( "processTinyGridSizes: top of function; gridSize = " + gridSize );
-  console.log( "processTinyGridSizes: domFcnLtr = " + domFcnLtr );
-  console.log( "processTinyGridSizes: auxFcnLtr = " + auxFcnLtr );
-  // }
-
-  let freshImageStr = "";
-  if ( gridSize == 1 ) {
-    freshImageStr = freshImageStrGridSize_1();
-  } else if ( gridSize == 3 ) {
-    freshImageStr = freshImageStrGridSize_3();
-  } else {
-    freshImageStr = freshImageStrGridSize_5();
-  }
-
-  // if ( logLogicFlow ) {
-  console.log( "processTinyGridSizes: returning freshImageStr = " + freshImageStr );
-  // }
-  return freshImageStr;
-}
-function freshImageStrGridSize_1(): string {
-  const freshImageStr = createRandomImageStr()
-  return freshImageStr;
-}
-function freshImageStrGridSize_3(): string {
-  const freshImageStr = createRandomImageStr()
-  return freshImageStr;
-}
-function freshImageStrGridSize_5(): string {
-  const freshImageStr = createRandomImageStr()
-  return freshImageStr;
-}
-
 // lineDataMap: holds line colors and drawing sequence for all 81 types
 // Key:
 //   lineDataStr[0] = lineParmsObj.topColor: color letter for top line
@@ -1131,14 +1096,16 @@ function getDomAuxArr( fourLtrTypeStr: string ): string[] {
 }
 // domAuxMap: holds the dom and aux data for types with E/I, J/P, and at least one other letter known
 // Key:
-//   domAuxStr[0] = domFcnLtr: Dominant function letter for this type
+//   Note: accessing this data requires two split() commands: first on "-" then on ""
+//     See setDomAuxValues() for code that parses these values
+//   domAuxValuesArr[0] -> domAuxFcnLtrs[0] = domFcnLtr: Dominant function letter for this type
 //     "X" -> unknown; E/I, J/P and another letter MUST be set - NO assumptions are made
-//   domAuxStr[1] = auxFcnLtr: Auxiliary function letter for this type
+//   domAuxValuesArr[0] -> domAuxFcnLtrs[1] = auxFcnLtr: Auxiliary function letter for this type
 //     "X" -> unknown; E/I, J/P and another letter MUST be set - NO assumptions are made
-//   domAuxStr[2] = "-": to help with readability
-//   domAuxStr[3] = dominant function phrase
-//   domAuxStr[4] = "-": to help with readability
-//   domAuxStr[5] = auxiliary function phrase
+//   Next char in string is a "-", to help with readability and enable splitting into fields
+//   domAuxValuesArr[1] = dominant function phrase
+//   Next char in string is a "-", to help with readability and enable splitting into fields
+//   domAuxValuesArr[2] = auxiliary function phrase
 // For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
 const domAuxMap = new Map();
 domAuxMap.set( 'XXXX', "XX-Xx: Unknown-Xx: Unknown" );  // No values known
@@ -1213,4 +1180,89 @@ lineCoordsMap.set( '43', "11,31" );
 lineCoordsMap.set( '45', "11,33" );
 lineCoordsMap.set( '47', "12,34" );
 lineCoordsMap.set( '49', "12,36" );
+
+// processTinyGridSizes: we use a different algo when the grid size is <= maxTinyGridSize
+function processTinyGridSizes(): string {
+  // if ( logLogicFlow ) {
+  console.log( "processTinyGridSizes: top of function; gridSize = " + gridSize );
+  console.log( "processTinyGridSizes: domFcnLtr = " + domFcnLtr );
+  console.log( "processTinyGridSizes: auxFcnLtr = " + auxFcnLtr );
+  // }
+
+  let freshImageStr = "";
+  if ( gridSize == 1 ) {
+    freshImageStr = freshImageStrGridSize_1();
+  } else if ( gridSize == 3 ) {
+    freshImageStr = freshImageStrGridSize_3();
+  } else {
+    freshImageStr = freshImageStrGridSize_5();
+  }
+
+  // if ( logLogicFlow ) {
+  console.log( "processTinyGridSizes: returning freshImageStr = " + freshImageStr );
+  // }
+  return freshImageStr;
+}
+// colorMapForGridSize_1: holds the dom and aux data for types with E/I, J/P, and at least one other letter known
+// Key:
+//   domAuxStr[0] = domFcnLtr: Dominant function letter for this type
+//     "X" -> unknown; E/I, J/P and another letter MUST be set - NO assumptions are made
+//   domAuxStr[1] = auxFcnLtr: Auxiliary function letter for this type
+//     "X" -> unknown; E/I, J/P and another letter MUST be set - NO assumptions are made
+//   domAuxStr[2] = "-": to help with readability
+//   domAuxStr[3] = dominant function phrase
+//   domAuxStr[4] = "-": to help with readability
+//   domAuxStr[5] = auxiliary function phrase
+// For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
+const colorMapForGridSize_1 = new Map();
+colorMapForGridSize_1.set( 'XXXX', "BGRY-XX-Xx: Unknown-Xx: Unknown" );  // No values known
+
+colorMapForGridSize_1.set( 'EXFJ', "RBRY-FX-Fe-Xx" );
+colorMapForGridSize_1.set( 'EXFP', "BRYR-XF-Xx-Fi" );
+colorMapForGridSize_1.set( 'EXTJ', "GBGY-TX-Te-Xx" );
+colorMapForGridSize_1.set( 'EXTP', "BGYG-XT-Xx-Ti" );
+colorMapForGridSize_1.set( 'IXFJ', "BYRR-XF-Xx-Fe" );
+colorMapForGridSize_1.set( 'IXFP', "RRBY-FX-Fi-Xx" );
+colorMapForGridSize_1.set( 'IXTJ', "BYGG-XT-Xx-Te" );
+colorMapForGridSize_1.set( 'IXTP', "GGBY-TX-Ti-Xx" );
+
+colorMapForGridSize_1.set( 'ENXJ', "GBRB-XN-Xx-Ni" );
+colorMapForGridSize_1.set( 'ENXP', "BGBR-NX-Ne-Xx" );
+colorMapForGridSize_1.set( 'ESXJ', "GYRY-XS-Xx-Si" );
+colorMapForGridSize_1.set( 'ESXP', "YGYR-SX-Se-Xx" );
+colorMapForGridSize_1.set( 'INXJ', "BBGR-NX-Ni-Xx" );
+colorMapForGridSize_1.set( 'INXP', "GRBB-XN-Xx-Ne" );
+colorMapForGridSize_1.set( 'ISXJ', "YYGR-SX-Si-Xx" );
+colorMapForGridSize_1.set( 'ISXP', "GRYY-XS-Xx-Se" );
+
+colorMapForGridSize_1.set( 'ENFJ', "RBRB-FN-Fe-Ni" );
+colorMapForGridSize_1.set( 'ENFP', "BRBR-NF-Ne-Fi" );
+colorMapForGridSize_1.set( 'ENTJ', "GBGB-TN-Te-Ni" );
+colorMapForGridSize_1.set( 'ENTP', "BGBG-NT-Ne-Ti" );
+colorMapForGridSize_1.set( 'ESFJ', "RYRY-FS-Fe-Si" );
+colorMapForGridSize_1.set( 'ESFP', "YRYR-SF-Se-Fi" );
+colorMapForGridSize_1.set( 'ESTJ', "GYGY-TS-Te-Si" );
+colorMapForGridSize_1.set( 'ESTP', "YGYG-ST-Se-Ti" );
+
+colorMapForGridSize_1.set( 'INFJ', "BBRR-NF-Ni-Fe" );
+colorMapForGridSize_1.set( 'INFP', "RRBB-FN-Fi-Ne" );
+colorMapForGridSize_1.set( 'INTJ', "BBGG-NT-Ni-Te" );
+colorMapForGridSize_1.set( 'INTP', "GGBB-TN-Ti-Ne" );
+colorMapForGridSize_1.set( 'ISFJ', "YYRR-SF-Si-Fe" );
+colorMapForGridSize_1.set( 'ISFP', "RRYY-FS-Fi-Se" );
+colorMapForGridSize_1.set( 'ISTJ', "YYGG-ST-Si-Te" );
+colorMapForGridSize_1.set( 'ISTP', "GGYY-TS-Ti-Se" );
+
+function freshImageStrGridSize_1(): string {
+  const freshImageStr = createRandomImageStr()
+  return freshImageStr;
+}
+function freshImageStrGridSize_3(): string {
+  const freshImageStr = createRandomImageStr()
+  return freshImageStr;
+}
+function freshImageStrGridSize_5(): string {
+  const freshImageStr = createRandomImageStr()
+  return freshImageStr;
+}
 
