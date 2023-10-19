@@ -108,7 +108,7 @@ export let gridSize = initialGridSize;    // Changed by a slider on the Create p
 export function setGridSize( newGridSize: number ): void {
   gridSize = newGridSize;
 }
-const maxTrivialGridSize = 5;    // Compositions are trivial for trivial grid sizes
+const maxTinyGridSize = 5;    // Compositions are trivial for trivial grid sizes
 
 
 // Constant Arrays:
@@ -272,8 +272,8 @@ export function createFreshImageStr(): string {
 
   let freshImageStr = "";
 
-  if ( gridSize <= maxTrivialGridSize ) {
-    freshImageStr = processTrivialGridSizes();
+  if ( gridSize <= maxTinyGridSize ) {
+    freshImageStr = processTinyGridSizes();
     return freshImageStr;
   }
 
@@ -322,26 +322,6 @@ export function createFreshImageStr(): string {
   // console.log( "(0) createFreshImageStr in ImageLib.ts: Returning the freshImageStr" );
   // }
 
-  return freshImageStr;
-}
-// processTrivialGridSizes: we use a different algo when the grid size is <= maxTrivialGridSize
-function processTrivialGridSizes(): string {
-  // if ( logLogicFlow ) {
-  console.log( "processTrivialGridSizes: top of function; gridSize = " + gridSize );
-  console.log( "processTrivialGridSizes: domFcnLtr = " + domFcnLtr );
-  console.log( "processTrivialGridSizes: auxFcnLtr = " + auxFcnLtr );
-  // }
-
-  let freshImageStr = "";
-  if ( gridSize == 1 ) {
-    freshImageStr = createRandomImageStr();
-  } else {
-    freshImageStr = createRandomImageStr();
-  }
-
-  // if ( logLogicFlow ) {
-  console.log( "processTrivialGridSizes: returning freshImageStr = " + freshImageStr );
-  // }
   return freshImageStr;
 }
 
@@ -996,6 +976,42 @@ function getLineDataArr( fourLtrTypeStr: string ): string[] {
   const lineDataArr = lineDataStr.split( "" );
   return lineDataArr;
 }
+
+// processTinyGridSizes: we use a different algo when the grid size is <= maxTinyGridSize
+function processTinyGridSizes(): string {
+  // if ( logLogicFlow ) {
+  console.log( "processTinyGridSizes: top of function; gridSize = " + gridSize );
+  console.log( "processTinyGridSizes: domFcnLtr = " + domFcnLtr );
+  console.log( "processTinyGridSizes: auxFcnLtr = " + auxFcnLtr );
+  // }
+
+  let freshImageStr = "";
+  if ( gridSize == 1 ) {
+    freshImageStr = freshImageStrGridSize_1();
+  } else if ( gridSize == 3 ) {
+    freshImageStr = freshImageStrGridSize_3();
+  } else {
+    freshImageStr = freshImageStrGridSize_5();
+  }
+
+  // if ( logLogicFlow ) {
+  console.log( "processTinyGridSizes: returning freshImageStr = " + freshImageStr );
+  // }
+  return freshImageStr;
+}
+function freshImageStrGridSize_1(): string {
+  const freshImageStr = createRandomImageStr()
+  return freshImageStr;
+}
+function freshImageStrGridSize_3(): string {
+  const freshImageStr = createRandomImageStr()
+  return freshImageStr;
+}
+function freshImageStrGridSize_5(): string {
+  const freshImageStr = createRandomImageStr()
+  return freshImageStr;
+}
+
 // lineDataMap: holds line colors and drawing sequence for all 81 types
 // Key:
 //   lineDataStr[0] = lineParmsObj.topColor: color letter for top line
