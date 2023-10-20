@@ -323,6 +323,15 @@ function FixedContainer() {
 
   return (
     <div className="container">
+      <div className="row mt-4">
+        <div className="col-2">
+          <h3>{ImageLib.fourLtrTypeStr}</h3>
+        </div>
+        <div className="col-10">
+          <p>Dominant: {ImageLib.domPhrase}<br />
+             Auxiliary: {ImageLib.auxPhrase}</p>
+        </div>
+      </div>
       <div className="row mt-2">
         <div className="col-sm-12">
           <h5>{currentStatusMsg}</h5>
@@ -346,7 +355,6 @@ function Refine() {
 
   return (
     <div id="refine">
-      <h2>Refine</h2>
       <FixedContainer />
     </div>
   )
