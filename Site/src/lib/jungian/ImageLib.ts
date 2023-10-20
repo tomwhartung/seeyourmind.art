@@ -236,21 +236,8 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
       squareTopY = gridTopY + (row * squareSize);
       for ( let col=0; col < gridSize; col++ ){
         colorLtr = imageCharArr[imgArrIdx++];
-        // console.log( "for loop in drawImageStr() in ImageLib.ts: imgArrIdx = " + imgArrIdx );
-        // console.log( "for loop in drawImageStr() in ImageLib.ts: colorLtr = " + colorLtr );
         squareTopX = gridTopX + (col * squareSize);
-        if ( colorLtr == "B" ) {
-          context.fillStyle = "rgba(0, 0, 255, 1)";
-        } else if ( colorLtr == "G" ) {
-          context.fillStyle = "rgba(0, 255, 0, 1)";
-        } else if ( colorLtr == "R" ) {
-          context.fillStyle = "rgba(255, 0, 0, 1)";
-        } else if ( colorLtr == "Y" ) {
-          context.fillStyle = "rgba(255, 255, 0, 1)";
-        } else {
-          context.fillStyle = "rgb(255, 255, 255, 1)";
-        }
-        context.fillRect( squareTopX, squareTopY, squareSize, squareSize );
+        drawRectangle( context, colorLtr, squareTopX, squareTopY, squareSize, squareSize );
       }
     }
   } else {
