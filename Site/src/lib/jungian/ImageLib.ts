@@ -211,6 +211,11 @@ export function drawImageStr( context: CanvasRenderingContext2D ): void {
     console.log( "drawImageStr in ImageLib.ts: top of function" );
   }
 
+  if ( gridSize === 1 ) {
+    drawImageForGridSize_1( context );
+    return;
+  }
+
   drawUnderlyingCanvas( context );
 
   let squareTopX = gridTopX;
@@ -1203,19 +1208,17 @@ function processTinyGridSizes(): string {
   // }
   return freshImageStr;
 }
-// colorMapForGridSize_1: holds the dom and aux data for types with E/I, J/P, and at least one other letter known
+// colorMapForGridSize_1: Contains the colors used to create images with the gridSize = 1
 // Key:
-//   domAuxStr[0] = domFcnLtr: Dominant function letter for this type
-//     "X" -> unknown; E/I, J/P and another letter MUST be set - NO assumptions are made
-//   domAuxStr[1] = auxFcnLtr: Auxiliary function letter for this type
-//     "X" -> unknown; E/I, J/P and another letter MUST be set - NO assumptions are made
-//   domAuxStr[2] = "-": to help with readability
-//   domAuxStr[3] = dominant function phrase
-//   domAuxStr[4] = "-": to help with readability
-//   domAuxStr[5] = auxiliary function phrase
+//   colorLtr[0] = color letter for color used in upper left of image
+//   colorLtr[1] = color letter for color used in upper right of image
+//   colorLtr[2] = color letter for color used in lower left of image
+//   colorLtr[3] = color letter for color used in lower right of image
+//   colorLtr[4] = "-": to help with readability
+//   colorLtr[5]-colorLtr[12] = TEMPORARY Dom and Aux info for TEMPORARY use ONLY
 // For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
 const colorMapForGridSize_1 = new Map();
-colorMapForGridSize_1.set( 'XXXX', "BGRY-XX-Xx: Unknown-Xx: Unknown" );  // No values known
+colorMapForGridSize_1.set( 'XXXX', "BGRY-XX-Xx-Xx" );
 
 colorMapForGridSize_1.set( 'EXFJ', "RBRY-FX-Fe-Xx" );
 colorMapForGridSize_1.set( 'EXFP', "BRYR-XF-Xx-Fi" );
@@ -1254,9 +1257,76 @@ colorMapForGridSize_1.set( 'ISTJ', "YYGG-ST-Si-Te" );
 colorMapForGridSize_1.set( 'ISTP', "GGYY-TS-Ti-Se" );
 
 function freshImageStrGridSize_1(): string {
-  const freshImageStr = createRandomImageStr()
-  return freshImageStr;
+  let colorLtrStr = colorMapForGridSize_1.get( fourLtrTypeStr );
+
+  if ( ! colorLtrStr ) {
+    colorLtrStr = colorMapForGridSize_1.get( 'XXXX' );    // Default to no values known
+  }
+
+  return colorLtrStr;
 }
+// drawImageForGridSize_1: Draw a minimalist image when the user selects 1 for the grid size
+//   Splits imageStr into an imageCharArr, and draws the squares one-by-one
+//   Note that each square is 1/4 the size of a real square
+function drawImageForGridSize_1( context: CanvasRenderingContext2D ): void {
+  if ( logLogicFlow ) {
+    console.log( "drawImageForGridSize_1 in ImageLib.ts: top of function" );
+  }
+
+  drawUnderlyingCanvas( context );
+
+  if ( imageStr.length > 0 ) {
+    const imageCharArr = imageStr.split( "" );
+    const upperLeftLtr  = imageCharArr[0];
+    const upperRightLtr = imageCharArr[1];
+    const lowerLeftLtr  = imageCharArr[2];
+    const lowerRightLtr = imageCharArr[3];
+
+    // If squareSize is odd,
+    //   make the upper-left square the biggest and the lower-right square the smallest
+    const upperLeftSize = Math.ceil( squareSize/2 );
+    const lowerRightSize = squareSize - upperLeftSize;
+
+    const upperLeftX = gridTopX;
+    const upperLeftY = gridTopY;
+    const upperRightX = upperLeftX + upperLeftSize;
+    const upperRightY = upperLeftY;
+
+    const lowerLeftX = gridTopX;
+    const lowerLeftY = gridTopY + upperLeftSize;
+    const lowerRightX = upperLeftX + upperLeftSize;
+    const lowerRightY = upperLeftY + upperLeftSize;
+
+    drawRectangle( context, upperLeftLtr,  upperLeftX,  upperLeftY,  upperLeftSize,  upperLeftSize );
+    drawRectangle( context, upperRightLtr, upperRightX, upperRightY, lowerRightSize, upperLeftSize );
+    drawRectangle( context, lowerLeftLtr,  lowerLeftX,  lowerLeftY,  upperLeftSize,  lowerRightSize );
+    drawRectangle( context, lowerRightLtr, lowerRightX, lowerRightY, lowerRightSize, lowerRightSize );
+  } else {
+    if ( logLogicFlow ) {
+      console.log( "drawImageForGridSize_1() in ImageLib.ts: imageStr is empty, hope that's ok...!" );
+    }
+  }
+  if ( logLogicFlow ) {
+    console.log( "drawImageForGridSize_1 in ImageLib.ts: returning" );
+  }
+}
+
+function drawRectangle( context: CanvasRenderingContext2D , colorLtr: string,
+                        topX: number, topY: number, sizeX: number, sizeY: number ): void {
+  if ( colorLtr == "B" ) {
+    context.fillStyle = "rgba(0, 0, 255, 1)";
+  } else if ( colorLtr == "G" ) {
+    context.fillStyle = "rgba(0, 255, 0, 1)";
+  } else if ( colorLtr == "R" ) {
+    context.fillStyle = "rgba(255, 0, 0, 1)";
+  } else if ( colorLtr == "Y" ) {
+    context.fillStyle = "rgba(255, 255, 0, 1)";
+  } else {
+    context.fillStyle = "rgb(255, 255, 255, 1)";
+  }
+  context.fillRect( topX, topY, sizeX, sizeY );
+}
+
 function freshImageStrGridSize_3(): string {
   const freshImageStr = createRandomImageStr()
   return freshImageStr;
