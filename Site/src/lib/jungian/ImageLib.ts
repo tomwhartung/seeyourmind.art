@@ -1207,7 +1207,9 @@ function processTinyGridSizes(): string {
     freshImageStr = smallGridSizeColorArr[0];
   } else if ( gridSize == 3 ) {
     freshImageStr = smallGridSizeColorArr[1];
-    freshImageStr = freshImageStrGridSize_3();
+    if ( freshImageStr == "XXXXXXXXX" ) {
+      freshImageStr = freshImageStrGridSize_3();
+    }
   } else {
     freshImageStr = freshImageStrGridSize_5();
   }
@@ -1228,6 +1230,10 @@ function processTinyGridSizes(): string {
 //         colorLtr[3] = color letter for color used in lower right of image
 //   "-" = character for splitting the string and to help with readability
 //     smallGridSizeImageStr[1] = image strings for grid size = 3
+//       split on "" to get:
+//         colorLtr[0-2] = color letters for colors used in top row of image
+//         colorLtr[3-5] = color letters for colors used in middle row of image
+//         colorLtr[6-8] = color letters for colors used in bottom row of image
 //   "-" = character for splitting the string and to help with readability
 //     colorLtr[5]-colorLtr[12] = TEMPORARY Dom and Aux info for TEMPORARY use ONLY
 // For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
@@ -1252,23 +1258,23 @@ smallGridSizeColorMap.set( 'INXP', "BBGR-XXXXXXXXX-XN-Xx-Ne" );
 smallGridSizeColorMap.set( 'ISXJ', "GRYY-XXXXXXXXX-SX-Si-Xx" );
 smallGridSizeColorMap.set( 'ISXP', "YYGR-XXXXXXXXX-XS-Xx-Se" );
 
-smallGridSizeColorMap.set( 'ENFJ', "RBRB-XXXXXXXXX-FN-Fe-Ni" );
-smallGridSizeColorMap.set( 'ENFP', "BRBR-XXXXXXXXX-NF-Ne-Fi" );
-smallGridSizeColorMap.set( 'ENTJ', "GBGB-XXXXXXXXX-TN-Te-Ni" );
-smallGridSizeColorMap.set( 'ENTP', "BGBG-XXXXXXXXX-NT-Ne-Ti" );
-smallGridSizeColorMap.set( 'ESFJ', "RYRY-XXXXXXXXX-FS-Fe-Si" );
-smallGridSizeColorMap.set( 'ESFP', "YRYR-XXXXXXXXX-SF-Se-Fi" );
-smallGridSizeColorMap.set( 'ESTJ', "GYGY-XXXXXXXXX-TS-Te-Si" );
-smallGridSizeColorMap.set( 'ESTP', "YGYG-XXXXXXXXX-ST-Se-Ti" );
+smallGridSizeColorMap.set( 'ENFJ', "RBRB-BBYRBRGBR-FN-Fe-Ni" );
+smallGridSizeColorMap.set( 'ENFP', "BRBR-BBYRBRGBR-NF-Ne-Fi" );
+smallGridSizeColorMap.set( 'ENTJ', "GBGB-GGRBGBYGB-TN-Te-Ni" );
+smallGridSizeColorMap.set( 'ENTP', "BGBG-BBYGBGRBG-NT-Ne-Ti" );
+smallGridSizeColorMap.set( 'ESFJ', "RYRY-RRGYRYBRY-FS-Fe-Si" );
+smallGridSizeColorMap.set( 'ESFP', "YRYR-YYGRYRBYR-SF-Se-Fi" );
+smallGridSizeColorMap.set( 'ESTJ', "GYGY-GGBYGYRGY-TS-Te-Si" );
+smallGridSizeColorMap.set( 'ESTP', "YGYG-YYRGYGBYG-ST-Se-Ti" );
 
-smallGridSizeColorMap.set( 'INFJ', "BBRR-XXXXXXXXX-NF-Ni-Fe" );
-smallGridSizeColorMap.set( 'INFP', "RRBB-XXXXXXXXX-FN-Fi-Ne" );
-smallGridSizeColorMap.set( 'INTJ', "BBGG-XXXXXXXXX-NT-Ni-Te" );
-smallGridSizeColorMap.set( 'INTP', "GGBB-XXXXXXXXX-TN-Ti-Ne" );
-smallGridSizeColorMap.set( 'ISFJ', "YYRR-XXXXXXXXX-SF-Si-Fe" );
-smallGridSizeColorMap.set( 'ISFP', "RRYY-XXXXXXXXX-FS-Fi-Se" );
-smallGridSizeColorMap.set( 'ISTJ', "YYGG-XXXXXXXXX-ST-Si-Te" );
-smallGridSizeColorMap.set( 'ISTP', "GGYY-XXXXXXXXX-TS-Ti-Se" );
+smallGridSizeColorMap.set( 'INFJ', "BBRR-RRYBBBGRB-NF-Ni-Fe" );
+smallGridSizeColorMap.set( 'INFP', "RRBB-BBYRRRGBR-FN-Fi-Ne" );
+smallGridSizeColorMap.set( 'INTJ', "BBGG-GGYBBBRGB-NT-Ni-Te" );
+smallGridSizeColorMap.set( 'INTP', "GGBB-BBYGGGRBG-TN-Ti-Ne" );
+smallGridSizeColorMap.set( 'ISFJ', "YYRR-RRGYYYBRY-SF-Si-Fe" );
+smallGridSizeColorMap.set( 'ISFP', "RRYY-YYGRRRBYR-FS-Fi-Se" );
+smallGridSizeColorMap.set( 'ISTJ', "YYGG-GGRYYYBGY-ST-Si-Te" );
+smallGridSizeColorMap.set( 'ISTP', "GGYY-YYRGGGBYG-TS-Ti-Se" );
 
 // drawImageForGridSize_1: Draw a minimalist image when the user selects 1 for the grid size
 //   Splits imageStr into an imageCharArr, and draws the squares one-by-one
