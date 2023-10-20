@@ -1208,59 +1208,64 @@ function processTinyGridSizes(): string {
   // }
   return freshImageStr;
 }
-// colorMapForGridSize_1: Contains the colors used to create images with the gridSize = 1
+// smallGridSizeColorMap: Contains the colors used to create images with the gridSize = 1
 // Key:
-//   colorLtr[0] = color letter for color used in upper left of image
-//   colorLtr[1] = color letter for color used in upper right of image
-//   colorLtr[2] = color letter for color used in lower left of image
-//   colorLtr[3] = color letter for color used in lower right of image
-//   colorLtr[4] = "-": to help with readability
-//   colorLtr[5]-colorLtr[12] = TEMPORARY Dom and Aux info for TEMPORARY use ONLY
+//   split on "-" to get:
+//     smallGridSizeImageStr[0] = image strings for grid size = 1
+//       split on "" to get:
+//         colorLtr[0] = color letter for color used in upper left of image
+//         colorLtr[1] = color letter for color used in upper right of image
+//         colorLtr[2] = color letter for color used in lower left of image
+//         colorLtr[3] = color letter for color used in lower right of image
+//   "-" = character for splitting the string and to help with readability
+//     smallGridSizeImageStr[1] = image strings for grid size = 3
+//   "-" = character for splitting the string and to help with readability
+//     colorLtr[5]-colorLtr[12] = TEMPORARY Dom and Aux info for TEMPORARY use ONLY
 // For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
-const colorMapForGridSize_1 = new Map();
-colorMapForGridSize_1.set( 'XXXX', "BGRY-XX-Xx-Xx" );
+const smallGridSizeColorMap = new Map();
+smallGridSizeColorMap.set( 'XXXX', "BGRY-XXXXXXXXX-XX-Xx-Xx" );
 
-colorMapForGridSize_1.set( 'EXFJ', "RBRY-FX-Fe-Xx" );
-colorMapForGridSize_1.set( 'EXFP', "BRYR-XF-Xx-Fi" );
-colorMapForGridSize_1.set( 'EXTJ', "GBGY-TX-Te-Xx" );
-colorMapForGridSize_1.set( 'EXTP', "BGYG-XT-Xx-Ti" );
-colorMapForGridSize_1.set( 'IXFJ', "BYRR-XF-Xx-Fe" );
-colorMapForGridSize_1.set( 'IXFP', "RRBY-FX-Fi-Xx" );
-colorMapForGridSize_1.set( 'IXTJ', "BYGG-XT-Xx-Te" );
-colorMapForGridSize_1.set( 'IXTP', "GGBY-TX-Ti-Xx" );
+smallGridSizeColorMap.set( 'EXFJ', "RBRY-XXXXXXXXX-FX-Fe-Xx" );
+smallGridSizeColorMap.set( 'EXFP', "BRYR-XXXXXXXXX-XF-Xx-Fi" );
+smallGridSizeColorMap.set( 'EXTJ', "GBGY-XXXXXXXXX-TX-Te-Xx" );
+smallGridSizeColorMap.set( 'EXTP', "BGYG-XXXXXXXXX-XT-Xx-Ti" );
+smallGridSizeColorMap.set( 'IXFJ', "BYRR-XXXXXXXXX-XF-Xx-Fe" );
+smallGridSizeColorMap.set( 'IXFP', "RRBY-XXXXXXXXX-FX-Fi-Xx" );
+smallGridSizeColorMap.set( 'IXTJ', "BYGG-XXXXXXXXX-XT-Xx-Te" );
+smallGridSizeColorMap.set( 'IXTP', "GGBY-XXXXXXXXX-TX-Ti-Xx" );
 
-colorMapForGridSize_1.set( 'ENXJ', "GBRB-XN-Xx-Ni" );
-colorMapForGridSize_1.set( 'ENXP', "BGBR-NX-Ne-Xx" );
-colorMapForGridSize_1.set( 'ESXJ', "GYRY-XS-Xx-Si" );
-colorMapForGridSize_1.set( 'ESXP', "YGYR-SX-Se-Xx" );
-colorMapForGridSize_1.set( 'INXJ', "BBGR-NX-Ni-Xx" );
-colorMapForGridSize_1.set( 'INXP', "GRBB-XN-Xx-Ne" );
-colorMapForGridSize_1.set( 'ISXJ', "YYGR-SX-Si-Xx" );
-colorMapForGridSize_1.set( 'ISXP', "GRYY-XS-Xx-Se" );
+smallGridSizeColorMap.set( 'ENXJ', "GBRB-XXXXXXXXX-XN-Xx-Ni" );
+smallGridSizeColorMap.set( 'ENXP', "BGBR-XXXXXXXXX-NX-Ne-Xx" );
+smallGridSizeColorMap.set( 'ESXJ', "GYRY-XXXXXXXXX-XS-Xx-Si" );
+smallGridSizeColorMap.set( 'ESXP', "YGYR-XXXXXXXXX-SX-Se-Xx" );
+smallGridSizeColorMap.set( 'INXJ', "BBGR-XXXXXXXXX-NX-Ni-Xx" );
+smallGridSizeColorMap.set( 'INXP', "GRBB-XXXXXXXXX-XN-Xx-Ne" );
+smallGridSizeColorMap.set( 'ISXJ', "YYGR-XXXXXXXXX-SX-Si-Xx" );
+smallGridSizeColorMap.set( 'ISXP', "GRYY-XXXXXXXXX-XS-Xx-Se" );
 
-colorMapForGridSize_1.set( 'ENFJ', "RBRB-FN-Fe-Ni" );
-colorMapForGridSize_1.set( 'ENFP', "BRBR-NF-Ne-Fi" );
-colorMapForGridSize_1.set( 'ENTJ', "GBGB-TN-Te-Ni" );
-colorMapForGridSize_1.set( 'ENTP', "BGBG-NT-Ne-Ti" );
-colorMapForGridSize_1.set( 'ESFJ', "RYRY-FS-Fe-Si" );
-colorMapForGridSize_1.set( 'ESFP', "YRYR-SF-Se-Fi" );
-colorMapForGridSize_1.set( 'ESTJ', "GYGY-TS-Te-Si" );
-colorMapForGridSize_1.set( 'ESTP', "YGYG-ST-Se-Ti" );
+smallGridSizeColorMap.set( 'ENFJ', "RBRB-XXXXXXXXX-FN-Fe-Ni" );
+smallGridSizeColorMap.set( 'ENFP', "BRBR-XXXXXXXXX-NF-Ne-Fi" );
+smallGridSizeColorMap.set( 'ENTJ', "GBGB-XXXXXXXXX-TN-Te-Ni" );
+smallGridSizeColorMap.set( 'ENTP', "BGBG-XXXXXXXXX-NT-Ne-Ti" );
+smallGridSizeColorMap.set( 'ESFJ', "RYRY-XXXXXXXXX-FS-Fe-Si" );
+smallGridSizeColorMap.set( 'ESFP', "YRYR-XXXXXXXXX-SF-Se-Fi" );
+smallGridSizeColorMap.set( 'ESTJ', "GYGY-XXXXXXXXX-TS-Te-Si" );
+smallGridSizeColorMap.set( 'ESTP', "YGYG-XXXXXXXXX-ST-Se-Ti" );
 
-colorMapForGridSize_1.set( 'INFJ', "BBRR-NF-Ni-Fe" );
-colorMapForGridSize_1.set( 'INFP', "RRBB-FN-Fi-Ne" );
-colorMapForGridSize_1.set( 'INTJ', "BBGG-NT-Ni-Te" );
-colorMapForGridSize_1.set( 'INTP', "GGBB-TN-Ti-Ne" );
-colorMapForGridSize_1.set( 'ISFJ', "YYRR-SF-Si-Fe" );
-colorMapForGridSize_1.set( 'ISFP', "RRYY-FS-Fi-Se" );
-colorMapForGridSize_1.set( 'ISTJ', "YYGG-ST-Si-Te" );
-colorMapForGridSize_1.set( 'ISTP', "GGYY-TS-Ti-Se" );
+smallGridSizeColorMap.set( 'INFJ', "BBRR-XXXXXXXXX-NF-Ni-Fe" );
+smallGridSizeColorMap.set( 'INFP', "RRBB-XXXXXXXXX-FN-Fi-Ne" );
+smallGridSizeColorMap.set( 'INTJ', "BBGG-XXXXXXXXX-NT-Ni-Te" );
+smallGridSizeColorMap.set( 'INTP', "GGBB-XXXXXXXXX-TN-Ti-Ne" );
+smallGridSizeColorMap.set( 'ISFJ', "YYRR-XXXXXXXXX-SF-Si-Fe" );
+smallGridSizeColorMap.set( 'ISFP', "RRYY-XXXXXXXXX-FS-Fi-Se" );
+smallGridSizeColorMap.set( 'ISTJ', "YYGG-XXXXXXXXX-ST-Si-Te" );
+smallGridSizeColorMap.set( 'ISTP', "GGYY-XXXXXXXXX-TS-Ti-Se" );
 
 function freshImageStrGridSize_1(): string {
-  let colorLtrStr = colorMapForGridSize_1.get( fourLtrTypeStr );
+  let colorLtrStr = smallGridSizeColorMap.get( fourLtrTypeStr );
 
   if ( ! colorLtrStr ) {
-    colorLtrStr = colorMapForGridSize_1.get( 'XXXX' );    // Default to no values known
+    colorLtrStr = smallGridSizeColorMap.get( 'XXXX' );    // Default to no values known
   }
 
   return colorLtrStr;
