@@ -374,6 +374,23 @@ const neededSquares : ColorsIFace = {
   },
 };
 
+// drawRectangle: draw a rectangle using the specified color, upper corner coords, and size
+function drawRectangle( context: CanvasRenderingContext2D , colorLtr: string,
+                        topX: number, topY: number, sizeX: number, sizeY: number ): void {
+  if ( colorLtr == "B" ) {
+    context.fillStyle = "rgba(0, 0, 255, 1)";
+  } else if ( colorLtr == "G" ) {
+    context.fillStyle = "rgba(0, 255, 0, 1)";
+  } else if ( colorLtr == "R" ) {
+    context.fillStyle = "rgba(255, 0, 0, 1)";
+  } else if ( colorLtr == "Y" ) {
+    context.fillStyle = "rgba(255, 255, 0, 1)";
+  } else {
+    context.fillStyle = "rgb(255, 255, 255, 1)";
+  }
+  context.fillRect( topX, topY, sizeX, sizeY );
+}
+
 // setType: set the four-letter Jungian/MBTI(r) type
 function setType( scoreValueArr: number[] ): string {
   setScoreValueObj( scoreValueArr );
@@ -1240,31 +1257,31 @@ function processTinyGridSizes(): string {
 const smallGridSizeColorMap = new Map();
 smallGridSizeColorMap.set( 'XXXX', "BGRY-XXXXXXXXX-XX-Xx-Xx" );
 
-smallGridSizeColorMap.set( 'EXFJ', "RBRY-XXXXXXXXX-FX-Fe-Xx" );
-smallGridSizeColorMap.set( 'EXFP', "BRYR-XXXXXXXXX-XF-Xx-Fi" );
-smallGridSizeColorMap.set( 'EXTJ', "GBGY-XXXXXXXXX-TX-Te-Xx" );
-smallGridSizeColorMap.set( 'EXTP', "BGYG-XXXXXXXXX-XT-Xx-Ti" );
+smallGridSizeColorMap.set( 'EXFJ', "RBRY-RRGYRBBRY-FX-Fe-Xx" );
+smallGridSizeColorMap.set( 'EXFP', "BRYR-YBGRYRGBR-XF-Xx-Fi" );
+smallGridSizeColorMap.set( 'EXTJ', "GBGY-GGRYGBBGY-TX-Te-Xx" );
+smallGridSizeColorMap.set( 'EXTP', "BGYG-YBRGYGRBG-XT-Xx-Ti" );
 smallGridSizeColorMap.set( 'IXFJ', "RRBY-XXXXXXXXX-XF-Xx-Fe" );
 smallGridSizeColorMap.set( 'IXFP', "BYRR-XXXXXXXXX-FX-Fi-Xx" );
 smallGridSizeColorMap.set( 'IXTJ', "GGBY-XXXXXXXXX-XT-Xx-Te" );
 smallGridSizeColorMap.set( 'IXTP', "BYGG-XXXXXXXXX-TX-Ti-Xx" );
 
-smallGridSizeColorMap.set( 'ENXJ', "GBRB-XXXXXXXXX-XN-Xx-Ni" );
-smallGridSizeColorMap.set( 'ENXP', "BGBR-XXXXXXXXX-NX-Ne-Xx" );
-smallGridSizeColorMap.set( 'ESXJ', "GYRY-XXXXXXXXX-XS-Xx-Si" );
-smallGridSizeColorMap.set( 'ESXP', "YGYR-XXXXXXXXX-SX-Se-Xx" );
+smallGridSizeColorMap.set( 'ENXJ', "GBRB-GRYBGBYRB-XN-Xx-Ni" );
+smallGridSizeColorMap.set( 'ENXP', "BGBR-BBYGBRRBG-NX-Ne-Xx" );
+smallGridSizeColorMap.set( 'ESXJ', "GYRY-GRBYGYBRY-XS-Xx-Si" );
+smallGridSizeColorMap.set( 'ESXP', "YGYR-YYBGYRRYG-SX-Se-Xx" );
 smallGridSizeColorMap.set( 'INXJ', "GRBB-XXXXXXXXX-NX-Ni-Xx" );
 smallGridSizeColorMap.set( 'INXP', "BBGR-XXXXXXXXX-XN-Xx-Ne" );
 smallGridSizeColorMap.set( 'ISXJ', "GRYY-XXXXXXXXX-SX-Si-Xx" );
 smallGridSizeColorMap.set( 'ISXP', "YYGR-XXXXXXXXX-XS-Xx-Se" );
 
-smallGridSizeColorMap.set( 'ENFJ', "RBRB-BBYRBRGBR-FN-Fe-Ni" );
+smallGridSizeColorMap.set( 'ENFJ', "RBRB-RRYBRBGRB-FN-Fe-Ni" );
 smallGridSizeColorMap.set( 'ENFP', "BRBR-BBYRBRGBR-NF-Ne-Fi" );
-smallGridSizeColorMap.set( 'ENTJ', "GBGB-GGRBGBYGB-TN-Te-Ni" );
+smallGridSizeColorMap.set( 'ENTJ', "GBGB-GGYBGBRGB-TN-Te-Ni" );
 smallGridSizeColorMap.set( 'ENTP', "BGBG-BBYGBGRBG-NT-Ne-Ti" );
 smallGridSizeColorMap.set( 'ESFJ', "RYRY-RRGYRYBRY-FS-Fe-Si" );
 smallGridSizeColorMap.set( 'ESFP', "YRYR-YYGRYRBYR-SF-Se-Fi" );
-smallGridSizeColorMap.set( 'ESTJ', "GYGY-GGBYGYRGY-TS-Te-Si" );
+smallGridSizeColorMap.set( 'ESTJ', "GYGY-GGRYGYBGY-TS-Te-Si" );
 smallGridSizeColorMap.set( 'ESTP', "YGYG-YYRGYGBYG-ST-Se-Ti" );
 
 smallGridSizeColorMap.set( 'INFJ', "BBRR-RRYBBBGRB-NF-Ni-Fe" );
@@ -1320,22 +1337,6 @@ function drawImageForGridSize_1( context: CanvasRenderingContext2D ): void {
   if ( logLogicFlow ) {
     console.log( "drawImageForGridSize_1 in ImageLib.ts: returning" );
   }
-}
-
-function drawRectangle( context: CanvasRenderingContext2D , colorLtr: string,
-                        topX: number, topY: number, sizeX: number, sizeY: number ): void {
-  if ( colorLtr == "B" ) {
-    context.fillStyle = "rgba(0, 0, 255, 1)";
-  } else if ( colorLtr == "G" ) {
-    context.fillStyle = "rgba(0, 255, 0, 1)";
-  } else if ( colorLtr == "R" ) {
-    context.fillStyle = "rgba(255, 0, 0, 1)";
-  } else if ( colorLtr == "Y" ) {
-    context.fillStyle = "rgba(255, 255, 0, 1)";
-  } else {
-    context.fillStyle = "rgb(255, 255, 255, 1)";
-  }
-  context.fillRect( topX, topY, sizeX, sizeY );
 }
 
 function freshImageStrGridSize_3(): string {
