@@ -1229,19 +1229,19 @@ smallGridSizeColorMap.set( 'EXFJ', "RBRY-XXXXXXXXX-FX-Fe-Xx" );
 smallGridSizeColorMap.set( 'EXFP', "BRYR-XXXXXXXXX-XF-Xx-Fi" );
 smallGridSizeColorMap.set( 'EXTJ', "GBGY-XXXXXXXXX-TX-Te-Xx" );
 smallGridSizeColorMap.set( 'EXTP', "BGYG-XXXXXXXXX-XT-Xx-Ti" );
-smallGridSizeColorMap.set( 'IXFJ', "BYRR-XXXXXXXXX-XF-Xx-Fe" );
-smallGridSizeColorMap.set( 'IXFP', "RRBY-XXXXXXXXX-FX-Fi-Xx" );
-smallGridSizeColorMap.set( 'IXTJ', "BYGG-XXXXXXXXX-XT-Xx-Te" );
-smallGridSizeColorMap.set( 'IXTP', "GGBY-XXXXXXXXX-TX-Ti-Xx" );
+smallGridSizeColorMap.set( 'IXFJ', "RRBY-XXXXXXXXX-XF-Xx-Fe" );
+smallGridSizeColorMap.set( 'IXFP', "BYRR-XXXXXXXXX-FX-Fi-Xx" );
+smallGridSizeColorMap.set( 'IXTJ', "GGBY-XXXXXXXXX-XT-Xx-Te" );
+smallGridSizeColorMap.set( 'IXTP', "BYGG-XXXXXXXXX-TX-Ti-Xx" );
 
 smallGridSizeColorMap.set( 'ENXJ', "GBRB-XXXXXXXXX-XN-Xx-Ni" );
 smallGridSizeColorMap.set( 'ENXP', "BGBR-XXXXXXXXX-NX-Ne-Xx" );
 smallGridSizeColorMap.set( 'ESXJ', "GYRY-XXXXXXXXX-XS-Xx-Si" );
 smallGridSizeColorMap.set( 'ESXP', "YGYR-XXXXXXXXX-SX-Se-Xx" );
-smallGridSizeColorMap.set( 'INXJ', "BBGR-XXXXXXXXX-NX-Ni-Xx" );
-smallGridSizeColorMap.set( 'INXP', "GRBB-XXXXXXXXX-XN-Xx-Ne" );
-smallGridSizeColorMap.set( 'ISXJ', "YYGR-XXXXXXXXX-SX-Si-Xx" );
-smallGridSizeColorMap.set( 'ISXP', "GRYY-XXXXXXXXX-XS-Xx-Se" );
+smallGridSizeColorMap.set( 'INXJ', "GRBB-XXXXXXXXX-NX-Ni-Xx" );
+smallGridSizeColorMap.set( 'INXP', "BBGR-XXXXXXXXX-XN-Xx-Ne" );
+smallGridSizeColorMap.set( 'ISXJ', "GRYY-XXXXXXXXX-SX-Si-Xx" );
+smallGridSizeColorMap.set( 'ISXP', "YYGR-XXXXXXXXX-XS-Xx-Se" );
 
 smallGridSizeColorMap.set( 'ENFJ', "RBRB-XXXXXXXXX-FN-Fe-Ni" );
 smallGridSizeColorMap.set( 'ENFP', "BRBR-XXXXXXXXX-NF-Ne-Fi" );
