@@ -292,7 +292,6 @@ function FixedContainer() {
 
   const gridSizeLabel = "Grid Size: " + ImageLib.gridSize + " Squares per Side";
   const squareSizeLabel = "Square Size: " + ImageLib.squareSize + " Pixels per Square";
-  const createMsg = ImageLib.fourLtrTypeStr;
   const domMsg = "Dominant: " + ImageLib.domPhrase;
   const auxMsg = "Auxiliary: " + ImageLib.auxPhrase;
 
@@ -304,7 +303,7 @@ function FixedContainer() {
     <div className="container">
       <div className="row mt-4">
         <div className="col-2">
-          <h3>{createMsg}</h3>
+          <h3>{ImageLib.fourLtrTypeStr}</h3>
         </div>
         <div className="col-10">
           <p>{domMsg}<br />{auxMsg}</p>
