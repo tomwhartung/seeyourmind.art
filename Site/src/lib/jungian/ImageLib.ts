@@ -1194,10 +1194,19 @@ function processTinyGridSizes(): string {
   console.log( "processTinyGridSizes: auxFcnLtr = " + auxFcnLtr );
   // }
 
+  let smallGridSizeColorStr = smallGridSizeColorMap.get( fourLtrTypeStr );
+
+  if ( ! smallGridSizeColorStr ) {
+    smallGridSizeColorStr = smallGridSizeColorMap.get( 'XXXX' );  // Default to no values known
+  }
+
+  const smallGridSizeColorArr = smallGridSizeColorStr.split( "-" );
   let freshImageStr = "";
+
   if ( gridSize == 1 ) {
-    freshImageStr = freshImageStrGridSize_1();
+    freshImageStr = smallGridSizeColorArr[0];
   } else if ( gridSize == 3 ) {
+    freshImageStr = smallGridSizeColorArr[1];
     freshImageStr = freshImageStrGridSize_3();
   } else {
     freshImageStr = freshImageStrGridSize_5();
@@ -1261,15 +1270,6 @@ smallGridSizeColorMap.set( 'ISFP', "RRYY-XXXXXXXXX-FS-Fi-Se" );
 smallGridSizeColorMap.set( 'ISTJ', "YYGG-XXXXXXXXX-ST-Si-Te" );
 smallGridSizeColorMap.set( 'ISTP', "GGYY-XXXXXXXXX-TS-Ti-Se" );
 
-function freshImageStrGridSize_1(): string {
-  let colorLtrStr = smallGridSizeColorMap.get( fourLtrTypeStr );
-
-  if ( ! colorLtrStr ) {
-    colorLtrStr = smallGridSizeColorMap.get( 'XXXX' );    // Default to no values known
-  }
-
-  return colorLtrStr;
-}
 // drawImageForGridSize_1: Draw a minimalist image when the user selects 1 for the grid size
 //   Splits imageStr into an imageCharArr, and draws the squares one-by-one
 //   Note that each square is 1/4 the size of a real square
