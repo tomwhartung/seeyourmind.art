@@ -1212,7 +1212,7 @@ function processTinyGridSizes(): string {
   } else if ( gridSize == 3 ) {
     freshImageStr = smallGridSizeColorArr[1];
     if ( freshImageStr == "XXXXXXXXX" ) {
-      freshImageStr = freshImageStrGridSize_3();
+      freshImageStr = createRandomImageStr()  // default: fewer than 3 of 4 fcns are known
     }
   } else {
     freshImageStr = freshImageStrGridSize_5();
@@ -1282,7 +1282,9 @@ smallGridSizeColorMap.set( 'ISTP', "GGYY-YYRGGGBYG-TS-Ti-Se" );
 
 // drawImageForGridSize_1: Draw a minimalist image when the user selects 1 for the grid size
 //   Splits imageStr into an imageCharArr, and draws the squares one-by-one
-//   Note that each square is 1/4 the size of a real square
+//   Notes:
+//     (1) Each square is (squareSize/2) by (squareSize/2) or 1/4 the size of other images' squares
+//     (2) Ideally, when all four letters are known, the square actually consists of two rectangles
 function drawImageForGridSize_1( context: CanvasRenderingContext2D ): void {
   if ( logLogicFlow ) {
     console.log( "drawImageForGridSize_1 in ImageLib.ts: top of function" );
@@ -1326,10 +1328,6 @@ function drawImageForGridSize_1( context: CanvasRenderingContext2D ): void {
   }
 }
 
-function freshImageStrGridSize_3(): string {
-  const freshImageStr = createRandomImageStr()
-  return freshImageStr;
-}
 function freshImageStrGridSize_5(): string {
   const freshImageStr = createRandomImageStr()
   return freshImageStr;
