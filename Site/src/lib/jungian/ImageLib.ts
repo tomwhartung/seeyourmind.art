@@ -108,7 +108,7 @@ export let gridSize = initialGridSize;    // Changed by a slider on the Create p
 export function setGridSize( newGridSize: number ): void {
   gridSize = newGridSize;
 }
-const maxTinyGridSize = 5;    // Compositions are trivial for trivial grid sizes
+const maxTinyGridSize = 3;  // Images are hard-coded for tiny grid sizes in tinyGridSizeColorMap
 
 
 // Constant Arrays:
@@ -1162,9 +1162,9 @@ domAuxMap.set( 'ISTP', "TS-Ti: Introverted Thinking-Se: Extraverted Sensing" );
 // For details, see the "Line Positions" sheet in docs/03-Composition-Jungian.ods
 //   IMPORTANT: LINE POSITIONS IN THE SPREADSHEET ARE 1-BASED, BUT THESE VALUES ARE 0-BASED!!
 const lineCoordsMap = new Map();
-lineCoordsMap.set( '1', "-1,-1" );  // This grid size is too small to have lines
-lineCoordsMap.set( '3', "1,-1" );   // This grid size has one line at most
-lineCoordsMap.set( '5', "1,3" );    // Smallest grid size that uses lines
+lineCoordsMap.set( '1', "-1,-1" );   // Image's colors are hard-coded in tinyGridSizeColorMap
+lineCoordsMap.set( '3', "-1,-1" );   // Image's colors are hard-coded in tinyGridSizeColorMap
+lineCoordsMap.set( '5', "1,3" );     // Smallest grid size that uses lines
 lineCoordsMap.set( '7', "1,5" );
 lineCoordsMap.set( '9', "2,6" );
 
@@ -1192,48 +1192,48 @@ lineCoordsMap.set( '49', "12,36" );
 
 // processTinyGridSizes: we use a different algo when the grid size is <= maxTinyGridSize
 function processTinyGridSizes(): string {
-  // if ( logLogicFlow ) {
-  console.log( "processTinyGridSizes: top of function; gridSize = " + gridSize );
-  console.log( "processTinyGridSizes: domFcnLtr = " + domFcnLtr );
-  console.log( "processTinyGridSizes: auxFcnLtr = " + auxFcnLtr );
-  // }
-
-  let smallGridSizeColorStr = smallGridSizeColorMap.get( fourLtrTypeStr );
-
-  if ( ! smallGridSizeColorStr ) {
-    smallGridSizeColorStr = smallGridSizeColorMap.get( 'XXXX' );  // Default to no values known
+  if ( logLogicFlow ) {
+    console.log( "processTinyGridSizes: top of function; gridSize = " + gridSize );
+    console.log( "processTinyGridSizes: domFcnLtr = " + domFcnLtr );
+    console.log( "processTinyGridSizes: auxFcnLtr = " + auxFcnLtr );
   }
 
-  const smallGridSizeColorArr = smallGridSizeColorStr.split( "-" );
+  let tinyGridSizeColorStr = tinyGridSizeColorMap.get( fourLtrTypeStr );
+
+  if ( ! tinyGridSizeColorStr ) {
+    tinyGridSizeColorStr = tinyGridSizeColorMap.get( 'XXXX' );  // Default to no values known
+  }
+
+  const tinyGridSizeColorArr = tinyGridSizeColorStr.split( "-" );
   let freshImageStr = "";
 
   if ( gridSize == 1 ) {
-    freshImageStr = smallGridSizeColorArr[0];
+    freshImageStr = tinyGridSizeColorArr[0];
   } else if ( gridSize == 3 ) {
-    freshImageStr = smallGridSizeColorArr[1];
+    freshImageStr = tinyGridSizeColorArr[1];
     if ( freshImageStr == "XXXXXXXXX" ) {
       freshImageStr = createRandomImageStr()  // default: fewer than 3 of 4 fcns are known
     }
   } else {
-    freshImageStr = freshImageStrGridSize_5();
+    freshImageStr = freshImageStrGridSize_5();  // NEXT!!!
   }
 
-  // if ( logLogicFlow ) {
-  console.log( "processTinyGridSizes: returning freshImageStr = " + freshImageStr );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "processTinyGridSizes: returning freshImageStr = " + freshImageStr );
+  }
   return freshImageStr;
 }
-// smallGridSizeColorMap: Contains the colors used to create images with the gridSize = 1
+// tinyGridSizeColorMap: Contains the colors used to create images with gridSize <= maxTinyGridSize
 // Key:
 //   split on "-" to get:
-//     smallGridSizeImageStr[0] = image strings for grid size = 1
+//     tinyGridSizeImageStr[0] = image strings for grid size = 1
 //       split on "" to get:
 //         colorLtr[0] = color letter for color used in upper left of image
 //         colorLtr[1] = color letter for color used in upper right of image
 //         colorLtr[2] = color letter for color used in lower left of image
 //         colorLtr[3] = color letter for color used in lower right of image
 //   "-" = character for splitting the string and to help with readability
-//     smallGridSizeImageStr[1] = image strings for grid size = 3
+//     tinyGridSizeImageStr[1] = image strings for grid size = 3
 //       split on "" to get:
 //         colorLtr[0-2] = color letters for colors used in top row of image
 //         colorLtr[3-5] = color letters for colors used in middle row of image
@@ -1241,44 +1241,44 @@ function processTinyGridSizes(): string {
 //   "-" = character for splitting the string and to help with readability
 //     colorLtr[5]-colorLtr[12] = TEMPORARY Dom and Aux info for TEMPORARY use ONLY
 // For details, see the "81 Types" sheet in docs/03-Composition-Jungian.ods
-const smallGridSizeColorMap = new Map();
-smallGridSizeColorMap.set( 'XXXX', "BGRY-XXXXXXXXX-XX-Xx-Xx" );
+const tinyGridSizeColorMap = new Map();
+tinyGridSizeColorMap.set( 'XXXX', "BGRY-XXXXXXXXX" );
 
-smallGridSizeColorMap.set( 'EXFJ', "RBRY-RRGYRBBRY-FX-Fe-Xx" );
-smallGridSizeColorMap.set( 'EXFP', "BRYR-YBGRYRGBR-XF-Xx-Fi" );
-smallGridSizeColorMap.set( 'EXTJ', "GBGY-GGRYGBBGY-TX-Te-Xx" );
-smallGridSizeColorMap.set( 'EXTP', "BGYG-YBRGYGRBG-XT-Xx-Ti" );
-smallGridSizeColorMap.set( 'IXFJ', "RRBY-RRGYBYGRB-XF-Xx-Fe" );
-smallGridSizeColorMap.set( 'IXFP', "BYRR-YBGRRRBYR-FX-Fi-Xx" );
-smallGridSizeColorMap.set( 'IXTJ', "GGBY-GGRYBYRGB-XT-Xx-Te" );
-smallGridSizeColorMap.set( 'IXTP', "BYGG-YBRGGGBYG-TX-Ti-Xx" );
+tinyGridSizeColorMap.set( 'EXFJ', "RBRY-RRGYRBBRY" );
+tinyGridSizeColorMap.set( 'EXFP', "BRYR-YBGRYRGBR" );
+tinyGridSizeColorMap.set( 'EXTJ', "GBGY-GGRYGBBGY" );
+tinyGridSizeColorMap.set( 'EXTP', "BGYG-YBRGYGRBG" );
+tinyGridSizeColorMap.set( 'IXFJ', "RRBY-RRGYBYGRB" );
+tinyGridSizeColorMap.set( 'IXFP', "BYRR-YBGRRRBYR" );
+tinyGridSizeColorMap.set( 'IXTJ', "GGBY-GGRYBYRGB" );
+tinyGridSizeColorMap.set( 'IXTP', "BYGG-YBRGGGBYG" );
 
-smallGridSizeColorMap.set( 'ENXJ', "GBRB-GRYBGBYRB-XN-Xx-Ni" );
-smallGridSizeColorMap.set( 'ENXP', "BGBR-BBYGBRRBG-NX-Ne-Xx" );
-smallGridSizeColorMap.set( 'ESXJ', "GYRY-GRBYGYBRY-XS-Xx-Si" );
-smallGridSizeColorMap.set( 'ESXP', "YGYR-YYBGYRRYG-SX-Se-Xx" );
-smallGridSizeColorMap.set( 'INXJ', "GRBB-GRYBBBRGB-NX-Ni-Xx" );
-smallGridSizeColorMap.set( 'INXP', "BBGR-BBYGRGYBR-XN-Xx-Ne" );
-smallGridSizeColorMap.set( 'ISXJ', "GRYY-GRBYYYRGY-SX-Si-Xx" );
-smallGridSizeColorMap.set( 'ISXP', "YYGR-YYBGRGBYR-XS-Xx-Se" );
+tinyGridSizeColorMap.set( 'ENXJ', "GBRB-GRYBGBYRB" );
+tinyGridSizeColorMap.set( 'ENXP', "BGBR-BBYGBRRBG" );
+tinyGridSizeColorMap.set( 'ESXJ', "GYRY-GRBYGYBRY" );
+tinyGridSizeColorMap.set( 'ESXP', "YGYR-YYBGYRRYG" );
+tinyGridSizeColorMap.set( 'INXJ', "GRBB-GRYBBBRGB" );
+tinyGridSizeColorMap.set( 'INXP', "BBGR-BBYGRGYBR" );
+tinyGridSizeColorMap.set( 'ISXJ', "GRYY-GRBYYYRGY" );
+tinyGridSizeColorMap.set( 'ISXP', "YYGR-YYBGRGBYR" );
 
-smallGridSizeColorMap.set( 'ENFJ', "RBRB-RRYBRBGRB-FN-Fe-Ni" );
-smallGridSizeColorMap.set( 'ENFP', "BRBR-BBYRBRGBR-NF-Ne-Fi" );
-smallGridSizeColorMap.set( 'ENTJ', "GBGB-GGYBGBRGB-TN-Te-Ni" );
-smallGridSizeColorMap.set( 'ENTP', "BGBG-BBYGBGRBG-NT-Ne-Ti" );
-smallGridSizeColorMap.set( 'ESFJ', "RYRY-RRGYRYBRY-FS-Fe-Si" );
-smallGridSizeColorMap.set( 'ESFP', "YRYR-YYGRYRBYR-SF-Se-Fi" );
-smallGridSizeColorMap.set( 'ESTJ', "GYGY-GGRYGYBGY-TS-Te-Si" );
-smallGridSizeColorMap.set( 'ESTP', "YGYG-YYRGYGBYG-ST-Se-Ti" );
+tinyGridSizeColorMap.set( 'ENFJ', "RBRB-RRYBRBGRB" );
+tinyGridSizeColorMap.set( 'ENFP', "BRBR-BBYRBRGBR" );
+tinyGridSizeColorMap.set( 'ENTJ', "GBGB-GGYBGBRGB" );
+tinyGridSizeColorMap.set( 'ENTP', "BGBG-BBYGBGRBG" );
+tinyGridSizeColorMap.set( 'ESFJ', "RYRY-RRGYRYBRY" );
+tinyGridSizeColorMap.set( 'ESFP', "YRYR-YYGRYRBYR" );
+tinyGridSizeColorMap.set( 'ESTJ', "GYGY-GGRYGYBGY" );
+tinyGridSizeColorMap.set( 'ESTP', "YGYG-YYRGYGBYG" );
 
-smallGridSizeColorMap.set( 'INFJ', "BBRR-RRYBBBGRB-NF-Ni-Fe" );
-smallGridSizeColorMap.set( 'INFP', "RRBB-BBYRRRGBR-FN-Fi-Ne" );
-smallGridSizeColorMap.set( 'INTJ', "BBGG-GGYBBBRGB-NT-Ni-Te" );
-smallGridSizeColorMap.set( 'INTP', "GGBB-BBYGGGRBG-TN-Ti-Ne" );
-smallGridSizeColorMap.set( 'ISFJ', "YYRR-RRGYYYBRY-SF-Si-Fe" );
-smallGridSizeColorMap.set( 'ISFP', "RRYY-YYGRRRBYR-FS-Fi-Se" );
-smallGridSizeColorMap.set( 'ISTJ', "YYGG-GGRYYYBGY-ST-Si-Te" );
-smallGridSizeColorMap.set( 'ISTP', "GGYY-YYRGGGBYG-TS-Ti-Se" );
+tinyGridSizeColorMap.set( 'INFJ', "BBRR-RRYBBBGRB" );
+tinyGridSizeColorMap.set( 'INFP', "RRBB-BBYRRRGBR" );
+tinyGridSizeColorMap.set( 'INTJ', "BBGG-GGYBBBRGB" );
+tinyGridSizeColorMap.set( 'INTP', "GGBB-BBYGGGRBG" );
+tinyGridSizeColorMap.set( 'ISFJ', "YYRR-RRGYYYBRY" );
+tinyGridSizeColorMap.set( 'ISFP', "RRYY-YYGRRRBYR" );
+tinyGridSizeColorMap.set( 'ISTJ', "YYGG-GGRYYYBGY" );
+tinyGridSizeColorMap.set( 'ISTP', "GGYY-YYRGGGBYG" );
 
 // drawImageForGridSize_1: Draw a minimalist image when the user selects 1 for the grid size
 //   Splits imageStr into an imageCharArr, and draws the squares one-by-one
