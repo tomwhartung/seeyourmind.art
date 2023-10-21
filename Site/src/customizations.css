@@ -27,6 +27,19 @@
   margin: auto;
 }
 
+.blue {
+  color: #0000FF;
+}
+.green {
+  background-color: #00FF00;
+}
+.red {
+  color: #FF0000;
+}
+.yellow {
+  background-color: #FFFF00;
+}
+
 /*
  * Not using this rule right now...
  */
