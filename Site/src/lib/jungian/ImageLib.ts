@@ -157,7 +157,11 @@ export const colorNames: readonly string[] = [
   "Red",
   "Yellow"
 ];
-
+export const colorClassNameMap = new Map();
+colorClassNameMap.set( 'N', "blue" );
+colorClassNameMap.set( 'T', "green" );
+colorClassNameMap.set( 'F', "red" );
+colorClassNameMap.set( 'S', "yellow" );
 
 // Derived Values:
 // ===============
@@ -443,7 +447,6 @@ function setDomAuxValues( fourLtrTypeStr: string ): void {
   domPhrase = domAuxValuesArr[1];
   auxPhrase = domAuxValuesArr[2];
 }
-
 // sprinkleNeeded: Adds the needed squares in random spots
 //   **NOTE:** this function relies on the goal being set!!!
 function sprinkleNeeded( oldImageStr: string ): string {
