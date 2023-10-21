@@ -317,6 +317,9 @@ function FixedContainer() {
 
   ImageLib.setImageStr( currentImageStr );    // Do not remove!  This needs to be here!!
 
+  const domClassName = ImageLib.colorClassNameMap.get( ImageLib.domFcnLtr );
+  const auxClassName = ImageLib.colorClassNameMap.get( ImageLib.auxFcnLtr );
+
   if ( ImageLib.logLogicFlow ) {
     console.log( "return()ing from FixedContainer() in Refine.tsx" );
   }
@@ -328,8 +331,11 @@ function FixedContainer() {
           <h3>{ImageLib.fourLtrTypeStr}</h3>
         </div>
         <div className="col-10">
-          <p>Dominant: {ImageLib.domPhrase}<br />
-             Auxiliary: {ImageLib.auxPhrase}</p>
+          <p><strong>Dominant</strong> Jungian function is&nbsp;
+             <strong className={domClassName}>{ImageLib.domPhrase}</strong><br />
+             <strong>Auxiliary</strong> Jungian function is&nbsp;
+             <strong className={auxClassName}>{ImageLib.auxPhrase}</strong>
+         </p>
         </div>
       </div>
       <div className="row mt-2">
