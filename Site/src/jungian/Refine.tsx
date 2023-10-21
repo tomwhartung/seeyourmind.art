@@ -327,10 +327,10 @@ function FixedContainer() {
   return (
     <div className="container">
       <div className="row mt-4">
-        <div className="col-2">
-          <h3>{ImageLib.fourLtrTypeStr}</h3>
+        <div className="col-3">
+          <h1>{ImageLib.fourLtrTypeStr}</h1>
         </div>
-        <div className="col-10">
+        <div className="col-9">
           <p><strong>Dominant</strong> Jungian function is&nbsp;
              <strong className={domClassName}>{ImageLib.domPhrase}</strong><br />
              <strong>Auxiliary</strong> Jungian function is&nbsp;
