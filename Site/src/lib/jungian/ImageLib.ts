@@ -512,8 +512,6 @@ interface LineParmsIFace {
   rightColor:  string;    // One of the colorLetters
   bottomColor: string;    // One of the colorLetters
   drawSeq:     string;    // drawSeqForE or drawSeqForI
-  domFcnLtr:   string;    // Dominant function for this type - 'F', 'N', 'S', or 'T'
-  auxFcnLtr:   string;    // Auxiliary function for this type - 'F', 'N', 'S', or 'T'
   toString: () => string;
 }
 const lineParmsObj: LineParmsIFace = {
@@ -524,8 +522,6 @@ const lineParmsObj: LineParmsIFace = {
   rightColor:  colorLetters[3],    // Yellow
   bottomColor: colorLetters[2],    // Red
   drawSeq:     drawSeqForE,        // Defaults to 'E', because there is no drawing seq for 'X'!
-  domFcnLtr:   unknownFcnLtr,      // Defaults to 'X' for unknown
-  auxFcnLtr:   unknownFcnLtr,      // Defaults to 'X' for unknown
   toString: function(): string {
     return(
       "lineParmsObj.talPos = " + this.talPos + "\n" +
@@ -534,9 +530,7 @@ const lineParmsObj: LineParmsIFace = {
       "lineParmsObj.leftColor = " + this.leftColor + "\n" +
       "lineParmsObj.rightColor = " + this.rightColor + "\n" +
       "lineParmsObj.bottomColor = " + this.bottomColor + "\n" +
-      "lineParmsObj.drawSeq = " + this.drawSeq + "\n" +
-      "lineParmsObj.domFcnLtr = " + this.domFcnLtr + "\n" +
-      "lineParmsObj.auxFcnLtr = " + this.auxFcnLtr
+      "lineParmsObj.drawSeq = " + this.drawSeq + "\n"
     );
   },
 };
@@ -548,8 +542,6 @@ function drawLines( oldImageStr: string ): string {
     console.log( "(2) drawLines in ImageLib.ts: top of function" );
     console.log( lineParmsObj.toString() );
   }
-
-  console.log( "drawLines: domFcnLtr = " + domFcnLtr + "; auxFcnLtr = " + auxFcnLtr );
 
   let newImageStr = oldImageStr;
 
@@ -936,17 +928,7 @@ function setLineParms(): void {
     lineParmsObj.drawSeq = drawSeqForI;
   }
 
-  // This MIGHT BE UNNECESSARY, because we already do it in setTypeDomAndAux...
-  // --> CHECK WHEN WE RETURN TO WORKING WITH LINES!!!
-  const domAuxArr = getDomAuxArr( fourLtrTypeStr );
-  domFcnLtr = domAuxArr[0];
-  auxFcnLtr = domAuxArr[1];
-  lineParmsObj.domFcnLtr = domFcnLtr;
-  lineParmsObj.auxFcnLtr = auxFcnLtr;
-
   // if ( logLogicFlow ) {
-  //   console.log( "setLineParms: lineParmsObj.domFcnLtr = " + lineParmsObj.domFcnLtr );
-  //   console.log( "setLineParms: lineParmsObj.auxFcnLtr = " + lineParmsObj.auxFcnLtr );
   console.log( lineParmsObj.toString() );
   // }
 }
@@ -1129,18 +1111,6 @@ lineDataMap.set( 'ISFP', "RYYR-I" );  // All four values known
 lineDataMap.set( 'ISTJ', "YGGY-I" );  // All four values known
 lineDataMap.set( 'ISTP', "GYYG-I" );  // All four values known
 
-// getDomAuxArr: gets the dominant and auxiliary attributes from the domAuxMap and returns it as an array
-// THIS FUNCTION MAY BE OBSOLETE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-function getDomAuxArr( fourLtrTypeStr: string ): string[] {
-  let domAuxStr = domAuxMap.get( fourLtrTypeStr );
-
-  if ( ! domAuxStr ) {
-    domAuxStr = domAuxMap.get( 'XXXX' );    // Default to no values known
-  }
-
-  const domAuxArr = domAuxStr.split( "" );
-  return domAuxArr;
-}
 // domAuxMap: holds the dom and aux data for types with E/I, J/P, and at least one other letter known
 // Key:
 //   Note: accessing this data requires two split() commands: first on "-" then on ""
