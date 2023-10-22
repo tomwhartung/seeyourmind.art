@@ -109,7 +109,7 @@ export function setGridSize( newGridSize: number ): void {
   gridSize = newGridSize;
 }
 const maxTinyGridSize = 3;    // Images with tiny grid sizes are HARD-CODED in tinyGridSizeColorMap
-const maxSmallGridSize = 7;   // Images with small grid have just ONE PAIR OF LINES instead of two
+const maxSmallGridSize = 9;   // Images with small grid have just ONE PAIR OF LINES instead of two pairs
 
 //  Constant Arrays:
 // ==================
@@ -1172,15 +1172,15 @@ domAuxMap.set( 'ISTP', "TS-Ti: Introverted Thinking-Se: Extraverted Sensing" );
 const lineCoordsMap = new Map();
 lineCoordsMap.set( '1', "-1,-1" );   // Image's colors are hard-coded in tinyGridSizeColorMap
 lineCoordsMap.set( '3', "-1,-1" );   // Image's colors are hard-coded in tinyGridSizeColorMap
-lineCoordsMap.set( '5', "1,3" );     // Smallest grid size that uses lines
-lineCoordsMap.set( '7', "1,5" );
-lineCoordsMap.set( '9', "2,6" );
+lineCoordsMap.set( '5', "1,3" );     // Smallest grid size that uses lines, gets just one pair of them
+lineCoordsMap.set( '7', "2,4" );     // Also gets one pair instead of two pairs of lines
+lineCoordsMap.set( '9', "2,6" );     // Also gets one pair instead of two pairs of lines
 
-lineCoordsMap.set( '11', "2,8" );
+lineCoordsMap.set( '11', "3,7" );    // Smallest of the grid that gets two pairs of lines
 lineCoordsMap.set( '13', "3,9" );
-lineCoordsMap.set( '15', "3,11" );
+lineCoordsMap.set( '15', "4,10" );
 lineCoordsMap.set( '17', "4,12" );
-lineCoordsMap.set( '19', "5,13" );  // Ye olde standard grid size
+lineCoordsMap.set( '19', "5,13" );   // Ye olde standard grid size
 lineCoordsMap.set( '21', "5,15" );
 lineCoordsMap.set( '23', "6,16" );
 lineCoordsMap.set( '25', "6,18" );
