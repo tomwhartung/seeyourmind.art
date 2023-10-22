@@ -108,8 +108,8 @@ export let gridSize = initialGridSize;    // Changed by a slider on the Create p
 export function setGridSize( newGridSize: number ): void {
   gridSize = newGridSize;
 }
-const maxTinyGridSize = 3;  // Images are hard-coded for tiny grid sizes in tinyGridSizeColorMap
-
+const maxTinyGridSize = 3;    // Images with tiny grid sizes are HARD-CODED in tinyGridSizeColorMap
+const maxSmallGridSize = 7;   // Images with small grid have just ONE PAIR OF LINES instead of two
 
 // Constant Arrays:
 // ================
@@ -181,6 +181,8 @@ export function getCanvasHeight(): number {
   return ( squareSize * gridSize ) + ( 2 * gridTopY );
 }
 
+// The four-letter type and dominant and auxiliary functions are derived from the score
+//   Initially, these values are all unknown
 export const unknownFcnLtr = "X";
 export const unknownDomAuxPhrase = "Xx: Unknown";
 export const fourLtrTypeArr : string[] = [ unknownFcnLtr, unknownFcnLtr, unknownFcnLtr, unknownFcnLtr ];
@@ -262,16 +264,15 @@ export function createFreshImageStr(): string {
     console.log( "(0) createFreshImageStr in ImageLib.ts: top of function" );
   }
 
-  // setTypeDomAndAux();
-  setGoal();
-  setLineParms();   // relies on type being set!!!
-
   let freshImageStr = "";
 
-  if ( gridSize <= maxTinyGridSize ) {
+  if ( gridSize <= maxTinyGridSize ) {       // These images are HARD-CODED in the tinyGridSizeColorMap
     freshImageStr = processTinyGridSizes();
     return freshImageStr;
   }
+
+  setGoal();
+  setLineParms();   // relies on type being set!!!
 
   freshImageStr = createRandomImageStr();
   const maxTries = 1000;
@@ -546,6 +547,25 @@ function drawLines( oldImageStr: string ): string {
     console.log( lineParmsObj.toString() );
   }
 
+  let newImageStr = oldImageStr;
+
+  if ( gridSize <= maxSmallGridSize ) {
+    newImageStr = drawTwoLines( oldImageStr );
+  } else {
+    newImageStr = drawFourLines( oldImageStr );
+  }
+
+  return newImageStr;
+}
+
+// drawTwoLines: draws lines in the image when the grid size <= maxSmallGridSize
+function drawTwoLines( oldImageStr: string ): string {
+  // let newImageStr = oldImageStr;
+  const newImageStr = drawFourLines( oldImageStr );
+  return newImageStr;
+}
+// drawFourLines: draws lines in the image when the grid size > maxSmallGridSize
+function drawFourLines( oldImageStr: string ): string {
   let newImageStr = oldImageStr;
   let startPos = Math.round( gridSize/4 );
   let length = Math.round( gridSize/2 );
@@ -1197,8 +1217,8 @@ lineCoordsMap.set( '49', "12,36" );
 function processTinyGridSizes(): string {
   if ( logLogicFlow ) {
     console.log( "processTinyGridSizes: top of function; gridSize = " + gridSize );
-    console.log( "processTinyGridSizes: domFcnLtr = " + domFcnLtr );
-    console.log( "processTinyGridSizes: auxFcnLtr = " + auxFcnLtr );
+    // console.log( "processTinyGridSizes: domFcnLtr = " + domFcnLtr );
+    // console.log( "processTinyGridSizes: auxFcnLtr = " + auxFcnLtr );
   }
 
   let tinyGridSizeColorStr = tinyGridSizeColorMap.get( fourLtrTypeStr );
