@@ -1,6 +1,6 @@
 //
-// lib/jungian/ImageLib.ts: identifiers used to draw Jungian quiz type images
-// ==========================================================================
+//  lib/jungian/ImageLib.ts: identifiers used to draw Jungian quiz type images
+// ============================================================================
 
 // logLogicFlow: enable turning logging to the console on and off
 // --------------------------------------------------------------
@@ -21,8 +21,8 @@ export interface ScoreValueIFace {
   jVsPValue: number;    // [0 .. 100]
 }
 
-// Image Parameters: These control how the App creates the image
-// =============================================================
+//  Image Parameters: These control how the App creates the image
+// ===============================================================
 // -> See the README-React_notes.md file for specifics; following is an overview:
 // The app stores each of these under the "jungian" item in local storage
 // Use the set* functions to manipulate these values *in real time*
@@ -111,8 +111,8 @@ export function setGridSize( newGridSize: number ): void {
 const maxTinyGridSize = 3;    // Images with tiny grid sizes are HARD-CODED in tinyGridSizeColorMap
 const maxSmallGridSize = 7;   // Images with small grid have just ONE PAIR OF LINES instead of two
 
-// Constant Arrays:
-// ================
+//  Constant Arrays:
+// ==================
 //
 export const scoreValueNames: readonly string[] = [
   "E vs I",
@@ -163,8 +163,8 @@ colorClassNameMap.set( 'T', "green" );
 colorClassNameMap.set( 'F', "red" );
 colorClassNameMap.set( 'S', "yellow" );
 
-// Derived Values:
-// ===============
+//  Derived Values:
+// =================
 //
 // gridTopX and gridTopY in effect define the width of the image's border
 //   IT WOULD BE NICE if the size of the border would increase gradually with the size of the image
@@ -207,8 +207,8 @@ export function setTypeDomAndAux( scoreValueArr: number[] ): void {
   }
 }
 
-// Functions:
-// ==========
+//  Exported "Public" Functions:
+// ==============================
 //
 // drawImageStr: Draw a "groja-esque" grid of blue, green, red, and yellow squares
 //   Splits imageStr into an imageCharArr, and draws the squares one-by-one
@@ -275,7 +275,7 @@ export function createFreshImageStr(): string {
   setLineParms();   // relies on type being set!!!
 
   freshImageStr = createRandomImageStr();
-  const maxTries = 1000;
+  const maxTries = 500;
   let numTries = 0;
   let done = false;
 
@@ -322,8 +322,8 @@ export function createFreshImageStr(): string {
   return freshImageStr;
 }
 
-// "Private" Variables and Functions that I am working on and want close by, for now:
-// ==================================================================================
+//  "Private" Variables and Functions that I am working on and want close by, for now:
+// ====================================================================================
 interface ColorsIFace {
   blue: number;
   green: number;
@@ -365,23 +365,6 @@ const neededSquares : ColorsIFace = {
     );
   },
 };
-
-// drawRectangle: draw a rectangle using the specified color, upper corner coords, and size
-function drawRectangle( context: CanvasRenderingContext2D , colorLtr: string,
-                        topX: number, topY: number, sizeX: number, sizeY: number ): void {
-  if ( colorLtr == "B" ) {
-    context.fillStyle = "rgba(0, 0, 255, 1)";
-  } else if ( colorLtr == "G" ) {
-    context.fillStyle = "rgba(0, 255, 0, 1)";
-  } else if ( colorLtr == "R" ) {
-    context.fillStyle = "rgba(255, 0, 0, 1)";
-  } else if ( colorLtr == "Y" ) {
-    context.fillStyle = "rgba(255, 255, 0, 1)";
-  } else {
-    context.fillStyle = "rgb(255, 255, 255, 1)";
-  }
-  context.fillRect( topX, topY, sizeX, sizeY );
-}
 
 // setType: set the four-letter Jungian/MBTI(r) type
 function setType( scoreValueArr: number[] ): string {
@@ -448,6 +431,24 @@ function setDomAuxValues( fourLtrTypeStr: string ): void {
   domPhrase = domAuxValuesArr[1];
   auxPhrase = domAuxValuesArr[2];
 }
+
+// drawRectangle: draw a rectangle using the specified color, upper corner coords, and size
+function drawRectangle( context: CanvasRenderingContext2D , colorLtr: string,
+                        topX: number, topY: number, sizeX: number, sizeY: number ): void {
+  if ( colorLtr == "B" ) {
+    context.fillStyle = "rgba(0, 0, 255, 1)";
+  } else if ( colorLtr == "G" ) {
+    context.fillStyle = "rgba(0, 255, 0, 1)";
+  } else if ( colorLtr == "R" ) {
+    context.fillStyle = "rgba(255, 0, 0, 1)";
+  } else if ( colorLtr == "Y" ) {
+    context.fillStyle = "rgba(255, 255, 0, 1)";
+  } else {
+    context.fillStyle = "rgb(255, 255, 255, 1)";
+  }
+  context.fillRect( topX, topY, sizeX, sizeY );
+}
+
 // sprinkleNeeded: Adds the needed squares in random spots
 //   **NOTE:** this function relies on the goal being set!!!
 function sprinkleNeeded( oldImageStr: string ): string {
@@ -539,6 +540,7 @@ const lineParmsObj: LineParmsIFace = {
     );
   },
 };
+
 // drawLines: draws the lines in the image
 //   **NOTE:** this function relies on the lineParmsObj being set!!!
 function drawLines( oldImageStr: string ): string {
@@ -546,6 +548,8 @@ function drawLines( oldImageStr: string ): string {
     console.log( "(2) drawLines in ImageLib.ts: top of function" );
     console.log( lineParmsObj.toString() );
   }
+
+  console.log( "drawLines: domFcnLtr = " + domFcnLtr + "; auxFcnLtr = " + auxFcnLtr );
 
   let newImageStr = oldImageStr;
 
@@ -555,13 +559,34 @@ function drawLines( oldImageStr: string ): string {
     newImageStr = drawFourLines( oldImageStr );
   }
 
+  if ( logLogicFlow ) {
+    console.log( "(2) drawLines in ImageLib.ts: returning the newImageStr" );
+  }
   return newImageStr;
 }
-
 // drawTwoLines: draws lines in the image when the grid size <= maxSmallGridSize
 function drawTwoLines( oldImageStr: string ): string {
-  // let newImageStr = oldImageStr;
-  const newImageStr = drawFourLines( oldImageStr );
+  let newImageStr = oldImageStr;
+
+  const startPos = 0;
+  const length = gridSize;
+
+  if ( lineParmsObj.drawSeq == drawSeqForE ) {  // draw top and left lines only
+    if ( auxFcnLtr !== unknownFcnLtr ) {
+      newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor, lineParmsObj.talPos, startPos, length );
+    }
+    if ( domFcnLtr !== unknownFcnLtr ) {
+      newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor, lineParmsObj.talPos, startPos, length );
+    }
+  } else {                                       // draw right and bottom lines only
+    if ( auxFcnLtr !== unknownFcnLtr ) {
+      newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor, lineParmsObj.rabPos, startPos, length );
+    }
+    if ( domFcnLtr !== unknownFcnLtr ) {
+      newImageStr = drawHorizLine( newImageStr, lineParmsObj.bottomColor, lineParmsObj.rabPos, startPos, length );
+    }
+  }
+
   return newImageStr;
 }
 // drawFourLines: draws lines in the image when the grid size > maxSmallGridSize
@@ -589,48 +614,38 @@ function drawFourLines( oldImageStr: string ): string {
       startPos -= expansionAmount;
       length += expansionAmount * 2;
     }
-    newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor,
-                                lineParmsObj.rabPos, startPos, length );
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor, lineParmsObj.rabPos, startPos, length );
     startPos -= expansionAmount;
     length += expansionAmount * 2;
-    newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor,
-                                lineParmsObj.talPos, startPos, length );
+    newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor, lineParmsObj.talPos, startPos, length );
     if ( minExpandableGridSize < gridSize ) {
       startPos -= expansionAmount;
       length += expansionAmount * 2;
     }
-    newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor,
-                                lineParmsObj.talPos, startPos, length );
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor, lineParmsObj.talPos, startPos, length );
     if ( logLogicFlow ) {
       console.log( "drawLines: drew 4 lines for an Extroverted personality" );
     }
   } else {                                       // left-top-right-bottom
-    newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor,
-                                lineParmsObj.talPos, startPos, length );
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor, lineParmsObj.talPos, startPos, length );
     if ( minExpandableGridSize < gridSize ) {
       startPos -= expansionAmount;
       length += expansionAmount * 2;
     }
-    newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor,
-                                lineParmsObj.talPos, startPos, length );
+    newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor, lineParmsObj.talPos, startPos, length );
     startPos -= expansionAmount;
     length += expansionAmount * 2;
-    newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor,
-                                lineParmsObj.rabPos, startPos, length );
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor, lineParmsObj.rabPos, startPos, length );
     if ( minExpandableGridSize < gridSize ) {
       startPos -= expansionAmount;
       length += expansionAmount * 2;
     }
-    newImageStr = drawHorizLine( newImageStr, lineParmsObj.bottomColor,
-                                lineParmsObj.rabPos, startPos, length );
+    newImageStr = drawHorizLine( newImageStr, lineParmsObj.bottomColor, lineParmsObj.rabPos, startPos, length );
     if ( logLogicFlow ) {
       console.log( "drawLines: drew 4 lines for an Introverted personality" );
     }
   }
 
-  if ( logLogicFlow ) {
-    console.log( "(2) drawLines in ImageLib.ts: returning the newImageStr" );
-  }
   return newImageStr;
 }
 function drawHorizLine( oldImageStr: string,
@@ -790,8 +805,8 @@ function changeRandomSquares( oldImageStr: string, numNeeded: number, clrLtr: st
   return newImageStr;
 }
 
-// "Private" Variables and Functions:
-// ==================================
+//  "Private" Variables and Functions:
+// ====================================
 // These variables and functions are *not* exported so are available for internal use *only*
 //
 interface ScoreIFace {
