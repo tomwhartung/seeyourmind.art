@@ -286,8 +286,8 @@ function FixedContainer() {
     const success = LocalStorageLib.storeImageStr( currentImageStr );
     // ImageLib.setImageStr( currentImageStr );    // seems like this should be here, but apparently not
     if ( ImageLib.logLogicFlow ) {
-      const imageStrLen = currentImageStr.length;
-      console.log( "useEffect for currentImageStr in Refine.tsx: currentImageStr.length = " + imageStrLen );
+      const imageStrLength = currentImageStr.length;
+      console.log( "useEffect for currentImageStr in Refine.tsx: currentImageStr.length = " + imageStrLength );
       if ( success ) {
         console.log( "useEffect for currentImageStr: stored currentImageStr as imageStr ok" );
       } else {
