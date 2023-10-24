@@ -505,8 +505,10 @@ function sprinkleNeeded( oldImageStr: string ): string {
 const drawSeqForE = 'brtl';  // these go from shortest to longest: bottom-right-top-left
 const drawSeqForI = 'ltrb';  // these go from shortest to longest: left-top-right-bottom
 interface LineParmsIFace {
-  talPos: number;         // positon of lines at the Top And on the Left side - 0-based
-  rabPos: number;         // positon of lines at the Bottom And on the Right side - 0-based
+  talPos: number;         // Positon of lines at the Top And on the Left side - 0-based
+  rabPos: number;         // Positon of lines at the Bottom And on the Right side - 0-based
+  lineLenMin: number;     // Length of the shortest of the short lines
+  lineLenMax: number;     // Length of the longest of the long lines
   topColor:    string;    // One of the colorLetters
   leftColor:   string;    // One of the colorLetters
   rightColor:  string;    // One of the colorLetters
@@ -515,17 +517,21 @@ interface LineParmsIFace {
   toString: () => string;
 }
 const lineParmsObj: LineParmsIFace = {
-  talPos: 5,    // 0-based positon of lines at the top and on the left side
-  rabPos: 13,   // 0-based positon of lines at the bottom and on the right side
-  topColor:    colorLetters[1],    // Green
-  leftColor:   colorLetters[0],    // Blue
-  rightColor:  colorLetters[3],    // Yellow
-  bottomColor: colorLetters[2],    // Red
-  drawSeq:     drawSeqForE,        // Defaults to 'E', because there is no drawing seq for 'X'!
+  talPos: 5,       // Default 0-based positon of lines at the top and on the left side
+  rabPos: 13,      // Default 0-based positon of lines at the bottom and on the right side
+  lineLenMin: 9,                  // Default is 13 - 5 + 1 ( rabPos - talPos + 1)
+  lineLenMax: gridSize,           // Longest possible line length
+  topColor:    colorLetters[1],   // Green - default color of the top line
+  leftColor:   colorLetters[0],   // Blue - default color of the line on the left side
+  rightColor:  colorLetters[3],   // Yellow - default color of the line on the right side
+  bottomColor: colorLetters[2],   // Red - default color of the bottom line
+  drawSeq:     drawSeqForE,       // Defaults to 'E', because there is no drawing seq for 'X'!
   toString: function(): string {
     return(
       "lineParmsObj.talPos = " + this.talPos + "\n" +
       "lineParmsObj.rabPos = " + this.rabPos + "\n" +
+      "lineParmsObj.lineLenMin = " + this.lineLenMin + "\n" +
+      "lineParmsObj.lineLenMax = " + this.lineLenMax + "\n" +
       "lineParmsObj.topColor = " + this.topColor + "\n" +
       "lineParmsObj.leftColor = " + this.leftColor + "\n" +
       "lineParmsObj.rightColor = " + this.rightColor + "\n" +
@@ -581,9 +587,29 @@ function drawTwoLines( oldImageStr: string ): string {
 
   return newImageStr;
 }
-// drawFourLines: draws lines in the image when the grid size > maxSmallGridSize
+// drawFourLines: draws lines in the image when maxSmallGridSize < the grid size - "normal" images
 function drawFourLines( oldImageStr: string ): string {
   let newImageStr = oldImageStr;
+
+  const lineLenMin = lineParmsObj.lineLenMin;
+  const lineLenMax = lineParmsObj.lineLenMax;
+  const lineLenAvg = Math.round( (lineLenMax - lineLenMin) / 2 );
+  const lineLenShortAvgLo = Math.floor( (lineLenAvg - lineLenMin) / 2 );
+  const lineLenShortAvgHi = Math.ceil ( (lineLenAvg - lineLenMin) / 2 );
+  const lineLenLongAvgLo  = Math.floor( (lineLenMax - lineLenAvg) / 2 );
+  const lineLenLongAvgHi  = Math.ceil ( (lineLenMax - lineLenAvg) / 2 );
+
+  // Note: the 1st line is the shortest, and the 4th line is the longest
+  // For details, see the "Line Lengths" sheet in docs/03-Composition-Jungian.ods
+  const lineLen1stLo = lineLenMin;
+  const lineLen1stHi = lineLenShortAvgLo;
+  const lineLen2ndLo = lineLenShortAvgHi;
+  const lineLen2ndHi = lineLenAvg;
+  const lineLen3rdLo = lineLenAvg;
+  const lineLen3rdHi = lineLenLongAvgLo;
+  const lineLen4thLo = lineLenLongAvgHi;
+  const lineLen4thHi = lineLenMax;
+
   let startPos = Math.round( gridSize/4 );
   let length = Math.round( gridSize/2 );
   let expansionAmount = 1;
@@ -911,9 +937,12 @@ function setLineParms(): void {
     lineParmsObj.talPos = talPos;
     lineParmsObj.rabPos = rabPos;
   } else {
-    lineParmsObj.talPos = Math.round( gridSize / 3 );
-    lineParmsObj.rabPos = Math.round( (2*gridSize) / 3 );
+    lineParmsObj.talPos = Math.round( gridSize / 3 );      // Should not be used but here just in case 
+    lineParmsObj.rabPos = Math.round( (2*gridSize) / 3 );  // Should not be used but here just in case 
   }
+
+  lineParmsObj.lineLenMin = lineParmsObj.rabPos - lineParmsObj.talPos + 1;
+  lineParmsObj.lineLenMax = gridSize;
 
   const lineDataArr = getLineDataArr( fourLtrTypeStr );
 
@@ -1172,9 +1201,9 @@ domAuxMap.set( 'ISTP', "TS-Ti: Introverted Thinking-Se: Extraverted Sensing" );
 const lineCoordsMap = new Map();
 lineCoordsMap.set( '1', "-1,-1" );   // Image's colors are hard-coded in tinyGridSizeColorMap
 lineCoordsMap.set( '3', "-1,-1" );   // Image's colors are hard-coded in tinyGridSizeColorMap
-lineCoordsMap.set( '5', "1,3" );     // Smallest grid size that uses lines, gets just one pair of them
-lineCoordsMap.set( '7', "2,4" );     // Also gets one pair instead of two pairs of lines
-lineCoordsMap.set( '9', "2,6" );     // Also gets one pair instead of two pairs of lines
+lineCoordsMap.set( '5', "1,3" );     // Smallest grid using one pair of lines, but in two locations
+lineCoordsMap.set( '7', "2,4" );     // Also gets one pair of lines, but in two locations
+lineCoordsMap.set( '9', "2,6" );     // Also gets one pair of lines, but in two locations
 
 lineCoordsMap.set( '11', "3,7" );    // Smallest of the grid that gets two pairs of lines
 lineCoordsMap.set( '13', "3,9" );
