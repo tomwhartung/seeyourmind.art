@@ -275,7 +275,6 @@ export function createFreshImageStr(): string {
   setLineParms();   // relies on type being set!!!
 
   freshImageStr = createRandomImageStr();
-  const maxTries = 500;
   let numTries = 0;
   let done = false;
 
@@ -322,8 +321,24 @@ export function createFreshImageStr(): string {
   return freshImageStr;
 }
 
-//  "Private" Variables and Functions that I am working on and want close by, for now:
-// ====================================================================================
+//  "Private" Variables and Functions:
+// ====================================
+// These variables and functions are *not* exported so are available for internal use *only*
+//
+interface ScoreIFace {
+  eVsI: number;   // Might be an integer or a percentage
+  nVsS: number;   // Might be an integer or a percentage
+  fVsT: number;   // Might be an integer or a percentage
+  jVsP: number;   // Might be an integer or a percentage
+}
+const defaultPct = .5;
+const pcts : ScoreIFace = {
+  eVsI: defaultPct,
+  nVsS: defaultPct,
+  fVsT: defaultPct,
+  jVsP: defaultPct,
+};
+
 interface ColorsIFace {
   blue: number;
   green: number;
@@ -339,7 +354,10 @@ const goalSquares : ColorsIFace = {
   yellow: defaultNum,
   toString: function(): string {
     return(
-      "goalSquares: blue = " + this.blue + "; yellow = " + this.yellow + "; green = " + this.green  + "; red = " + this.red
+      "goalSquares: blue = " + this.blue +
+        "; yellow = " + this.yellow +
+        "; green = " + this.green +
+        "; red = " + this.red
     );
   },
 };
@@ -350,7 +368,10 @@ const currentSquares : ColorsIFace = {
   yellow: defaultNum,
   toString: function(): string {
     return(
-      "currentSquares: blue = " + this.blue + "; yellow = " + this.yellow + "; green = " + this.green  + "; red = " + this.red
+      "currentSquares: blue = " + this.blue +
+        "; yellow = " + this.yellow +
+        "; green = " + this.green +
+        "; red = " + this.red
     );
   },
 };
@@ -361,11 +382,56 @@ const neededSquares : ColorsIFace = {
   yellow: defaultNum,
   toString: function(): string {
     return(
-      "neededSquares: blue = " + this.blue + "; yellow = " + this.yellow + "; green = " + this.green  + "; red = " + this.red
+      "neededSquares: blue = " + this.blue +
+        "; yellow = " + this.yellow +
+        "; green = " + this.green +
+        "; red = " + this.red
     );
   },
 };
 
+const drawSeqForE = 'brtl';  // these go from shortest to longest: bottom-right-top-left
+const drawSeqForI = 'ltrb';  // these go from shortest to longest: left-top-right-bottom
+interface LineParmsIFace {
+  talPos: number;         // Positon of lines at the Top And on the Left side - 0-based
+  rabPos: number;         // Positon of lines at the Bottom And on the Right side - 0-based
+  lineLenMin: number;     // Length of the shortest of the short lines
+  lineLenMax: number;     // Length of the longest of the long lines
+  topColor:    string;    // One of the colorLetters
+  leftColor:   string;    // One of the colorLetters
+  rightColor:  string;    // One of the colorLetters
+  bottomColor: string;    // One of the colorLetters
+  drawSeq:     string;    // drawSeqForE or drawSeqForI
+  toString: () => string;
+}
+const lineParmsObj: LineParmsIFace = {
+  talPos: 5,       // Default 0-based positon of lines at the top and on the left side
+  rabPos: 13,      // Default 0-based positon of lines at the bottom and on the right side
+  lineLenMin: 9,                  // Default is 13 - 5 + 1 ( rabPos - talPos + 1)
+  lineLenMax: gridSize,           // Longest possible line length
+  topColor:    colorLetters[1],   // Green - default color of the top line
+  leftColor:   colorLetters[0],   // Blue - default color of the line on the left side
+  rightColor:  colorLetters[3],   // Yellow - default color of the line on the right side
+  bottomColor: colorLetters[2],   // Red - default color of the bottom line
+  drawSeq:     drawSeqForE,       // Defaults to 'E', because there is no drawing seq for 'X'!
+  toString: function(): string {
+    return(
+      "lineParmsObj.talPos = " + this.talPos + "\n" +
+      "lineParmsObj.rabPos = " + this.rabPos + "\n" +
+      "lineParmsObj.lineLenMin = " + this.lineLenMin + "\n" +
+      "lineParmsObj.lineLenMax = " + this.lineLenMax + "\n" +
+      "lineParmsObj.topColor = " + this.topColor + "\n" +
+      "lineParmsObj.leftColor = " + this.leftColor + "\n" +
+      "lineParmsObj.rightColor = " + this.rightColor + "\n" +
+      "lineParmsObj.bottomColor = " + this.bottomColor + "\n" +
+      "lineParmsObj.drawSeq = " + this.drawSeq + "\n"
+    );
+  },
+};
+
+// Important "set*" functions
+// --------------------------
+//
 // setType: set the four-letter Jungian/MBTI(r) type
 function setType( scoreValueArr: number[] ): string {
   setScoreValueObj( scoreValueArr );
@@ -432,24 +498,149 @@ function setDomAuxValues( fourLtrTypeStr: string ): void {
   auxPhrase = domAuxValuesArr[2];
 }
 
-// drawRectangle: draw a rectangle using the specified color, upper corner coords, and size
-function drawRectangle( context: CanvasRenderingContext2D , colorLtr: string,
-                        topX: number, topY: number, sizeX: number, sizeY: number ): void {
-  if ( colorLtr == "B" ) {
-    context.fillStyle = "rgba(0, 0, 255, 1)";
-  } else if ( colorLtr == "G" ) {
-    context.fillStyle = "rgba(0, 255, 0, 1)";
-  } else if ( colorLtr == "R" ) {
-    context.fillStyle = "rgba(255, 0, 0, 1)";
-  } else if ( colorLtr == "Y" ) {
-    context.fillStyle = "rgba(255, 255, 0, 1)";
-  } else {
-    context.fillStyle = "rgb(255, 255, 255, 1)";
+// setGoal: calculate number of squares needed of each color
+function setGoal() {
+  if ( logLogicFlow ) {
+    console.log( "setGoal in ImageLib.ts: top of function" );
   }
-  context.fillRect( topX, topY, sizeX, sizeY );
+
+  const totSquares = gridSize * gridSize;
+  let neededBAndYSquares = 0;
+  let neededGAndRSquares = 0;
+  computePcts();
+
+  if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
+    neededBAndYSquares = Math.round( totSquares / 2 );
+  } else {
+    neededBAndYSquares = Math.round( totSquares * pcts.jVsP );
+  }
+  neededGAndRSquares = totSquares - neededBAndYSquares;
+
+  if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
+    goalSquares.yellow = Math.round( neededBAndYSquares / 2 );
+  } else {
+    goalSquares.yellow = Math.round( neededBAndYSquares * pcts.nVsS );
+  }
+  goalSquares.blue = neededBAndYSquares - goalSquares.yellow;
+
+  if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
+    goalSquares.green = Math.round( neededGAndRSquares / 2 );
+  } else {
+    goalSquares.green = Math.round( neededGAndRSquares * pcts.fVsT );
+  }
+  goalSquares.red = neededGAndRSquares - goalSquares.green;
+
+  fourLtrTypeStr = fourLtrTypeArr.join('');
+
+  if ( logLogicFlow ) {
+    console.log( "totSquares = " + totSquares + "\n" +
+        "fourLtrTypeArr = " + fourLtrTypeArr + " and fourLtrTypeStr = " + fourLtrTypeStr + "\n" +
+     // "ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLtrTypeArr[0] = " + fourLtrTypeArr[0] + "\n" +
+     // "ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLtrTypeArr[1] = " + fourLtrTypeArr[1] + "\n" +
+     // "ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLtrTypeArr[2] = " + fourLtrTypeArr[2] + "\n" +
+     // "ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLtrTypeArr[3] = " + fourLtrTypeArr[3] + "\n" +
+        "neededBAndYSquares = " + neededBAndYSquares + " and neededGAndRSquares = " + neededGAndRSquares + "\n" );
+    if ( goalSquares && goalSquares.toString() ) {
+      console.log( goalSquares.toString() );
+    }
+    console.log( "setGoal in ImageLib.ts: returning" );
+  }
+}
+// setCurrentSquares: sets currentSquares by counting the number squares of each color
+function setCurrentSquares( imageStr: string ): void {
+  // if ( logLogicFlow ) {
+  // console.log( "setCurrentSquares: top of function" );
+  // }
+  currentSquares.blue = 0;
+  currentSquares.green = 0;
+  currentSquares.red = 0;
+  currentSquares.yellow = 0;
+
+  const totalSquares = gridSize * gridSize;
+  let colorLtr = colorLetters[0];   // just a temporary default value
+  const imageCharArr = imageStr.split('');
+
+  for ( let imgArrIdx=0; imgArrIdx < totalSquares; imgArrIdx++ ) {
+    colorLtr = imageCharArr[imgArrIdx];
+    if ( colorLtr == colorLetters[0] ) {
+      currentSquares.blue++;
+    } else if ( colorLtr == colorLetters[1] ) {
+      currentSquares.green++;
+    } else if ( colorLtr == colorLetters[2] ) {
+      currentSquares.red++;
+    } else {
+      currentSquares.yellow++;
+    }
+  }
+  // if ( logLogicFlow ) {
+  //   if ( currentSquares && currentSquares.toString() ) {
+  //     console.log( "setCurrentSquares: " + currentSquares.toString() );
+  //   }
+  // }
+  return;
+}
+// setNeededSquares: sets neededSquares by subtracting currentSquares from goalSquares
+function setNeededSquares(): void {
+  neededSquares.blue = goalSquares.blue - currentSquares.blue;
+  neededSquares.green = goalSquares.green - currentSquares.green;
+  neededSquares.red = goalSquares.red - currentSquares.red;
+  neededSquares.yellow = goalSquares.yellow - currentSquares.yellow;
+  // if ( logLogicFlow ) {
+  //   if ( currentSquares && currentSquares.toString() ) {
+  //     console.log( "setNeededSquares: " + neededSquares.toString() );
+  //   }
+  // }
 }
 
-// sprinkleNeeded: Adds the needed squares in random spots
+// setLineParms: set the position, color, drawing sequence, and length of lines in the image
+function setLineParms(): void {
+  // if ( logLogicFlow ) {
+  console.log( "setLineParms: fourLtrTypeStr = " + fourLtrTypeStr );
+  // console.log( "setLineParms: lineCoordsMap.get( gridSize.toString() ) = " + lineCoordsMap.get( gridSize.toString() ) );
+  // console.log( "setLineParms: lineDataMap.get( fourLtrTypeStr ) = " + lineDataMap.get( fourLtrTypeStr ) );
+  // }
+
+  const lineCoordsStr = lineCoordsMap.get( gridSize.toString() );
+  const lineCoordsArr = lineCoordsStr.split( "," );
+  const talPos = parseInt( lineCoordsArr[0] );
+  const rabPos = parseInt( lineCoordsArr[1] );
+
+  if ( lineCoordsStr ) {
+    lineParmsObj.talPos = talPos;
+    lineParmsObj.rabPos = rabPos;
+  } else {
+    lineParmsObj.talPos = Math.round( gridSize / 3 );      // Should not be used but here just in case
+    lineParmsObj.rabPos = Math.round( (2*gridSize) / 3 );  // Should not be used but here just in case
+  }
+
+  lineParmsObj.lineLenMin = rabPos - talPos + 1;
+  lineParmsObj.lineLenMax = gridSize;
+
+  const lineDataArr = getLineDataArr( fourLtrTypeStr );
+
+  lineParmsObj.topColor = lineDataArr[0];
+  lineParmsObj.leftColor = lineDataArr[1];
+  lineParmsObj.rightColor = lineDataArr[2];
+  lineParmsObj.bottomColor = lineDataArr[3];
+
+  if ( lineDataArr[5] == 'E' ) {
+    lineParmsObj.drawSeq = drawSeqForE;
+  } else {
+    lineParmsObj.drawSeq = drawSeqForI;
+  }
+
+  // if ( logLogicFlow ) {
+  console.log( lineParmsObj.toString() );
+  // }
+}
+
+// Main drawing algo: (1) sprinkleNeeded, (2) drawLines, (3) checkIfDone
+// ---------------------------------------------------------------------
+// Repeat as necessary until goal is acheived or maxTries is exceeded
+//
+const maxTries = 500;
+
+// sprinkleNeeded: Step (1) in the main algo: Adds the needed squares in random spots
 //   **NOTE:** this function relies on the goal being set!!!
 function sprinkleNeeded( oldImageStr: string ): string {
   if ( logLogicFlow ) {
@@ -501,47 +692,7 @@ function sprinkleNeeded( oldImageStr: string ): string {
   }
   return newImageStr;
 }
-
-const drawSeqForE = 'brtl';  // these go from shortest to longest: bottom-right-top-left
-const drawSeqForI = 'ltrb';  // these go from shortest to longest: left-top-right-bottom
-interface LineParmsIFace {
-  talPos: number;         // Positon of lines at the Top And on the Left side - 0-based
-  rabPos: number;         // Positon of lines at the Bottom And on the Right side - 0-based
-  lineLenMin: number;     // Length of the shortest of the short lines
-  lineLenMax: number;     // Length of the longest of the long lines
-  topColor:    string;    // One of the colorLetters
-  leftColor:   string;    // One of the colorLetters
-  rightColor:  string;    // One of the colorLetters
-  bottomColor: string;    // One of the colorLetters
-  drawSeq:     string;    // drawSeqForE or drawSeqForI
-  toString: () => string;
-}
-const lineParmsObj: LineParmsIFace = {
-  talPos: 5,       // Default 0-based positon of lines at the top and on the left side
-  rabPos: 13,      // Default 0-based positon of lines at the bottom and on the right side
-  lineLenMin: 9,                  // Default is 13 - 5 + 1 ( rabPos - talPos + 1)
-  lineLenMax: gridSize,           // Longest possible line length
-  topColor:    colorLetters[1],   // Green - default color of the top line
-  leftColor:   colorLetters[0],   // Blue - default color of the line on the left side
-  rightColor:  colorLetters[3],   // Yellow - default color of the line on the right side
-  bottomColor: colorLetters[2],   // Red - default color of the bottom line
-  drawSeq:     drawSeqForE,       // Defaults to 'E', because there is no drawing seq for 'X'!
-  toString: function(): string {
-    return(
-      "lineParmsObj.talPos = " + this.talPos + "\n" +
-      "lineParmsObj.rabPos = " + this.rabPos + "\n" +
-      "lineParmsObj.lineLenMin = " + this.lineLenMin + "\n" +
-      "lineParmsObj.lineLenMax = " + this.lineLenMax + "\n" +
-      "lineParmsObj.topColor = " + this.topColor + "\n" +
-      "lineParmsObj.leftColor = " + this.leftColor + "\n" +
-      "lineParmsObj.rightColor = " + this.rightColor + "\n" +
-      "lineParmsObj.bottomColor = " + this.bottomColor + "\n" +
-      "lineParmsObj.drawSeq = " + this.drawSeq + "\n"
-    );
-  },
-};
-
-// drawLines: draws the lines in the image
+// drawLines: Step (2) in the main algo: draws the lines in the image
 //   **NOTE:** this function relies on the lineParmsObj being set!!!
 function drawLines( oldImageStr: string ): string {
   if ( logLogicFlow ) {
@@ -560,6 +711,90 @@ function drawLines( oldImageStr: string ): string {
   if ( logLogicFlow ) {
     console.log( "(2) drawLines in ImageLib.ts: returning the newImageStr" );
   }
+  return newImageStr;
+}
+// checkIfDone: Step (3) in the main algo: returns true if currentSquares = goalSquares
+//   else returns false
+function checkIfDone( imageStr: string ): boolean {
+  if ( logLogicFlow ) {
+    console.log( "(3) checkIfDone in ImageLib.ts: top of function" );
+  }
+
+  let done = false;
+  setCurrentSquares( imageStr );
+  setNeededSquares();
+
+  if ( neededSquares.blue == 0 && neededSquares.green == 0 &&
+       neededSquares.red == 0 && neededSquares.yellow == 0 ) {
+    done = true;
+    if ( logLogicFlow ) {
+      console.log( "(3) checkIfDone: the neededSquares.* are all 0 and WE ARE DONE!" );
+    }
+  } else {
+    if ( logLogicFlow ) {
+      console.log( "(3) checkIfDone: we are not done yet" );
+    }
+  }
+
+  if ( logLogicFlow ) {
+    if ( goalSquares && goalSquares.toString() ) {
+      console.log( goalSquares.toString() );
+    }
+    if ( currentSquares && currentSquares.toString() ) {
+      console.log( currentSquares.toString() );
+    }
+    if ( currentSquares && currentSquares.toString() ) {
+      console.log( neededSquares.toString() );
+    }
+    console.log( "(3) checkIfDone in ImageLib.ts: returning done = " + done );
+  }
+  return done;
+}
+
+// Drawing Functions
+// -----------------
+//
+// drawRectangle: draw a rectangle using the specified color, upper corner coords, and size
+function drawRectangle( context: CanvasRenderingContext2D , colorLtr: string,
+                        topX: number, topY: number, sizeX: number, sizeY: number ): void {
+  if ( colorLtr == "B" ) {
+    context.fillStyle = "rgba(0, 0, 255, 1)";
+  } else if ( colorLtr == "G" ) {
+    context.fillStyle = "rgba(0, 255, 0, 1)";
+  } else if ( colorLtr == "R" ) {
+    context.fillStyle = "rgba(255, 0, 0, 1)";
+  } else if ( colorLtr == "Y" ) {
+    context.fillStyle = "rgba(255, 255, 0, 1)";
+  } else {
+    context.fillStyle = "rgb(255, 255, 255, 1)";
+  }
+  context.fillRect( topX, topY, sizeX, sizeY );
+}
+// changeRandomSquares: Randomly picks the specified number of squares and changes their color
+function changeRandomSquares( oldImageStr: string, numNeeded: number, clrLtr: string ): string {
+  // if ( logLogicFlow ) {
+  //   console.log( "changeRandomSquares: top of function" );
+  // }
+
+  const newImageCharArr = oldImageStr.split( "" );
+  const imageLength = newImageCharArr.length;
+  let squareNum = 0;
+
+  for( let num = 0; num < numNeeded; num++ ) {
+    squareNum = Math.floor( Math.random() * (imageLength + 1) );
+    newImageCharArr.splice( squareNum, 1, clrLtr );
+    // if ( logLogicFlow ) {
+    //   const squareRow = Math.floor( squareNum / gridSize );
+    //   const squareCol = squareNum % gridSize;
+    //   console.log( "Changed squareNum = " + squareNum + " = (" + squareCol + ", " + squareRow + ") to " + clrLtr );
+    // }
+  }
+
+  // if ( logLogicFlow ) {
+  //   console.log( "changeRandomSquares: returning" );
+  // }
+
+  const newImageStr = newImageCharArr.join('');
   return newImageStr;
 }
 // drawTwoLines: draws lines in the image when the grid size <= maxSmallGridSize
@@ -666,6 +901,7 @@ function drawFourLines( oldImageStr: string ): string {
 
   return newImageStr;
 }
+// drawHorizLine: Updates the image by drawing a horizontal line based on the specified parms
 function drawHorizLine( oldImageStr: string,
          clrLtr: string, yPos: number, xStart: number, length: number ): string {
   if ( logLogicFlow ) {
@@ -691,6 +927,7 @@ function drawHorizLine( oldImageStr: string,
 
   return newImageStr;
 }
+// drawVertLine: Updates the image by drawing a Vertical line based on the specified parms
 function drawVertLine( oldImageStr: string,
          clrLtr: string, xPos: number, yStart: number, length: number ): string {
   if ( logLogicFlow ) {
@@ -716,131 +953,26 @@ function drawVertLine( oldImageStr: string,
 
   return newImageStr;
 }
-// checkIfDone: returns true if currentSquares = goalSquares
-//   else returns false
-function checkIfDone( imageStr: string ): boolean {
-  if ( logLogicFlow ) {
-    console.log( "(3) checkIfDone in ImageLib.ts: top of function" );
-  }
 
-  let done = false;
-  setCurrentSquares( imageStr );
-  setNeededSquares();
-
-  if ( neededSquares.blue == 0 && neededSquares.green == 0 &&
-       neededSquares.red == 0 && neededSquares.yellow == 0 ) {
-    done = true;
-    if ( logLogicFlow ) {
-      console.log( "(3) checkIfDone: the neededSquares.* are all 0 and WE ARE DONE!" );
-    }
-  } else {
-    if ( logLogicFlow ) {
-      console.log( "(3) checkIfDone: we are not done yet" );
-    }
-  }
-
-  if ( logLogicFlow ) {
-    if ( goalSquares && goalSquares.toString() ) {
-      console.log( goalSquares.toString() );
-    }
-    if ( currentSquares && currentSquares.toString() ) {
-      console.log( currentSquares.toString() );
-    }
-    if ( currentSquares && currentSquares.toString() ) {
-      console.log( neededSquares.toString() );
-    }
-    console.log( "(3) checkIfDone in ImageLib.ts: returning done = " + done );
-  }
-  return done;
-}
-function setCurrentSquares( imageStr: string ): void {
-  // if ( logLogicFlow ) {
-  // console.log( "setCurrentSquares: top of function" );
-  // }
-  currentSquares.blue = 0;
-  currentSquares.green = 0;
-  currentSquares.red = 0;
-  currentSquares.yellow = 0;
-
-  const totalSquares = gridSize * gridSize;
-  let colorLtr = colorLetters[0];   // just a temporary default value
-  const imageCharArr = imageStr.split('');
-
-  for ( let imgArrIdx=0; imgArrIdx < totalSquares; imgArrIdx++ ) {
-    colorLtr = imageCharArr[imgArrIdx];
-    if ( colorLtr == colorLetters[0] ) {
-      currentSquares.blue++;
-    } else if ( colorLtr == colorLetters[1] ) {
-      currentSquares.green++;
-    } else if ( colorLtr == colorLetters[2] ) {
-      currentSquares.red++;
-    } else {
-      currentSquares.yellow++;
-    }
-  }
-  // if ( logLogicFlow ) {
-  //   if ( currentSquares && currentSquares.toString() ) {
-  //     console.log( "setCurrentSquares: " + currentSquares.toString() );
-  //   }
-  // }
-  return;
-}
-function setNeededSquares(): void {
-  neededSquares.blue = goalSquares.blue - currentSquares.blue;
-  neededSquares.green = goalSquares.green - currentSquares.green;
-  neededSquares.red = goalSquares.red - currentSquares.red;
-  neededSquares.yellow = goalSquares.yellow - currentSquares.yellow;
-  // if ( logLogicFlow ) {
-  //   if ( currentSquares && currentSquares.toString() ) {
-  //     console.log( "setNeededSquares: " + neededSquares.toString() );
-  //   }
-  // }
-}
-function changeRandomSquares( oldImageStr: string, numNeeded: number, clrLtr: string ): string {
-  // if ( logLogicFlow ) {
-  //   console.log( "changeRandomSquares: top of function" );
-  // }
-
-  const newImageCharArr = oldImageStr.split( "" );
-  const imageLength = newImageCharArr.length;
-  let squareNum = 0;
-
-  for( let num = 0; num < numNeeded; num++ ) {
-    squareNum = Math.floor( Math.random() * (imageLength + 1) );
-    newImageCharArr.splice( squareNum, 1, clrLtr );
-    // if ( logLogicFlow ) {
-    //   const squareRow = Math.floor( squareNum / gridSize );
-    //   const squareCol = squareNum % gridSize;
-    //   console.log( "Changed squareNum = " + squareNum + " = (" + squareCol + ", " + squareRow + ") to " + clrLtr );
-    // }
-  }
-
-  // if ( logLogicFlow ) {
-  //   console.log( "changeRandomSquares: returning" );
-  // }
-
-  const newImageStr = newImageCharArr.join('');
-  return newImageStr;
-}
-
-//  "Private" Variables and Functions:
-// ====================================
-// These variables and functions are *not* exported so are available for internal use *only*
+// Utility Functions
+// -----------------
 //
-interface ScoreIFace {
-  eVsI: number;   // Might be an integer or a percentage
-  nVsS: number;   // Might be an integer or a percentage
-  fVsT: number;   // Might be an integer or a percentage
-  jVsP: number;   // Might be an integer or a percentage
-}
-const defaultPct = .5;
-const pcts : ScoreIFace = {
-  eVsI: defaultPct,
-  nVsS: defaultPct,
-  fVsT: defaultPct,
-  jVsP: defaultPct,
-};
+// drawUnderlyingCanvas: paints the entire canvas black then fills the inner portion of it with white
+function drawUnderlyingCanvas( context: CanvasRenderingContext2D ): void {
+  const width = getCanvasWidth();
+  const height = getCanvasHeight();
 
+  // Paint it all black
+  context.fillStyle = "rgb(0, 0, 0)";
+  context.fillRect(0, 0, width, height);
+
+  const innerSquareWidth = getCanvasWidth() - ( 2 * gridTopX );
+  const innerSquareHeight = getCanvasHeight() - ( 2 * gridTopY );
+
+  // Paint the inner square, where the actual image will be, white
+  context.fillStyle = "rgb(255, 255, 255)";
+  context.fillRect(gridTopY, gridTopY, innerSquareWidth, innerSquareHeight);
+}
 
 // createRandomImageStr: Create a new random "groja-esque" grid of blue, green, red, and yellow squares
 //   Starts with an empty imageCharArr and adds color letters one-by-one
@@ -870,96 +1002,6 @@ function createRandomImageStr(): string {
     console.log( "createRandomImageStr in ImageLib.ts: Returning the randomImageStr" );
   }
   return randomImageStr;
-}
-// setGoal: calculate number of squares needed of each color
-function setGoal() {
-  if ( logLogicFlow ) {
-    console.log( "setGoal in ImageLib.ts: top of function" );
-  }
-
-  const totSquares = gridSize * gridSize;
-  let neededBAndYSquares = 0;
-  let neededGAndRSquares = 0;
-  computePcts();
-
-  if ( ScoreValueObj.jVsPValue == initialScoreValue ) {
-    neededBAndYSquares = Math.round( totSquares / 2 );
-  } else {
-    neededBAndYSquares = Math.round( totSquares * pcts.jVsP );
-  }
-  neededGAndRSquares = totSquares - neededBAndYSquares;
-
-  if ( ScoreValueObj.nVsSValue == initialScoreValue ) {
-    goalSquares.yellow = Math.round( neededBAndYSquares / 2 );
-  } else {
-    goalSquares.yellow = Math.round( neededBAndYSquares * pcts.nVsS );
-  }
-  goalSquares.blue = neededBAndYSquares - goalSquares.yellow;
-
-  if ( ScoreValueObj.fVsTValue == initialScoreValue ) {
-    goalSquares.green = Math.round( neededGAndRSquares / 2 );
-  } else {
-    goalSquares.green = Math.round( neededGAndRSquares * pcts.fVsT );
-  }
-  goalSquares.red = neededGAndRSquares - goalSquares.green;
-
-  fourLtrTypeStr = fourLtrTypeArr.join('');
-
-  if ( logLogicFlow ) {
-    console.log( "totSquares = " + totSquares + "\n" +
-        "fourLtrTypeArr = " + fourLtrTypeArr + " and fourLtrTypeStr = " + fourLtrTypeStr + "\n" +
-     // "ScoreValueObj.eVsIValue = " + ScoreValueObj.eVsIValue + " and fourLtrTypeArr[0] = " + fourLtrTypeArr[0] + "\n" +
-     // "ScoreValueObj.nVsSValue = " + ScoreValueObj.nVsSValue + " and fourLtrTypeArr[1] = " + fourLtrTypeArr[1] + "\n" +
-     // "ScoreValueObj.fVsTValue = " + ScoreValueObj.fVsTValue + " and fourLtrTypeArr[2] = " + fourLtrTypeArr[2] + "\n" +
-     // "ScoreValueObj.jVsPValue = " + ScoreValueObj.jVsPValue + " and fourLtrTypeArr[3] = " + fourLtrTypeArr[3] + "\n" +
-        "neededBAndYSquares = " + neededBAndYSquares + " and neededGAndRSquares = " + neededGAndRSquares + "\n" );
-    if ( goalSquares && goalSquares.toString() ) {
-      console.log( goalSquares.toString() );
-    }
-    console.log( "setGoal in ImageLib.ts: returning" );
-  }
-}
-
-// setLineParms: set the position, color, drawing sequence, and length of lines in the image
-function setLineParms(): void {
-  // if ( logLogicFlow ) {
-  console.log( "setLineParms: fourLtrTypeStr = " + fourLtrTypeStr );
-  // console.log( "setLineParms: lineCoordsMap.get( gridSize.toString() ) = " + lineCoordsMap.get( gridSize.toString() ) );
-  // console.log( "setLineParms: lineDataMap.get( fourLtrTypeStr ) = " + lineDataMap.get( fourLtrTypeStr ) );
-  // }
-
-  const lineCoordsStr = lineCoordsMap.get( gridSize.toString() );
-
-  if ( lineCoordsStr ) {
-    const lineCoordsArr = lineCoordsStr.split( "," );
-    const talPos = parseInt( lineCoordsArr[0] );
-    const rabPos = parseInt( lineCoordsArr[1] );
-    lineParmsObj.talPos = talPos;
-    lineParmsObj.rabPos = rabPos;
-  } else {
-    lineParmsObj.talPos = Math.round( gridSize / 3 );      // Should not be used but here just in case 
-    lineParmsObj.rabPos = Math.round( (2*gridSize) / 3 );  // Should not be used but here just in case 
-  }
-
-  lineParmsObj.lineLenMin = lineParmsObj.rabPos - lineParmsObj.talPos + 1;
-  lineParmsObj.lineLenMax = gridSize;
-
-  const lineDataArr = getLineDataArr( fourLtrTypeStr );
-
-  lineParmsObj.topColor = lineDataArr[0];
-  lineParmsObj.leftColor = lineDataArr[1];
-  lineParmsObj.rightColor = lineDataArr[2];
-  lineParmsObj.bottomColor = lineDataArr[3];
-
-  if ( lineDataArr[5] == 'E' ) {
-    lineParmsObj.drawSeq = drawSeqForE;
-  } else {
-    lineParmsObj.drawSeq = drawSeqForI;
-  }
-
-  // if ( logLogicFlow ) {
-  console.log( lineParmsObj.toString() );
-  // }
 }
 
 // computePcts: Convert the score values to percentages
@@ -1006,23 +1048,11 @@ function getRandomColor(): string {
   return randomColorLtr;
 }
 
-// drawUnderlyingCanvas: paints the entire canvas black then fills the inner portion of it with white
-function drawUnderlyingCanvas( context: CanvasRenderingContext2D ): void {
-  const width = getCanvasWidth();
-  const height = getCanvasHeight();
-
-  // Paint it all black
-  context.fillStyle = "rgb(0, 0, 0)";
-  context.fillRect(0, 0, width, height);
-
-  const innerSquareWidth = getCanvasWidth() - ( 2 * gridTopX );
-  const innerSquareHeight = getCanvasHeight() - ( 2 * gridTopY );
-
-  // Paint the inner square, where the actual image will be, white
-  context.fillStyle = "rgb(255, 255, 255)";
-  context.fillRect(gridTopY, gridTopY, innerSquareWidth, innerSquareHeight);
-}
-
+// Maps and Associated Functions
+// -----------------------------
+// These allow quick and easy access, via grid size or four-letter type, to data used to create images
+// Much of this data comes from the docs/03-Composition-Jungian.ods spreadsheet
+//
 // getLineDataArr: gets the line data from the lineDataMap and returns it as an array
 function getLineDataArr( fourLtrTypeStr: string ): string[] {
   let lineDataStr = lineDataMap.get( fourLtrTypeStr );
