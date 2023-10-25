@@ -637,7 +637,7 @@ function setLineParms(): void {
 // Main drawing algo: (1) sprinkleNeeded, (2) drawLines, (3) checkIfDone
 // ---------------------------------------------------------------------
 // Repeat as necessary until goal is acheived or maxTries is exceeded
-//   Public driver function is createFreshImageStr
+//   Public driver function for this algo is createFreshImageStr()
 //
 const maxTries = 500;
 
@@ -827,6 +827,7 @@ function drawTwoLines( oldImageStr: string ): string {
 function drawFourLines( oldImageStr: string ): string {
   let newImageStr = oldImageStr;
 
+  // The purpose of all this is to have the line lengths reflect the E/I score
   const lineLenMin = lineParmsObj.lineLenMin;
   const lineLenMax = lineParmsObj.lineLenMax;
   const lineLenAvg = Math.round( (lineLenMax - lineLenMin) / 2 );
@@ -845,6 +846,11 @@ function drawFourLines( oldImageStr: string ): string {
   const lineLen3rdHi = lineLenLongAvgLo;
   const lineLen4thLo = lineLenLongAvgHi;
   const lineLen4thHi = lineLenMax;
+
+  const lenOf1stLine = calculateLineLength( lineLen1stLo, lineLen1stHi );
+  const lenOf2ndLine = calculateLineLength( lineLen2ndLo, lineLen2ndHi );
+  const lenOf3rdLine = calculateLineLength( lineLen3rdLo, lineLen3rdHi );
+  const lenOf4thLine = calculateLineLength( lineLen4thLo, lineLen4thHi );
 
   let startPos = Math.round( gridSize/4 );
   let length = Math.round( gridSize/2 );
@@ -902,6 +908,12 @@ function drawFourLines( oldImageStr: string ): string {
 
   return newImageStr;
 }
+// calculateLineLength: Calculate a length between loLen and hiLen that reflects the E/I score
+function calculateLineLength( loLen: number, hiLen: number ): number {
+  const length = 0;
+  return length;
+}
+
 // drawHorizLine: Updates the image by drawing a horizontal line based on the specified parms
 function drawHorizLine( oldImageStr: string,
          clrLtr: string, yPos: number, xStart: number, length: number ): string {
@@ -1283,7 +1295,7 @@ function processTinyGridSizes(): string {
       freshImageStr = createRandomImageStr()  // default: fewer than 3 of 4 fcns are known
     }
   } else {
-    const freshImageStr = createRandomImageStr()
+    freshImageStr = createRandomImageStr()
   }
 
   // if ( logLogicFlow ) {
