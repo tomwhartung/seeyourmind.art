@@ -637,6 +637,7 @@ function setLineParms(): void {
 // Main drawing algo: (1) sprinkleNeeded, (2) drawLines, (3) checkIfDone
 // ---------------------------------------------------------------------
 // Repeat as necessary until goal is acheived or maxTries is exceeded
+//   Public driver function is createFreshImageStr
 //
 const maxTries = 500;
 
@@ -1259,11 +1260,11 @@ lineCoordsMap.set( '49', "12,36" );
 
 // processTinyGridSizes: we use a different algo when the grid size is <= maxTinyGridSize
 function processTinyGridSizes(): string {
-  if ( logLogicFlow ) {
+  // if ( logLogicFlow ) {
     console.log( "processTinyGridSizes: top of function; gridSize = " + gridSize );
     // console.log( "processTinyGridSizes: domFcnLtr = " + domFcnLtr );
     // console.log( "processTinyGridSizes: auxFcnLtr = " + auxFcnLtr );
-  }
+  // }
 
   let tinyGridSizeColorStr = tinyGridSizeColorMap.get( fourLtrTypeStr );
 
@@ -1282,12 +1283,12 @@ function processTinyGridSizes(): string {
       freshImageStr = createRandomImageStr()  // default: fewer than 3 of 4 fcns are known
     }
   } else {
-    freshImageStr = freshImageStrGridSize_5();  // NEXT!!!
+    const freshImageStr = createRandomImageStr()
   }
 
-  if ( logLogicFlow ) {
+  // if ( logLogicFlow ) {
     console.log( "processTinyGridSizes: returning freshImageStr = " + freshImageStr );
-  }
+  // }
   return freshImageStr;
 }
 // tinyGridSizeColorMap: Contains the colors used to create images with gridSize <= maxTinyGridSize
@@ -1353,9 +1354,9 @@ tinyGridSizeColorMap.set( 'ISTP', "GGYY-YYRGGGBYG" );
 //     (1) Each square is (squareSize/2) by (squareSize/2) or 1/4 the size of other images' squares
 //     (2) Ideally, when all four letters are known, the square actually consists of two rectangles
 function drawImageForGridSize_1( context: CanvasRenderingContext2D ): void {
-  if ( logLogicFlow ) {
+  // if ( logLogicFlow ) {
     console.log( "drawImageForGridSize_1 in ImageLib.ts: top of function" );
-  }
+  // }
 
   drawUnderlyingCanvas( context );
 
@@ -1390,13 +1391,8 @@ function drawImageForGridSize_1( context: CanvasRenderingContext2D ): void {
       console.log( "drawImageForGridSize_1() in ImageLib.ts: imageStr is empty, hope that's ok...!" );
     }
   }
-  if ( logLogicFlow ) {
+  // if ( logLogicFlow ) {
     console.log( "drawImageForGridSize_1 in ImageLib.ts: returning" );
-  }
-}
-
-function freshImageStrGridSize_5(): string {
-  const freshImageStr = createRandomImageStr()
-  return freshImageStr;
+  // }
 }
 
