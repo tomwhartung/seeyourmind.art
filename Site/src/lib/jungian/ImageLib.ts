@@ -830,11 +830,15 @@ function drawFourLines( oldImageStr: string ): string {
   // The purpose of all this is to have the line lengths reflect the E/I score
   const lineLenMin = lineParmsObj.lineLenMin;
   const lineLenMax = lineParmsObj.lineLenMax;
-  const lineLenAvg = Math.round( (lineLenMax - lineLenMin) / 2 );
+  const lineLenAvg = Math.round( (lineLenMax + lineLenMin) / 2 );
   const lineLenShortAvgLo = Math.floor( (lineLenAvg - lineLenMin) / 2 );
   const lineLenShortAvgHi = Math.ceil ( (lineLenAvg - lineLenMin) / 2 );
   const lineLenLongAvgLo  = Math.floor( (lineLenMax - lineLenAvg) / 2 );
   const lineLenLongAvgHi  = Math.ceil ( (lineLenMax - lineLenAvg) / 2 );
+
+  console.log( "drawFourLines: lineLenMin = " + lineLenMin );
+  console.log( "drawFourLines: lineLenAvg = " + lineLenAvg );
+  console.log( "drawFourLines: lineLenMax = " + lineLenMax );
 
   // Note: the 1st line is the shortest, and the 4th line is the longest
   // For details, see the "Line Lengths" sheet in docs/03-Composition-Jungian.ods
@@ -847,9 +851,13 @@ function drawFourLines( oldImageStr: string ): string {
   const lineLen4thLo = lineLenLongAvgHi;
   const lineLen4thHi = lineLenMax;
 
+  console.log( "drawFourLines: 1st call to calculateLineLength( " + lineLen1stLo + ", " + lineLen1stHi + ")" );
   const lenOf1stLine = calculateLineLength( lineLen1stLo, lineLen1stHi );
+  console.log( "drawFourLines: 2nd call to calculateLineLength( " + lineLen1stLo + ", " + lineLen1stHi + ")" );
   const lenOf2ndLine = calculateLineLength( lineLen2ndLo, lineLen2ndHi );
+  console.log( "drawFourLines: 3rd call to calculateLineLength( " + lineLen1stLo + ", " + lineLen1stHi + ")" );
   const lenOf3rdLine = calculateLineLength( lineLen3rdLo, lineLen3rdHi );
+  console.log( "drawFourLines: 4th call to calculateLineLength( " + lineLen1stLo + ", " + lineLen1stHi + ")" );
   const lenOf4thLine = calculateLineLength( lineLen4thLo, lineLen4thHi );
 
   let startPos = Math.round( gridSize/4 );
@@ -910,7 +918,19 @@ function drawFourLines( oldImageStr: string ): string {
 }
 // calculateLineLength: Calculate a length between loLen and hiLen that reflects the E/I score
 function calculateLineLength( loLen: number, hiLen: number ): number {
-  const length = 0;
+  const availToReflectEI = hiLen - loLen;
+  const pctDiffEI = valueToPct( Math.abs(ScoreValueObj.eVsIValue - 50) );
+  // if ( logLogicFlow ) {
+  console.log( "calculateLineLength: availToReflectEI = " + availToReflectEI );
+  console.log( "calculateLineLength: pctDiffEI = " + pctDiffEI );
+  // }
+  const addToLoLen = Math.round( pctDiffEI * availToReflectEI );
+  const length = loLen + addToLoLen;
+  // if ( logLogicFlow ) {
+  console.log( "calculateLineLength: loLen = " + loLen );
+  console.log( "calculateLineLength: addToLoLen = " + addToLoLen );
+  console.log( "calculateLineLength: returning length = " + length );
+  // }
   return length;
 }
 
