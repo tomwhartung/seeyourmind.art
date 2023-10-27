@@ -858,63 +858,38 @@ function drawFourLines( oldImageStr: string ): string {
   console.log( "drawFourLines: eVsIScoreFactor = " + eVsIScoreFactor );
 
   const lenOf1stLine = calculateLineLength( lineLen1stLo, lineLen1stHi, eVsIScoreFactor );
-  console.log( "drawFourLines: 1st call to calculateLineLength( " + lineLen1stLo + ", " + lineLen1stHi + ")" + " returned " + lenOf1stLine );
   const lenOf2ndLine = calculateLineLength( lineLen2ndLo, lineLen2ndHi, eVsIScoreFactor );
-  console.log( "drawFourLines: 2nd call to calculateLineLength( " + lineLen2ndLo + ", " + lineLen2ndHi + ")" + " returned " + lenOf2ndLine );
   const lenOf3rdLine = calculateLineLength( lineLen3rdLo, lineLen3rdHi, eVsIScoreFactor );
-  console.log( "drawFourLines: 3rd call to calculateLineLength( " + lineLen3rdLo + ", " + lineLen3rdHi + ")" + " returned " + lenOf3rdLine );
   const lenOf4thLine = calculateLineLength( lineLen4thLo, lineLen4thHi, eVsIScoreFactor );
+
+  console.log( "drawFourLines: 1st call to calculateLineLength( " + lineLen1stLo + ", " + lineLen1stHi + ")" + " returned " + lenOf1stLine );
+  console.log( "drawFourLines: 2nd call to calculateLineLength( " + lineLen2ndLo + ", " + lineLen2ndHi + ")" + " returned " + lenOf2ndLine );
+  console.log( "drawFourLines: 3rd call to calculateLineLength( " + lineLen3rdLo + ", " + lineLen3rdHi + ")" + " returned " + lenOf3rdLine );
   console.log( "drawFourLines: 4th call to calculateLineLength( " + lineLen4thLo + ", " + lineLen4thHi + ")" + " returned " + lenOf4thLine );
 
-  let startPos = Math.round( gridSize/4 );
-  let length = Math.round( gridSize/2 );
-  let expansionAmount = 1;
-  const minExpandableGridSize = 9;
-  const largeGridSize = 23;
-  const hugeGridSize = 31;
-
-  if ( largeGridSize < gridSize ) {
-    if ( hugeGridSize < gridSize ) {
-      expansionAmount = 5;
-    } else {
-      expansionAmount = 3;
-    }
-  }
+  let startPos = 0;
 
   if ( lineParmsObj.drawSeq == drawSeqForE ) {  // bottom-right-top-left
-    newImageStr = drawHorizLine( newImageStr, lineParmsObj.bottomColor,
-                                lineParmsObj.rabPos, startPos, length );
-    if ( minExpandableGridSize < gridSize ) {
-      startPos -= expansionAmount;
-      length += expansionAmount * 2;
-    }
-    newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor, lineParmsObj.rabPos, startPos, length );
-    startPos -= expansionAmount;
-    length += expansionAmount * 2;
-    newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor, lineParmsObj.talPos, startPos, length );
-    if ( minExpandableGridSize < gridSize ) {
-      startPos -= expansionAmount;
-      length += expansionAmount * 2;
-    }
-    newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor, lineParmsObj.talPos, startPos, length );
+    startPos = Math.floor( (gridSize - lenOf1stLine) / 2);
+    newImageStr = drawHorizLine( newImageStr, lineParmsObj.bottomColor, lineParmsObj.rabPos, startPos, lenOf1stLine );
+    startPos = Math.floor( (gridSize - lenOf2ndLine) / 2);
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor, lineParmsObj.rabPos, startPos, lenOf2ndLine );
+    startPos = Math.floor( (gridSize - lenOf3rdLine) / 2);
+    newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor, lineParmsObj.talPos, startPos, lenOf3rdLine );
+    startPos = Math.floor( (gridSize - lenOf4thLine) / 2);
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor, lineParmsObj.talPos, startPos, lenOf4thLine );
     if ( logLogicFlow ) {
       console.log( "drawLines: drew 4 lines for an Extroverted personality" );
     }
   } else {                                       // left-top-right-bottom
-    newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor, lineParmsObj.talPos, startPos, length );
-    if ( minExpandableGridSize < gridSize ) {
-      startPos -= expansionAmount;
-      length += expansionAmount * 2;
-    }
-    newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor, lineParmsObj.talPos, startPos, length );
-    startPos -= expansionAmount;
-    length += expansionAmount * 2;
-    newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor, lineParmsObj.rabPos, startPos, length );
-    if ( minExpandableGridSize < gridSize ) {
-      startPos -= expansionAmount;
-      length += expansionAmount * 2;
-    }
-    newImageStr = drawHorizLine( newImageStr, lineParmsObj.bottomColor, lineParmsObj.rabPos, startPos, length );
+    startPos = Math.ceil( (gridSize - lenOf1stLine) / 2);
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor, lineParmsObj.talPos, startPos, lenOf1stLine );
+    startPos = Math.ceil( (gridSize - lenOf2ndLine) / 2);
+    newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor, lineParmsObj.talPos, startPos, lenOf2ndLine );
+    startPos = Math.ceil( (gridSize - lenOf3rdLine) / 2);
+    newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor, lineParmsObj.rabPos, startPos, lenOf3rdLine );
+    startPos = Math.ceil( (gridSize - lenOf4thLine) / 2);
+    newImageStr = drawHorizLine( newImageStr, lineParmsObj.bottomColor, lineParmsObj.rabPos, startPos, lenOf4thLine );
     if ( logLogicFlow ) {
       console.log( "drawLines: drew 4 lines for an Introverted personality" );
     }
