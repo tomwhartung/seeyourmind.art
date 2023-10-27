@@ -852,20 +852,10 @@ function drawFourLines( oldImageStr: string ): string {
     eVsIScoreFactor = valueToPct( 100 - ScoreValueObj.eVsIValue );
   }
 
-  console.log( "drawFourLines: lineLenMin = " + lineLenMin );
-  console.log( "drawFourLines: lineLenAvg = " + lineLenAvg );
-  console.log( "drawFourLines: lineLenMax = " + lineLenMax );
-  console.log( "drawFourLines: eVsIScoreFactor = " + eVsIScoreFactor );
-
   const lenOf1stLine = calculateLineLength( lineLen1stLo, lineLen1stHi, eVsIScoreFactor );
   const lenOf2ndLine = calculateLineLength( lineLen2ndLo, lineLen2ndHi, eVsIScoreFactor );
   const lenOf3rdLine = calculateLineLength( lineLen3rdLo, lineLen3rdHi, eVsIScoreFactor );
   const lenOf4thLine = calculateLineLength( lineLen4thLo, lineLen4thHi, eVsIScoreFactor );
-
-  console.log( "drawFourLines: 1st call to calculateLineLength( " + lineLen1stLo + ", " + lineLen1stHi + ")" + " returned " + lenOf1stLine );
-  console.log( "drawFourLines: 2nd call to calculateLineLength( " + lineLen2ndLo + ", " + lineLen2ndHi + ")" + " returned " + lenOf2ndLine );
-  console.log( "drawFourLines: 3rd call to calculateLineLength( " + lineLen3rdLo + ", " + lineLen3rdHi + ")" + " returned " + lenOf3rdLine );
-  console.log( "drawFourLines: 4th call to calculateLineLength( " + lineLen4thLo + ", " + lineLen4thHi + ")" + " returned " + lenOf4thLine );
 
   let startPos = 0;
 
@@ -878,9 +868,6 @@ function drawFourLines( oldImageStr: string ): string {
     newImageStr = drawHorizLine( newImageStr, lineParmsObj.topColor, lineParmsObj.talPos, startPos, lenOf3rdLine );
     startPos = Math.floor( (gridSize - lenOf4thLine) / 2);
     newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor, lineParmsObj.talPos, startPos, lenOf4thLine );
-    if ( logLogicFlow ) {
-      console.log( "drawLines: drew 4 lines for an Extroverted personality" );
-    }
   } else {                                       // left-top-right-bottom
     startPos = Math.ceil( (gridSize - lenOf1stLine) / 2);
     newImageStr = drawVertLine( newImageStr, lineParmsObj.leftColor, lineParmsObj.talPos, startPos, lenOf1stLine );
@@ -890,11 +877,24 @@ function drawFourLines( oldImageStr: string ): string {
     newImageStr = drawVertLine( newImageStr, lineParmsObj.rightColor, lineParmsObj.rabPos, startPos, lenOf3rdLine );
     startPos = Math.ceil( (gridSize - lenOf4thLine) / 2);
     newImageStr = drawHorizLine( newImageStr, lineParmsObj.bottomColor, lineParmsObj.rabPos, startPos, lenOf4thLine );
-    if ( logLogicFlow ) {
-      console.log( "drawLines: drew 4 lines for an Introverted personality" );
-    }
   }
 
+
+  if ( logLogicFlow ) {
+    if ( lineParmsObj.drawSeq == drawSeqForE ) {
+      console.log( "drawLines: drew 4 lines for an Extroverted personality" );
+    } else {
+      console.log( "drawLines: drew 4 lines for an Introverted personality" );
+    }
+    console.log( "drawFourLines: lineLenMin = " + lineLenMin );
+    console.log( "drawFourLines: lineLenAvg = " + lineLenAvg );
+    console.log( "drawFourLines: lineLenMax = " + lineLenMax );
+    console.log( "drawFourLines: eVsIScoreFactor = " + eVsIScoreFactor );
+    console.log( "drawFourLines: 1st call to calculateLineLength( " + lineLen1stLo + ", " + lineLen1stHi + ")" + " returned " + lenOf1stLine );
+    console.log( "drawFourLines: 2nd call to calculateLineLength( " + lineLen2ndLo + ", " + lineLen2ndHi + ")" + " returned " + lenOf2ndLine );
+    console.log( "drawFourLines: 3rd call to calculateLineLength( " + lineLen3rdLo + ", " + lineLen3rdHi + ")" + " returned " + lenOf3rdLine );
+    console.log( "drawFourLines: 4th call to calculateLineLength( " + lineLen4thLo + ", " + lineLen4thHi + ")" + " returned " + lenOf4thLine );
+  }
   return newImageStr;
 }
 // calculateLineLength: Calculate a length between loLen and hiLen that reflects the E/I score
