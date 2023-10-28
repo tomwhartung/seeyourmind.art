@@ -703,10 +703,10 @@ function drawLines( oldImageStr: string ): string {
 
   let newImageStr = oldImageStr;
 
-  if ( gridSize <= maxSmallGridSize ) {
-    newImageStr = drawTwoLines( oldImageStr );
-  } else {
+  if ( maxSmallGridSize < gridSize ) {
     newImageStr = drawFourLines( oldImageStr );
+  } else {
+    newImageStr = drawTwoLines( oldImageStr );
   }
 
   if ( logLogicFlow ) {
