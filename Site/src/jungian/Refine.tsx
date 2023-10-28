@@ -75,6 +75,50 @@ interface RefinePropsIFace {
   onSquareSizeChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
+// ColorPicker: If the grid size warrants it, construct the markup for the Color Picker
+function ColorPicker( {onRadioButtonClick} ) {
+  const colorPickerCols = [];
+
+  let includeColorPicker = false;
+  if ( ImageLib.maxSmallGridSize <= ImageLib.gridSize ) {
+    includeColorPicker = true;
+    for ( let colorNum = 0; colorNum < ImageLib.colorLetters.length; colorNum++ ) {
+      let defaultChecked = false;
+      if ( colorNum === 0 ) {
+        defaultChecked = true;
+      } else {
+        defaultChecked = false;
+      }
+      colorPickerCols.push(
+        <div key={colorNum} className="col-sm-3 align-items-center">
+          <MDBRadio
+            name="colorPicker"
+            id={ImageLib.colorNames[colorNum]}
+            label={ImageLib.colorNames[colorNum]}
+            value={colorNum}
+            onChange={onRadioButtonClick}
+            defaultChecked={defaultChecked}
+          />
+        </div>
+      );
+    }
+  }
+
+  // if ( includeColorPicker ) {
+    return (
+      <div className="col-sm-8 card align-items-center">
+        <div className="row d-flex mt-1 align-items-center">
+          <h5>Color Picker</h5>
+        </div>
+        <div className="row d-flex mt-1">
+          {colorPickerCols}
+        </div>
+      </div>
+    );
+  // } else {
+  //   return;
+  // }
+}
 // FixedSizeImageAndCards: function component to display a jungian image
 function FixedSizeImageAndCards( props: RefinePropsIFace ) {
   if ( ImageLib.logLogicFlow ) {
@@ -83,29 +127,6 @@ function FixedSizeImageAndCards( props: RefinePropsIFace ) {
 
   const width = ImageLib.getCanvasWidth();
   const height = ImageLib.getCanvasHeight();
-
-  // Construct the markup for the Color Picker
-  const colorPickerCols = [];
-  for ( let colorNum = 0; colorNum < ImageLib.colorLetters.length; colorNum++ ) {
-    let defaultChecked = false;
-    if ( colorNum === 0 ) {
-      defaultChecked = true;
-    } else {
-      defaultChecked = false;
-    }
-    colorPickerCols.push(
-      <div key={colorNum} className="col-sm-3 align-items-center">
-        <MDBRadio
-          name="colorPicker"
-          id={ImageLib.colorNames[colorNum]}
-          label={ImageLib.colorNames[colorNum]}
-          value={colorNum}
-          onChange={props.onRadioButtonClick}
-          defaultChecked={defaultChecked}
-        />
-      </div>
-    );
-  }
 
   const squareSizeLabel = "Square Size: " + ImageLib.squareSize + " Pixels";
 
@@ -119,14 +140,9 @@ function FixedSizeImageAndCards( props: RefinePropsIFace ) {
   return (
     <>
       <div className="row d-flex mt-1 align-items-center">
-        <div className="col-sm-8 card align-items-center">
-          <div className="row d-flex mt-1 align-items-center">
-            <h5>Color Picker</h5>
-          </div>
-          <div className="row d-flex mt-1">
-            {colorPickerCols}
-          </div>
-        </div>
+        <ColorPicker
+          onRadioButtonClick={props.onRadioButtonClick}
+        />
         <div className="col-sm-4 card align-items-center">
           <SquareSizeSlider
             squareSizeLabel={squareSizeLabel}
