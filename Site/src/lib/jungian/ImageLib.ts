@@ -594,11 +594,9 @@ function setNeededSquares(): void {
 
 // setLineParms: set the position, color, drawing sequence, and length of lines in the image
 function setLineParms(): void {
-  // if ( logLogicFlow ) {
-  console.log( "setLineParms: fourLtrTypeStr = " + fourLtrTypeStr );
-  // console.log( "setLineParms: lineCoordsMap.get( gridSize.toString() ) = " + lineCoordsMap.get( gridSize.toString() ) );
-  // console.log( "setLineParms: lineDataMap.get( fourLtrTypeStr ) = " + lineDataMap.get( fourLtrTypeStr ) );
-  // }
+  if ( logLogicFlow ) {
+    console.log( "setLineParms: fourLtrTypeStr = " + fourLtrTypeStr );
+  }
 
   const lineCoordsStr = lineCoordsMap.get( gridSize.toString() );
   const lineCoordsArr = lineCoordsStr.split( "," );
@@ -629,9 +627,9 @@ function setLineParms(): void {
     lineParmsObj.drawSeq = drawSeqForI;
   }
 
-  // if ( logLogicFlow ) {
-  console.log( lineParmsObj.toString() );
-  // }
+  if ( logLogicFlow ) {
+    console.log( lineParmsObj.toString() );
+  }
 }
 
 // Main drawing algo: (1) sprinkleNeeded, (2) drawLines, (3) checkIfDone
@@ -1363,9 +1361,9 @@ tinyGridSizeColorMap.set( 'ISTP', "GGYY-YYRGGGBYG" );
 //     (1) Each square is (squareSize/2) by (squareSize/2) or 1/4 the size of other images' squares
 //     (2) Ideally, when all four letters are known, the square actually consists of two rectangles
 function drawImageForGridSize_1( context: CanvasRenderingContext2D ): void {
-  // if ( logLogicFlow ) {
+  if ( logLogicFlow ) {
     console.log( "drawImageForGridSize_1 in ImageLib.ts: top of function" );
-  // }
+  }
 
   drawUnderlyingCanvas( context );
 
@@ -1400,8 +1398,8 @@ function drawImageForGridSize_1( context: CanvasRenderingContext2D ): void {
       console.log( "drawImageForGridSize_1() in ImageLib.ts: imageStr is empty, hope that's ok...!" );
     }
   }
-  // if ( logLogicFlow ) {
+  if ( logLogicFlow ) {
     console.log( "drawImageForGridSize_1 in ImageLib.ts: returning" );
-  // }
+  }
 }
 
