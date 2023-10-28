@@ -16,6 +16,11 @@ import SquareSizeSlider from '../lib/jungian/SquareSizeSliderLib.tsx';
 // ImageLib.setLogLogicFlow( true );   // un-comment when trying to track down issues
 ImageLib.setLogLogicFlow( false );   // un-comment when everything's ok
 
+let includeColorPicker = false;
+if ( ImageLib.maxSmallGridSize <= ImageLib.gridSize ) {
+  includeColorPicker = true;
+}
+
 // draw: draw the grid of blue, green, red, and yellow squares defined in ImageLib.imageStr
 function draw( context: CanvasRenderingContext2D ): void {
   ImageLib.drawImageStr( context );
@@ -79,9 +84,7 @@ interface RefinePropsIFace {
 function ColorPicker( {onRadioButtonClick} ) {
   const colorPickerCols = [];
 
-  let includeColorPicker = false;
-  if ( ImageLib.maxSmallGridSize <= ImageLib.gridSize ) {
-    includeColorPicker = true;
+  if ( includeColorPicker ) {
     for ( let colorNum = 0; colorNum < ImageLib.colorLetters.length; colorNum++ ) {
       let defaultChecked = false;
       if ( colorNum === 0 ) {
@@ -104,7 +107,7 @@ function ColorPicker( {onRadioButtonClick} ) {
     }
   }
 
-  // if ( includeColorPicker ) {
+  if ( includeColorPicker ) {
     return (
       <div className="col-sm-8 card align-items-center">
         <div className="row d-flex mt-1 align-items-center">
@@ -115,9 +118,9 @@ function ColorPicker( {onRadioButtonClick} ) {
         </div>
       </div>
     );
-  // } else {
-  //   return;
-  // }
+  } else {
+    return;
+  }
 }
 // FixedSizeImageAndCards: function component to display a jungian image
 function FixedSizeImageAndCards( props: RefinePropsIFace ) {
