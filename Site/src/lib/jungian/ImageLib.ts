@@ -108,8 +108,8 @@ export let gridSize = initialGridSize;    // Changed by a slider on the Create p
 export function setGridSize( newGridSize: number ): void {
   gridSize = newGridSize;
 }
-const maxTinyGridSize = 3;    // Images with tiny grid sizes are HARD-CODED in tinyGridSizeColorMap
-const maxSmallGridSize = 9;   // Images with small grid have just ONE PAIR OF LINES instead of two pairs
+export const maxTinyGridSize = 3;    // Images with tiny grid sizes are HARD-CODED in tinyGridSizeColorMap
+export const maxSmallGridSize = 9;   // Images with small grid have just ONE PAIR OF LINES instead of two pairs
 
 //  Constant Arrays:
 // ==================
