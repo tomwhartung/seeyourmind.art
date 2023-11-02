@@ -10,25 +10,24 @@ To-do list to help keep me focused and allow saving some ideas that come to me a
 
 # 2. Jungian "MBTI®"
 
-- [ ] Figure out aspects of desired compositions
+- [x] Figure out aspects of desired compositions
   - For details, see `docs/03-Composition-Jungian.ods`
   - [x] 1-13 Grid of Squares
   - [x] 13-29 Grid of Squares
   - [x] 25-31 Grid of Squares
   - [x] 31-39 Grid of Squares
-  - [ ] 41-49 Grid of Squares
-- [ ] Change names of Score sliders and their variables
-- [ ] Implement details detailed in `03-Composition-Jungian.ods`
-  - [ ] Draw image using this high-level algorithm:
-    - [ ] 1. Handle grid sizes <= 5 = `trivialGridSize` and `return`
-    - [ ] 2. Compute goal
-    - [ ] 3. Create intial image - totally random
-    - [ ] 4. Loop until done:
-      - [ ] 4.1. Draw lines
-      - [ ] 4.2. Compute difference between existing colors and the goal
-        - [ ] 4.2.1. If all differences == 0, done - `break` out of loop and `return`
-      - [ ] 4.3. Sprinkle needed colors
-      - [ ] 4.4. Repeat loop
+  - [x] 41-49 Grid of Squares
+- [x] Changed names of Score sliders and their variables
+- [x] Draw image using this high-level algorithm:
+  - [x] 1. Handle grid sizes <= 5 = `trivialGridSize` and `return`
+  - [x] 2. Compute goal
+  - [x] 3. Create intial image - totally random
+  - [x] 4. Loop until done:
+     - [x] 4.1. Draw lines
+     - [x] 4.2. Compute difference between existing colors and the goal
+       - [x] 4.2.1. If all differences == 0, done - `break` out of loop and `return`
+     - [x] 4.3. Sprinkle needed colors
+     - [x] 4.4. Repeat loop
 - [ ] 
 - [ ] 
 - [ ] 
