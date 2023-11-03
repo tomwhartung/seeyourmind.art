@@ -28,6 +28,9 @@ To-do list to help keep me focused and allow saving some ideas that come to me a
        - [x] 4.2.1. If all differences == 0, done - `break` out of loop and `return`
      - [x] 4.3. Sprinkle needed colors
      - [x] 4.4. Repeat loop
+  - [x] Figure out how to determine line lengths
+    - [x] Put details in `03-Composition-Jungian.ods`
+    - [x] Implement details in `03-Composition-Jungian.ods`
 - [ ] 
 - [ ] 
 - [ ] 
