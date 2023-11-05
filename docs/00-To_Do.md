@@ -31,6 +31,8 @@ To-do list to help keep me focused and allow saving some ideas that come to me a
   - [x] Figure out how to determine line lengths
     - [x] Put details in `03-Composition-Jungian.ods`
     - [x] Implement details in `03-Composition-Jungian.ods`
+- [ ] Fix Refine page
+  - [x] Switch the display of the color picker off for small grid sizes
 - [ ] 
 - [ ] 
 - [ ] 
